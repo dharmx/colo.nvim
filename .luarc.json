@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "Lua.workspace.library": [
+    "/home/maker/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    "/home/maker/.local/share/nvim/site/pack/packer/start/nvim-colo",
+    "/usr/share/nvim/runtime",
+    "/usr/lib/nvim",
+    "${3rd}/luassert/library"
+  ]
+}

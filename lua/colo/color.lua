@@ -1,7 +1,8 @@
----@module "color"
+---@module "colo.color"
 ---@author dharmx
 ---@license GPL-3.0
 
+---A class that represents a color
 ---@class Color
 ---@field name string
 ---@field red number?
@@ -181,8 +182,11 @@ function Color:new(col)
   elseif col.hue and col.saturation and col.luminance then
     col = Color.HSL2RGB(col.hue, col.saturation, col.luminance)
   else
+    ---@diagnostic disable-next-line: param-type-mismatch
     col.red = math.floor(util.in_range(col.red, 255))
+    ---@diagnostic disable-next-line: param-type-mismatch
     col.green = math.floor(util.in_range(col.green, 255))
+    ---@diagnostic disable-next-line: param-type-mismatch
     col.blue = math.floor(util.in_range(col.blue, 255))
   end
 
@@ -254,7 +258,9 @@ function Color:HSL(unit)
   local green = tonumber(float_string_col.green)
   local blue = tonumber(float_string_col.blue)
 
+  ---@diagnostic disable-next-line: param-type-mismatch
   local max = math.max(red, green, blue)
+  ---@diagnostic disable-next-line: param-type-mismatch
   local min = math.min(red, green, blue)
   local hue = (max + min) / 2
   local luminance = hue

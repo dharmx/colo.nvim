@@ -1,14 +1,8 @@
----@module "util"
+---@module "colo.util"
 ---@author dharmx
 ---@license GPL-3.0
 
 local M = {}
-
-local present, P = pcall(require, "plenary")
-
-if not present then
-  error("plenary plugin dependency not found.", vim.log.levels.ERROR)
-end
 
 ---@module "plenary.functional"
 local F = require("plenary.functional")
@@ -96,6 +90,7 @@ function M.bound(number, finish)
   local percent = type(number) == "string" and number:find("%%")
   number = math.min(finish, math.max(0, tonumber(number)))
   if percent then
+    ---@diagnostic disable-next-line: param-type-mismatch
     number = tonumber(number * finish, 10) / 100
   end
 

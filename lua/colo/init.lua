@@ -4,16 +4,18 @@
 
 local M = {}
 
-local default_config = { theme = "radium" }
+local default_config = {
+  theme = "radium",
+  variant = "dark",
+}
 
 ---Configure and enable the plugin
 ---@param user_config table plugin configuration
 function M.setup(user_config)
-  local full_config = vim.tbl_deep_extend("force", user_config or {}, default_config)
-  vim.g.colo_theme = full_config.theme
-  require("colo.hl").set_theme(full_config.theme)
+  local full_config = vim.tbl_deep_extend("force", default_config, user_config or {})
+  vim.cmd.colorscheme(full_config.theme .. "-" .. full_config.variant)
 end
 
 return M
 
--- vim:filetype=lua
+---vim:filetype=lua

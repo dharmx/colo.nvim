@@ -7,7 +7,9 @@
         "unused-function",
         "unused-vararg",
         "trailing-space",
-        "undefined-field"
+        "undefined-field",
+        "empty-block",
+        "cast-local-type"
     ],
     "Lua.workspace.checkThirdParty": false,
     "Lua.workspace.library": [

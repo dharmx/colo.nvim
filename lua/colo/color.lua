@@ -170,7 +170,7 @@ local named_colors = {
 
 ---Color class constructor
 ---@param col table field table
----@return table
+---@return Color
 function Color:new(col)
   col = col or { red = 0, green = 0, blue = 0 }
   if col.name then
@@ -207,12 +207,19 @@ end
 
 ---Convert RGB range [0-255] to [0-100]
 ---@return table
-function Color:percentage()
-  return {
-    red = (self.red / 255) * 100 .. "%",
-    green = (self.green / 255) * 100 .. "%",
-    blue = (self.blue / 255) * 100 .. "%",
+function Color:percentage(number)
+  local color = {
+    red = (self.red / 255) * 100,
+    green = (self.green / 255) * 100,
+    blue = (self.blue / 255) * 100,
   }
+  if number then
+    return color
+  end
+  color.red = color.red .. "%"
+  color.green = color.green .. "%"
+  color.blue = color.blue .. "%"
+  return color
 end
 
 ---Convert RGB range [0-255] to [0-1]
@@ -227,25 +234,18 @@ function Color:floating()
 end
 
 ---Convert RGB to hex color format
----@param prefix string? prepend # if true
+---@param prefix boolean? prepend # if true
 ---@return string
 function Color:hex(prefix)
   prefix = prefix and "#" or ""
-  local hex_tbl = vim.tbl_map(function(item)
+  local function callback(item)
     return item:len() == 1 and item:rep(2) or item
-  end, {
-    string.format("%x", self.red),
-    string.format("%x", self.green),
-    string.format("%x", self.blue),
-  })
-
-  if
-    hex_tbl[1]:sub(1, 1) == hex_tbl[1]:sub(2, 2)
-    and hex_tbl[2]:sub(1, 1) == hex_tbl[2]:sub(2, 2)
-    and hex_tbl[3]:sub(1, 1) == hex_tbl[3]:sub(2, 2)
-  then
-    return prefix .. hex_tbl[1]:sub(1, 1) .. hex_tbl[2]:sub(1, 1) .. hex_tbl[3]:sub(1, 1)
   end
+  local hex_tbl = vim.tbl_map(callback, {
+    string.format("%02X", self.red),
+    string.format("%02X", self.green),
+    string.format("%02X", self.blue),
+  })
   return prefix .. table.concat(hex_tbl)
 end
 
@@ -290,6 +290,79 @@ function Color:HSL(unit)
     or { hue = hue, saturation = saturation, luminance = luminance }
 end
 
+---Increase the red value of the RGB color
+---@param amount number increase by percentage
+---@return Color
+function Color:increase_red(amount)
+  local color = self:percentage(true)
+  return Color:new({
+    red = util.limit(color.red, amount, util.operations.I) .. "%",
+    green = color.green .. "%",
+    blue = color.blue .. "%",
+  })
+end
+
+---Increase the green value of the RGB color
+---@param amount number increase by percentage
+---@return Color
+function Color:increase_green(amount)
+  local color = self:percentage(true)
+  return Color:new({
+    red = color.red .. "%",
+    green = util.limit(color.green, amount, util.operations.I) .. "%",
+    blue = color.blue .. "%",
+  })
+end
+
+---Increase the blue value of the RGB color
+---@param amount number increase by percentage
+---@return Color
+function Color:increase_blue(amount)
+  local color = self:percentage(true)
+  return Color:new({
+    red = color.red .. "%",
+    green = color.green .. "%",
+    blue = util.limit(color.blue, amount, util.operations.I) .. "%",
+  })
+end
+
+---Decrease the red value of the RGB color
+---@param amount number decrease by percentage
+---@return Color
+function Color:decrease_red(amount)
+  local color = self:percentage(true)
+  return Color:new({
+    red = util.limit(color.red, amount, util.operations.D) .. "%",
+    green = color.green .. "%",
+    blue = color.blue .. "%",
+  })
+end
+
+---Decrease the green value of the RGB color
+---@param amount number decrease by percentage
+---@return Color
+function Color:decrease_green(amount)
+  local color = self:percentage(true)
+  return Color:new({
+    red = color.red .. "%",
+    green = util.limit(color.green, amount, util.operations.D) .. "%",
+    blue = color.blue .. "%",
+  })
+end
+
+---Decrease the blue value of the RGB color
+---@param amount number decrease by percentage
+---@return Color
+function Color:decrease_blue(amount)
+  local color = self:percentage(true)
+  return Color:new({
+    red = color.red .. "%",
+    green = color.green .. "%",
+    blue = util.limit(color.blue, amount, util.operations.D) .. "%",
+  })
+end
+
+---@todo
 function Color:achromatic() end
 
 ---Make any positive value stay within [0-1]
@@ -351,8 +424,8 @@ end
 function Color:saturate(amount)
   amount = amount == 0 and 0 or (amount or 10)
   local HSL = self:HSL()
-  HSL.saturate = HSL.saturate + amount / 100
-  HSL.saturate = clamp(HSL.saturate)
+  HSL.saturation = HSL.saturation + amount / 100
+  HSL.saturation = clamp(HSL.saturation)
 
   local RGB = Color.HSL2RGB(HSL.hue, HSL.saturation, HSL.luminance)
   return Color:new({
@@ -368,8 +441,8 @@ end
 function Color:desaturate(amount)
   amount = amount == 0 and 0 or (amount or 10)
   local HSL = self:HSL()
-  HSL.saturate = HSL.saturate - amount / 100
-  HSL.saturate = clamp(HSL.saturate)
+  HSL.saturation = HSL.saturation - amount / 100
+  HSL.saturation = clamp(HSL.saturation)
 
   local RGB = Color.HSL2RGB(HSL.hue, HSL.saturation, HSL.luminance)
   return Color:new({
@@ -557,6 +630,33 @@ function Color:RGB()
   }
 end
 
+---@todo
+function Color:XYZ() end
+
+---@todo
+function Color:temperature() end
+
+---@todo
+function Color:warm() end
+
+---@todo
+function Color:cold() end
+
+---@todo
+function Color:more_cold(amount) end
+
+---@todo
+function Color:more_warm(amount) end
+
+---@todo
+function Color:contrast(amount) end
+
+---@todo
+function Color:increase_contrast(amount) end
+
+---@todo
+function Color:decrease_contrast(amount) end
+
 ---Convert a hex color to RGB
 ---@param hex string that should a hex color
 ---@return table
@@ -644,7 +744,7 @@ end
 ---@param other Color
 ---@return string
 Color.__tostring = function(self, other)
-  return vim.inspect(self:RGB())
+  return vim.inspect(self:hex(true))
 end
 
 ---Compare RGB values to see if they are equal
@@ -689,4 +789,4 @@ end
 
 return Color
 
--- vim:filetype=lua
+---vim:filetype=lua

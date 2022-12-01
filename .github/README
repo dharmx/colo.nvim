@@ -1,0 +1,64 @@
+ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄     ▄▄▄▄▄▄▄ 
+█       █       █   █   █       █
+█       █   ▄   █   █   █   ▄   █
+█     ▄▄█  █ █  █   █   █  █ █  █
+█    █  █  █▄█  █   █▄▄▄█  █▄█  █
+█    █▄▄█       █       █       █
+█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█
+
+Theming utilities for your Neovim.
+STATUS: WIP
+NVIM: v0.9.0-dev
+
+PACKER
+------
+use {
+  "dharmx/nvim-colo",
+  event = "UIEnter",
+  requires = "nvim-lua/plenary.nvim",
+  config = function()
+    require("colo").setup()
+  end
+}
+
+TODO
+----
+- [x] use radium.lua instead of radium.vim
+- [x] hl utils
+- [x] color utils
+- [ ] color util: achromatic
+- [ ] color util: contrast
+- [ ] color util: warmth
+- [ ] color util: coldness
+- [x] hl_group color utils
+- [ ] unit testing
+- [ ] error handling
+- [ ] revisions
+- [ ] telescope theme picker
+- [ ] color picker
+- [ ] feline config
+- [ ] revisions
+- [ ] aquarium light
+- [ ] ayu light
+- [ ] everforest light
+- [ ] github light
+- [ ] mountain light
+- [ ] none light
+- [ ] nord light
+- [ ] one light
+- [ ] oxocarbon light
+- [ ] radium light
+- [ ] revisions
+- [ ] aquarium dark
+- [ ] ayu dark
+- [ ] everforest dark
+- [ ] github dark
+- [ ] mountain dark
+- [ ] none dark
+- [ ] nord dark
+- [ ] one dark
+- [ ] oxocarbon dark
+- [ ] radium dark
+- [ ] revisions
+- [ ] doc with treesitter
+- [ ] blend/transparency support

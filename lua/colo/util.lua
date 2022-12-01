@@ -8,6 +8,10 @@ local M = {}
 local F = require("plenary.functional")
 ---@module "plenary.path"
 local Path = require("plenary.path")
+---@module "plenary.scandir"
+local dir = require("plenary.scandir")
+---@module "plenary.tbl"
+local tbl = require("plenary.tbl")
 
 ---Get base16 colors from Xresources - depends on xrdb
 ---@return table | nil
@@ -78,6 +82,32 @@ function M.in_range(number, finish)
   return temp
 end
 
+---Types of operations
+---@enum operations
+M.operations = {
+  ---Increase operation shorthand
+  I = 1,
+  ---Decrease operation shorthand
+  D = 2,
+  ---Increase operation
+  INCREASE = 1,
+  ---Decrease operation
+  DECREASE = 2,
+}
+
+---Limit percentage overflow
+---@param current number current percentage value
+---@param amount number increase current percentage by
+---@param operation operations
+function M.limit(current, amount, operation)
+  if operation == M.operations.INCREASE then
+    return (current + amount) > 100 and 100 or current + amount
+  elseif operation == M.operations.DECREASE then
+    return (current - amount) < 0 and 0 or current - amount
+  end
+  error("operation should be either I or, D", vim.log.levels.ERROR)
+end
+
 ---Bound a number
 ---@param number number | string
 ---@param finish number
@@ -111,6 +141,30 @@ function M.tbl_sum(array)
   return sum
 end
 
+---Scan datapath/site for nvim-colo. We need do this to get make it compatible for all plugin managers.
+---@return string
+function M.plugin_path()
+  return dir.scan_dir(vim.fn.stdpath("data") .. "/site", {
+    hidden = false,
+    add_dirs = true,
+    search_pattern = "nvim%-colo$",
+  })[1]
+end
+
+---Scan the colo/themes for builtin themes.
+---@return table<string>
+function M.list_themes()
+  local scanned_paths = dir.scan_dir(M.plugin_path() .. "/colors", {
+    hidden = false,
+    add_dirs = false,
+  })
+  local themes = {}
+  for _, path in ipairs(scanned_paths) do
+    table.insert(themes, vim.fn.fnamemodify(path, ":t:r"))
+  end
+  return themes
+end
+
 return M
 
--- vim:filetype=lua
+---vim:filetype=lua

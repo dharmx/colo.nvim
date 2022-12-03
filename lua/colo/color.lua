@@ -362,9 +362,6 @@ function Color:decrease_blue(amount)
   })
 end
 
----@todo
-function Color:achromatic() end
-
 ---Make any positive value stay within [0-1]
 ---@param value number number that needs to be clamped
 ---@return number
@@ -557,6 +554,7 @@ function Color:lumin()
   return (0.2126 * R) + (0.7152 * G) + (0.0722 * B)
 end
 
+---Transform a color into greyscale.
 function Color:greyscale()
   self:desaturate(100)
 end
@@ -619,6 +617,9 @@ function Color:mix(col, amount)
     blue = ((col.blue - self.blue) * value) + self.blue,
   })
 end
+
+---@todo
+function Color:achromatic() end
 
 ---Get the RGB table from the Color instance
 ---@return table

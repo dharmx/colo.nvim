@@ -165,6 +165,13 @@ function M.list_themes()
   return themes
 end
 
+---Get colors of current active theme.
+---@return table<Color>
+function M.active_theme_colors()
+  local theme = vim.split(vim.g.colors_name, "-")
+  return require("colo.colors." .. theme[1])[theme[2]]
+end
+
 return M
 
 ---vim:filetype=lua

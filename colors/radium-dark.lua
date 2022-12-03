@@ -194,7 +194,7 @@ hl.foreground("TSTagDelimiter", col.bright_blue)
 hl.foreground("TSTitle", col.bright_red:darken(2))
 hl.foreground("TSVariableBuiltin", col.yellow)
 hl.background("TSCurrentScope", col.black, { deco.I })
-hl.background("TreesitterContext", col.black:lighten(3))
+hl.background("TreesitterContext", col.black:brighten(0.5):lighten(2))
 
 ---HLSLENS HIGHLIGHTS
 hl.short_set("HlSearchLens", col.black:lighten(5), col.blue:brighten(5))
@@ -331,12 +331,46 @@ hl.foreground("rainbowcol6", col.bright_red:desaturate(8):brighten(10))
 hl.foreground("rainbowcol7", col.bright_red:brighten(10))
 
 ---NVIMTREE HIGHLIGHTS
----BUFFERLINE HIGHLIGHTS
+hl.link("NvimTreeCursorColumn", "NvimTreeCursorColumn")
+hl.link("NvimTreeFolderName", "NvimTreeFolderIcon")
+hl.short_set("NvimTreeWindowPicker", col.black:lighten(3):brighten(1), col.blue)
+hl.short_set("NvimTreeVertSplit", col.black:darken(2), col.black:darken(2))
+hl.short_set("NvimTreeWinSeparator", col.black:darken(2), col.black:darken(2))
+hl.short_set("NvimTreeNormal", col.black:darken(2), col.white:darken(10))
+hl.short_set("NvimTreeNormalNC", col.black:darken(2), col.white:darken(10))
+hl.foreground("NvimTreeBookmark", col.yellow)
+hl.foreground("NvimTreeClosedFolderIcon", col.bright_magenta)
+hl.foreground("NvimTreeCursorLineNr", col.bright_green)
+hl.foreground("NvimTreeEmptyFolderName", col.bright_magenta:desaturate(20))
+hl.foreground("NvimTreeExecFile", col.magenta:spin(0.1))
+hl.foreground("NvimTreeFileDeleted", col.bright_red)
+hl.foreground("NvimTreeFileDirty", col.cyan)
+hl.foreground("NvimTreeFileIgnored", col.bright_black)
+hl.foreground("NvimTreeFileMerge", col.bright_green)
+hl.foreground("NvimTreeFileNew", col.yellow)
+hl.foreground("NvimTreeFileRenamed", col.bright_blue)
+hl.foreground("NvimTreeFileStaged", col.magenta:spin(0.1))
+hl.foreground("NvimTreeFolderIcon", col.bright_magenta)
+hl.foreground("NvimTreeGitDeleted", col.red)
+hl.foreground("NvimTreeGitDirty", col.cyan)
+hl.foreground("NvimTreeGitIgnored", col.bright_black)
+hl.foreground("NvimTreeGitMerge", col.bright_cyan)
+hl.foreground("NvimTreeGitNew", col.yellow)
+hl.foreground("NvimTreeGitRenamed", col.bright_blue)
+hl.foreground("NvimTreeGitStaged", col.magenta:spin(0.1))
+hl.foreground("NvimTreeImageFile", col.bright_magenta)
+hl.foreground("NvimTreeIndentMarker", col.black:brighten(1):lighten(5))
+hl.foreground("NvimTreePopup", col.blue)
+hl.foreground("NvimTreeRootFolder", col.red, { deco.B })
+hl.foreground("NvimTreeSymlink", col.cyan)
+hl.background("NvimTreeCursorLine", col.black:lighten(1))
+
 ---NOTIFY HIGHLIGHTS
 ---PACKER HIGHLIGHTS
----NEOGIT HIGHLIGHTS
 
+---NEOGIT HIGHLIGHTS
 ---TODOS HIGHLIGHTS
+
 ---TROUBLE HIGHLIGHTS
 ---ALPHA HIGHLIGHTS
 ---DEVICONS HIGHLIGHTS

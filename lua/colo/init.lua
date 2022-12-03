@@ -7,6 +7,10 @@ local M = {}
 local default_config = {
   theme = "radium",
   variant = "dark",
+  integrations = {
+    feline = true,
+    bufferline = true,
+  },
 }
 
 ---Configure and enable the plugin
@@ -14,6 +18,11 @@ local default_config = {
 function M.setup(user_config)
   local full_config = vim.tbl_deep_extend("force", default_config, user_config or {})
   vim.cmd.colorscheme(full_config.theme .. "-" .. full_config.variant)
+  for plugin, state in pairs(full_config.integrations) do
+    if state then
+      require("colo.integrations." .. plugin)
+    end
+  end
 end
 
 return M

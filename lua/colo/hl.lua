@@ -162,7 +162,7 @@ end
 
 ---Fetch the foreground of a highlight group
 ---@param name string the highlight group
----@param fallback_col Color fallback_col if the foreground does not exist
+---@param fallback_col Color? fallback color if the foreground does not exist
 function hl.foreground_of(name, fallback_col)
   local foreground = vim.api.nvim_get_hl_by_name(name, true).foreground
   if foreground then
@@ -196,7 +196,7 @@ end
 
 ---Fetch the background of a highlight group
 ---@param name string the highlight group
----@param fallback_col Color fallback_col if the background does not exist
+---@param fallback_col Color? fallback color if the background does not exist
 function hl.background_of(name, fallback_col)
   local background = vim.api.nvim_get_hl_by_name(name, true).background
   if background then
@@ -230,7 +230,7 @@ end
 
 ---Fetch the special of a highlight group
 ---@param name string the highlight group
----@param fallback_col Color fallback_col if the special does not exist
+---@param fallback_col Color? fallback color if the special does not exist
 function hl.special_of(name, fallback_col)
   local special = vim.api.nvim_get_hl_by_name(name, true).special
   if special then

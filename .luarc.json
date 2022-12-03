@@ -9,7 +9,8 @@
         "trailing-space",
         "undefined-field",
         "empty-block",
-        "cast-local-type"
+        "cast-local-type",
+        "assign-type-mismatch"
     ],
     "Lua.workspace.checkThirdParty": false,
     "Lua.workspace.library": [

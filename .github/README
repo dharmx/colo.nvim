@@ -12,14 +12,34 @@ NVIM: v0.9.0-dev
 
 PACKER
 ------
-use {
+use({
   "dharmx/nvim-colo",
-  event = "UIEnter",
-  requires = "nvim-lua/plenary.nvim",
+  event = "UIEnter", ---recommended
+  requires = {
+    "nvim-lua/plenary.nvim",
+    "feline-nvim/feline.nvim",
+    "akinsho/bufferline.nvim",
+  },
   config = function()
     require("colo").setup()
   end
+})
+
+CONFIG
+______
+Configuration is done by passing a table to the setup function.
+local config = {
+  theme = "radium", ---only nvim-colo themes are allowed
+  variant = "dark",
+  integrations = {
+    feline = true,
+    bufferline = true,
+  },
 }
+
+COMMANDS
+--------
+:Colo <theme_name>
 
 TODO
 ----
@@ -36,7 +56,8 @@ TODO
 - [ ] revisions
 - [ ] telescope theme picker
 - [ ] color picker
-- [ ] feline config
+- [x] feline config
+- [x] bufferline config
 - [ ] revisions
 - [ ] aquarium light
 - [ ] ayu light

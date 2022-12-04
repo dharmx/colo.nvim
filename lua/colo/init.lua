@@ -10,6 +10,7 @@ local default_config = {
   integrations = {
     feline = true,
     bufferline = true,
+    devicons = true,
   },
 }
 

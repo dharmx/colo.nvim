@@ -20,8 +20,16 @@ local highlights = {
     bg = col.black:lighten(2):hex(true),
   },
   tab_separator = {
-    fg = col.black:lighten(10):hex(true),
+    fg = col.black:lighten(2):hex(true),
     bg = col.black:lighten(2):hex(true),
+  },
+  tab_separator_selected = {
+    fg = col.black:hex(true),
+  },
+  tab_selected = {
+    fg = col.blue:hex(true),
+    bg = col.black:hex(true),
+    bold = true,
   },
   tab_close = {
     fg = col.red:hex(true),
@@ -106,9 +114,17 @@ local highlights = {
     fg = col.black:lighten(2):hex(true),
     bg = col.black:lighten(2):hex(true),
   },
+  indicator_selected = {
+    bg = col.blue:hex(true),
+    bg = col.blue:hex(true),
+  },
   separator_visible = {
     fg = col.black:lighten(2):hex(true),
     bg = col.black:lighten(2):hex(true),
+  },
+  separator_selected = {
+    bg = col.blue:hex(true),
+    bg = col.blue:hex(true),
   },
   offset_separator = {
     fg = col.blue:hex(true),

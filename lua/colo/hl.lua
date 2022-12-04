@@ -250,6 +250,14 @@ function M.prepare_theme(name, variant)
   end
   vim.o.background = variant
   vim.g.colors_name = name
+
+  -- require("plenary.reload").reload_module("colo.integrations.feline")
+  -- require("colo.integrations.feline")
+  -- require("plenary.reload").reload_module("colo.integrations.bufferline")
+  -- require("colo.integrations.bufferline")
+  -- require("plenary.reload").reload_module("nvim-web-devicons")
+  -- require("plenary.reload").reload_module("colo.integrations.devicons")
+  -- require("colo.integrations.devicons")
 end
 
 M.highlight = hl

@@ -23,9 +23,9 @@ hl.short_set("Normal", col.black, col.white)
 hl.short_set("NormalFloat", col.black:darken(1), col.white:darken(10))
 hl.short_set("FloatBorder", col.black:darken(1), col.black:darken(1))
 hl.short_set("Cursor", col.green:lighten(3), col.black)
+hl.short_set("ColorColumn", col.black, col.black:brighten(0.5):lighten(2))
 hl.background("Visual", col.black:brighten(1):lighten(3))
 hl.background("CursorLine", col.black:lighten(2))
-hl.background("ColorColumn", col.black)
 hl.foreground("Error", col.red:darken(3))
 hl.foreground("CursorLineNr", col.yellow, { deco.B })
 hl.foreground("LineNr", col.black:lighten(15))
@@ -126,6 +126,7 @@ hl.foreground("PreProc", col.red:darken(3):increase_red(1))
 hl.foreground("Repeat", col.bright_magenta)
 hl.foreground("Special", col.bright_red)
 hl.foreground("SpecialChar", col.magenta)
+hl.foreground("SpecialKey", col.yellow, { deco.B })
 hl.foreground("Statement", col.red)
 hl.foreground("StorageClass", col.red:darken(5))
 hl.foreground("String", col.green)
@@ -272,7 +273,7 @@ hl.link("ToggleTerm1NormalFloat", "NormalFloat")
 hl.link("ToggleTerm1FloatBorder", "FloatBorder")
 
 ---VIRTCOLUMN HIGHLIGHTS
-hl.foreground("VirtColumn", col.blue)
+hl.link("VirtColumn", "ColorColumn")
 
 ---WHICHKEY HIGHLIGHTS
 hl.foreground("WhichKeyGroup", col.red, { deco.B })
@@ -366,10 +367,28 @@ hl.foreground("NvimTreeSymlink", col.cyan)
 hl.background("NvimTreeCursorLine", col.black:lighten(1))
 
 ---NOTIFY HIGHLIGHTS
----PACKER HIGHLIGHTS
+hl.short_set("NotifyINFOBody", col.bright_black, col.blue)
+hl.short_set("NotifyINFOBorder", col.bright_black, col.bright_black)
+hl.short_set("NotifyINFOIcon", col.bright_black, col.bright_blue)
+hl.short_set("NotifyINFOTitle", col.bright_black, col.blue)
+hl.short_set("NotifyWARNBody", col.bright_black, col.yellow)
+hl.short_set("NotifyWARNIcon", col.bright_black, col.bright_yellow)
+hl.short_set("NotifyWARNTitle", col.bright_black, col.yellow)
+hl.short_set("NotifyWARNBorder", col.bright_black, col.bright_black)
+hl.short_set("NotifyDEBUGBody", col.bright_black, col.magenta)
+hl.short_set("NotifyDEBUGIcon", col.bright_black, col.bright_magenta)
+hl.short_set("NotifyDEBUGTitle", col.bright_black, col.magenta)
+hl.short_set("NotifyDEBUGBorder", col.bright_black, col.magenta)
+hl.short_set("NotifyERRORBody", col.bright_black, col.red)
+hl.short_set("NotifyERRORIcon", col.bright_black, col.bright_red)
+hl.short_set("NotifyERRORTitle", col.bright_black, col.red)
+hl.short_set("NotifyERRORBorder", col.bright_black, col.bright_black)
+hl.short_set("NotifyTRACEBody", col.bright_black, col.green)
+hl.short_set("NotifyTRACEIcon", col.bright_black, col.bright_green)
+hl.short_set("NotifyTRACETitle", col.bright_black, col.green)
+hl.short_set("NotifyTRACEBorder", col.bright_black, col.bright_black)
 
 ---NEOGIT HIGHLIGHTS
----TODOS HIGHLIGHTS
 
 ---TROUBLE HIGHLIGHTS
 ---ALPHA HIGHLIGHTS

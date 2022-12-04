@@ -12,15 +12,26 @@ NVIM: v0.9.0-dev
 
 PACKER
 ------
+Following is a very minimal configuration for colo.
+Plenary is the only hard-dependency. You can opt-out
+installing integration plugins if you decide not to use
+colo integrations or, prefer your own configuration instead.
 use({
   "dharmx/nvim-colo",
-  event = "UIEnter", ---recommended
   requires = {
     "nvim-lua/plenary.nvim",
-    "feline-nvim/feline.nvim",
     "akinsho/bufferline.nvim",
+    "feline-nvim/feline.nvim",
+    {
+      "lewis6991/gitsigns.nvim", ---required by feline
+      config = function()
+        require("gitsigns").setup()
+      end
+    },
+    "kyazdani42/nvim-web-devicons",
   },
   config = function()
+    ---integrations are enabled by default
     require("colo").setup()
   end
 })
@@ -28,12 +39,14 @@ use({
 CONFIG
 ______
 Configuration is done by passing a table to the setup function.
+The following is the default configuration.
 local config = {
   theme = "radium", ---only nvim-colo themes are allowed
   variant = "dark",
   integrations = {
     feline = true,
     bufferline = true,
+    devicons = true,
   },
 }
 
@@ -56,8 +69,9 @@ TODO
 - [ ] revisions
 - [ ] telescope theme picker
 - [ ] color picker
-- [x] feline config
-- [x] bufferline config
+- [x] feline integration
+- [x] bufferline integration
+- [x] devicons integration
 - [ ] revisions
 - [ ] aquarium light
 - [ ] ayu light

@@ -20,7 +20,7 @@ local theme = {
   darkred = col.bright_red,
   gray = col.black:lighten(6):brighten(2),
   pink = col.magenta:spin(0.1),
-  lime = col.bright_cyan
+  lime = col.bright_cyan,
 }
 
 for key, value in pairs(theme) do

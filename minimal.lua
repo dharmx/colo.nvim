@@ -75,12 +75,21 @@ local function load_config()
   })
 
   require("colo").setup({
-    theme = "radium",
+    theme = "mountain",
     variant = "dark",
     integrations = {
-      feline = true,
-      bufferline = true,
-      devicons = true,
+      feline = {
+        enable = true,
+        module = "colo.integrations.feline",
+      },
+      bufferline = {
+        enable = true,
+        module = "colo.integrations.bufferline",
+      },
+      devicons = {
+        enable = true,
+        module = "colo.integrations.devicons",
+      },
     },
   })
 end

@@ -8,7 +8,11 @@
 
 Theming utilities for your Neovim.
 STATUS: WIP
-NVIM: v0.9.0-dev
+NVIM: v0.8.0
+
+WARN: This plugin is in an early stage and docs are a bit sparse.
+Feel free to try it out though and let me know if you have
+any problems/suggestions.
 
 PACKER
 ------
@@ -39,61 +43,110 @@ use({
 CONFIG
 ______
 Configuration is done by passing a table to the setup function.
-The following is the default configuration.
+The following are the default settings.
 local config = {
-  theme = "radium", ---only nvim-colo themes are allowed
+  theme = "radium", ---only colo-compatible themes allowed
   variant = "dark",
+  plug_manually = false,
   integrations = {
-    feline = true,
-    bufferline = true,
-    devicons = true,
+    feline = {
+      enable = true,
+      module = "colo.integrations.feline"
+    },
+    bufferline = {
+      enable = true,
+      module = "colo.integrations.bufferline"
+    },
+    devicons = {
+      enable = true,
+      module = "colo.integrations.devicons"
+    },
   },
 }
+NOTE: Integration plugin's caches are needed to be cleared.
+      That is why a integrations.<integration>.module
+      option is given. If you want to use your own configuration
+      instead then pass your module path there.
+NOTE: Integrations are loaded using a loop. You can take advantage
+      of this. If you want to integrate another plugin then do the following.
+      ...
+      config.integrations.example = {
+        enable = true,
+        module = "my_config.example"
+      }
+      colo.setup(config)
 
 COMMANDS
 --------
 :Colo <theme_name>
 
+PERFORMANCE
+-----------
+There are quite a few ways to inprove performance.
+1. After you have finished making your colorscheme, generate the
+   Color method calls into hex strings. Although it would be annoying
+   if you decide to modify the colorscheme.
+2. Turn off all integrations and manually call the following. And also
+   define an autocmd that will call it on the ColorScheme event.
+3. You may have noticed the plug_manually configuration option. This
+   is added if the user wanted to use colo integration configurations
+   but they need to lazy-load them. In this case, you may
+   set that option to true, which will skip loading the integrations
+   when colo is loaded in. But, will reload when a colorscheme is changed.
+   Following is an example of how you'd lazy-load feline.nvim.
+   use({
+     "dharmx/nvim-colo",
+     event = "UIEnter"
+     config = function()
+       require("colo").setup({
+         plug_manually = true,
+         integrations = {
+           feline = { enable = true },
+           bufferline = { enable = false },
+           devicons = { enable = false },
+         },
+      })
+     end
+   })
+
+   use({
+     "feline-nvim/feline.nvim",
+     event = "InsertEnter",
+     config = function()
+       require("colo.integrations.feline")
+     end
+   })
+4. If you have other solutions then please make a pull request.
+
 TODO
 ----
+I need help defining the highlights for different themes.
+So, if you can or, have the time then please do so. Make a pull request.
 - [x] use radium.lua instead of radium.vim
 - [x] hl utils
 - [x] color utils
+- [x] feline integration
+- [x] bufferline integration
+- [x] devicons integration
+- [x] hl_group color utils
 - [ ] color util: achromatic
 - [ ] color util: contrast
 - [ ] color util: warmth
 - [ ] color util: coldness
-- [x] hl_group color utils
 - [ ] unit testing
 - [ ] error handling
-- [ ] revisions
 - [ ] telescope theme picker
 - [ ] color picker
-- [x] feline integration
-- [x] bufferline integration
-- [x] devicons integration
-- [ ] revisions
-- [ ] aquarium light
-- [ ] ayu light
-- [ ] everforest light
-- [ ] github light
-- [ ] mountain light
-- [ ] none light
-- [ ] nord light
-- [ ] one light
-- [ ] oxocarbon light
-- [ ] radium light
-- [ ] revisions
-- [ ] aquarium dark
-- [ ] ayu dark
-- [ ] everforest dark
-- [ ] github dark
-- [ ] mountain dark
+- [ ] radium
+- [ ] mountain
+- [ ] aquarium
+- [ ] ayu
+- [ ] everforest
+- [ ] github
 - [ ] none dark
-- [ ] nord dark
-- [ ] one dark
-- [ ] oxocarbon dark
-- [ ] radium dark
-- [ ] revisions
+- [ ] nord
+- [ ] one
+- [ ] oxocarbon
 - [ ] doc with treesitter
 - [ ] blend/transparency support
+- [ ] revisions

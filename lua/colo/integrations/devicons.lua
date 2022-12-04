@@ -1,3 +1,5 @@
+require("plenary.reload").reload_module("nvim-web-devicons")
+
 local present, icons = pcall(require, "nvim-web-devicons")
 
 if not present then

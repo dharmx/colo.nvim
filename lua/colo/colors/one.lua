@@ -1,31 +1,31 @@
----@module "colo.colors.onedark"
+---@module "colo.colors.one"
 ---@author dharmx
 ---@license GPL-3.0
 
 local Color = require("colo.color")
 
 return {
-  author = "",
-  name = "onedark",
-  description = "",
-  source = "",
+  author = "Atom",
+  name = "one",
+  description = "Atom's One syntax theme.",
+  source = "https://github.com/joshdick/onedark.vim",
   dark = {
-    black = Color:new({ hexcode = "" }),
-    red = Color:new({ hexcode = "" }),
-    green = Color:new({ hexcode = "" }),
-    yellow = Color:new({ hexcode = "" }),
-    blue = Color:new({ hexcode = "" }),
-    magenta = Color:new({ hexcode = "" }),
-    cyan = Color:new({ hexcode = "" }),
-    white = Color:new({ hexcode = "" }),
-    bright_black = Color:new({ hexcode = "" }),
-    bright_red = Color:new({ hexcode = "" }),
-    bright_green = Color:new({ hexcode = "" }),
-    bright_yellow = Color:new({ hexcode = "" }),
-    bright_blue = Color:new({ hexcode = "" }),
-    bright_magenta = Color:new({ hexcode = "" }),
-    bright_cyan = Color:new({ hexcode = "" }),
-    bright_white = Color:new({ hexcode = "" }),
+    black = Color:new({ hexcode = "#1E222A" }),
+    red = Color:new({ hexcode = "#E06C75" }),
+    green = Color:new({ hexcode = "#98C379" }),
+    yellow = Color:new({ hexcode = "#E5C07B" }),
+    blue = Color:new({ hexcode = "#61AFEF" }),
+    magenta = Color:new({ hexcode = "#C678DD" }),
+    cyan = Color:new({ hexcode = "#56B6C2" }),
+    white = Color:new({ hexcode = "#ABB2BF" }),
+    bright_black = Color:new({ hexcode = "#353B45" }),
+    bright_red = Color:new({ hexcode = "#BE5046" }),
+    bright_green = Color:new({ hexcode = "#7ECA9C" }),
+    bright_yellow = Color:new({ hexcode = "#D19A66" }),
+    bright_blue = Color:new({ hexcode = "#A3B8EF" }),
+    bright_magenta = Color:new({ hexcode = "#C882E7" }),
+    bright_cyan = Color:new({ hexcode = "#519ABA" }),
+    bright_white = Color:new({ hexcode = "#c8ccd4" }),
   },
 }
 

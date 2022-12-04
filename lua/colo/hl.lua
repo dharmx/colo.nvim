@@ -6,11 +6,15 @@ local M = {}
 
 ---@module "colo.color"
 local Color = require("colo.color")
+---@module "plenary.reload"
+local rel = require("plenary.reload")
+---@module "colo"
+local colo = require("colo")
 
 ---Wrappers around nvim_set_hl and general hl utils
 local hl = {}
 
----See :help highlight-args this is a convenience enum.
+---This is a convenience enum. See |highlight-args|
 ---@enum decorations
 local deco = {
   ---underline
@@ -240,24 +244,27 @@ function hl.special_of(name, fallback_col)
 end
 
 ---Clear all highlights and reset syntax highlights.
+---Reloads integration modules.
 ---Lastly, it sets the vim.g.colors_name variable.
----@param name string the name of the theme - preferably an nvim-colo theme
+---@param theme_name string the name of the theme - preferably an nvim-colo theme
 ---@param variant string only light and dark theme variants are currently supported
-function M.prepare_theme(name, variant)
+function M.prepare_theme(theme_name, variant)
   vim.cmd.highlight("clear")
   if vim.fn.exists("syntax_on") then
     vim.cmd.syntax("reset")
   end
   vim.o.background = variant
-  vim.g.colors_name = name
+  vim.g.colors_name = theme_name
 
-  -- require("plenary.reload").reload_module("colo.integrations.feline")
-  -- require("colo.integrations.feline")
-  -- require("plenary.reload").reload_module("colo.integrations.bufferline")
-  -- require("colo.integrations.bufferline")
-  -- require("plenary.reload").reload_module("nvim-web-devicons")
-  -- require("plenary.reload").reload_module("colo.integrations.devicons")
-  -- require("colo.integrations.devicons")
+  for name, setting in pairs(colo.config.integrations) do
+    if setting.enable then
+      if not colo.config.manual or name ~= "alpha" then
+        rel.reload_module(setting.module)
+        require(setting.module)
+      end
+    end
+  end
+  colo.config.manual = false
 end
 
 M.highlight = hl

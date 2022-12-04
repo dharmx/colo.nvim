@@ -20,21 +20,21 @@ hl.terminal(5, col.magenta)
 ---EDITOR HIGHLIGHTS
 hl.link("CursorColumn", "CursorLine")
 hl.short_set("Normal", col.black, col.white)
-hl.short_set("NormalFloat", col.black:darken(1), col.white:darken(10))
-hl.short_set("FloatBorder", col.black:darken(1), col.black:darken(1))
+hl.short_set("NormalFloat", col.black:brighten(2):darken(1), col.white:darken(10))
+hl.short_set("FloatBorder", col.black:brighten(2):darken(1), col.white:darken(15))
 hl.short_set("Cursor", col.green:lighten(3), col.black)
 hl.short_set("ColorColumn", col.black, col.black:brighten(0.5):lighten(2))
 hl.background("Visual", col.black:brighten(1):lighten(3))
-hl.background("CursorLine", col.black:lighten(2))
+hl.background("CursorLine", col.black:brighten(1):lighten(2):desaturate(4))
 hl.foreground("Error", col.red:darken(3))
 hl.foreground("CursorLineNr", col.yellow, { deco.B })
 hl.foreground("LineNr", col.black:lighten(15))
 
 ---PMENU HIGHLIGHTS
-hl.short_set("Pmenu", col.black:darken(1), col.white:darken(20))
+hl.link("PmenuSbar", "Pmenu")
+hl.short_set("Pmenu", col.black:brighten(1):lighten(2), col.white:darken(20))
 hl.short_set("PmenuSel", col.green, col.black)
-hl.background("PmenuSbar", col.black:darken(1))
-hl.background("PmenuThumb", col.black:lighten(3))
+hl.background("PmenuThumb", col.black:brighten(2):lighten(3))
 
 ---GUTTER HIGHLIGHTS
 hl.short_set("FoldColumn", col.black, col.cyan)
@@ -204,7 +204,7 @@ hl.short_set("HlSearchFloat", col.black:lighten(5), col.magenta:brighten(5))
 hl.short_set("HlSearchLensNear", col.yellow:darken(3), col.black, { deco.B })
 
 ---TELESCOPE HIGHLIGHTS
-hl.link("TelescopePreviewBorder", "FloatBorder")
+hl.short_set("TelescopePreviewBorder", col.black:darken(1), col.black:darken(1))
 hl.short_set("TelescopePreviewLine", col.black:darken(1), col.blue)
 hl.short_set("TelescopePreviewNormal", col.black:darken(1), col.white:darken(10))
 hl.short_set("TelescopePreviewTitle", col.blue, col.black)
@@ -217,7 +217,7 @@ hl.short_set("TelescopePromptNormal", col.bright_black:darken(1.5), col.white:da
 hl.short_set("TelescopePromptBorder", col.bright_black:darken(1.5), col.bright_black:darken(1.5))
 hl.short_set("TelescopePromptTitle", col.red, col.black)
 hl.short_set("TelescopePromptPrefix", col.bright_black:darken(1.5), col.red)
-hl.short_set("TelescopePromptCounter", col.bright_black:darken(1.5), col.magenta:increase_red(10):decrease_blue(5), { deco.B })
+hl.short_set("TelescopePromptCounter", col.bright_black:darken(1.5), col.magenta:spin(0.1), { deco.B })
 hl.foreground("TelescopeMatching", col.magenta:increase_red(10):decrease_blue(5), { deco.B })
 
 ---FIDGET HIGHLIGHTS
@@ -225,7 +225,7 @@ hl.foreground("FidgetTitle", col.bright_green, { deco.B })
 hl.foreground("FidgetTask", col.black:lighten(5))
 
 ---RNVIMR HIGHLIGHTS
-hl.short_set("RnvimrNormal", col.bright_black:darken(3), col.white:darken(10))
+hl.link("RnvimrNormal", "NormalFloat")
 
 ---SCROLLBAR HIGHLIGHTS
 hl.foreground("ScrollbarHint", col.magenta)
@@ -389,12 +389,42 @@ hl.short_set("NotifyTRACETitle", col.bright_black, col.green)
 hl.short_set("NotifyTRACEBorder", col.bright_black, col.bright_black)
 
 ---NEOGIT HIGHLIGHTS
+hl.short_set("NeogitDiffAdd", col.black:brighten(2), col.blue)
+hl.short_set("NeogitCommitViewHeader", col.blue, col.black, { deco.B })
+hl.short_set("NeogitDiffDelete", col.black:brighten(2):lighten(2), col.red)
+hl.short_set("NeogitHunkHeader", col.bright_black, col.yellow)
+hl.short_set("NeogitNotificationInfo", col.black, col.blue)
+hl.short_set("NeogitNotificationWarning", col.black, col.yellow)
+hl.short_set("NeogitNotificationError", col.black, col.red)
+hl.short_set("NeogitHunkHeaderHighlight", col.yellow, col.black)
+hl.foreground("NeogitRebaseDone", col.green, { deco.B })
+hl.foreground("NeogitRebasing", col.yellow, { deco.B })
+hl.foreground("NeogitUnmergedInto", col.blue)
+hl.foreground("NeogitUnpulledFrom", col.bright_cyan)
+hl.foreground("NeogitFold", col.bright_cyan)
+hl.foreground("NeogitStash", col.cyan)
+hl.foreground("NeogitBranch", col.bright_green, { deco.B })
+hl.foreground("NeogitObjectId", col.magenta)
+hl.foreground("NeogitRecentcommits", col.green, { deco.B })
+hl.foreground("NeogitRemote", col.bright_yellow, { deco.B })
+hl.foreground("NeogitStagedchanges", col.yellow, { deco.B })
+hl.foreground("NeogitStashes", col.cyan, { deco.B })
+hl.foreground("NeogitUnmergedchanges", col.bright_green, { deco.B })
+hl.foreground("NeogitUnpulledchanges", col.bright_cyan, { deco.B })
+hl.foreground("NeogitUnstagedchanges", col.bright_red, { deco.B })
+hl.foreground("NeogitUntrackedfiles", col.bright_blue, { deco.B })
+hl.foreground("NeogitFilePath", col.cyan)
+hl.background("NeogitDiffContextHighlight", col.black:lighten(2):brighten(2))
 
 ---TROUBLE HIGHLIGHTS
----ALPHA HIGHLIGHTS
----DEVICONS HIGHLIGHTS
+hl.background("TroubleNormal", col.black:darken(2))
 
----NVIM HIGHLIGHTS
----NAVIC HIGHLIGHTS
+---ALPHA HIGHLIGHTS
+hl.short_set("AlphaKeyPrefix", col.blue, col.black, { deco.B })
+hl.foreground("AlphaHeading", col.bright_black:lighten(1))
+hl.foreground("AlphaLoaded", col.bright_black:brighten(4):lighten(1))
+hl.foreground("AlphaFooting", col.magenta, { deco.B })
+hl.foreground("AlphaScroll", col.magenta)
+hl.foreground("AlphaButtonLabelText", col.yellow)
 
 ---vim:filetype=lua

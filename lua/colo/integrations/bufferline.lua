@@ -116,7 +116,7 @@ local highlights = {
   },
   indicator_selected = {
     bg = col.blue:hex(true),
-    bg = col.blue:hex(true),
+    fg = col.blue:hex(true),
   },
   separator_visible = {
     fg = col.black:lighten(2):hex(true),
@@ -124,7 +124,7 @@ local highlights = {
   },
   separator_selected = {
     bg = col.blue:hex(true),
-    bg = col.blue:hex(true),
+    fg = col.blue:hex(true),
   },
   offset_separator = {
     fg = col.blue:hex(true),

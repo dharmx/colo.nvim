@@ -8,10 +8,11 @@ local M = {}
 local F = require("plenary.functional")
 ---@module "plenary.path"
 local Path = require("plenary.path")
----@module "plenary.scandir"
-local dir = require("plenary.scandir")
+
 ---@module "plenary.tbl"
 local tbl = require("plenary.tbl")
+---@module "plenary.scandir"
+local scan = require("plenary.scandir")
 
 ---Get base16 colors from Xresources - depends on xrdb
 ---@return table | nil
@@ -141,37 +142,6 @@ function M.tbl_sum(array)
   return sum
 end
 
----Scan datapath/site for nvim-colo. We need do this to get make it compatible for all plugin managers.
----@return string
-function M.plugin_path()
-  return dir.scan_dir(vim.fn.stdpath("data") .. "/site", {
-    hidden = false,
-    add_dirs = true,
-    search_pattern = "nvim%-colo$",
-  })[1]
-end
-
----Scan the colo/themes for builtin themes.
----@return table<string>
-function M.list_themes()
-  local scanned_paths = dir.scan_dir(M.plugin_path() .. "/colors", {
-    hidden = false,
-    add_dirs = false,
-  })
-  local themes = {}
-  for _, path in ipairs(scanned_paths) do
-    table.insert(themes, vim.fn.fnamemodify(path, ":t:r"))
-  end
-  return themes
-end
-
----Get colors of current active theme.
----@return table<Color>
-function M.active_theme_colors()
-  local theme = vim.split(vim.g.colors_name, "-")
-  return require("colo.colors." .. theme[1])[theme[2]]
-end
-
 ---Helper utility for adding a dashboard item
 ---
 ---Example: Add a button to open telescope live_grep builtin
@@ -253,6 +223,39 @@ function M.generate_button(callback, metadata)
   }
 
   return setting
+end
+
+function M.tbl_deep_to_hex(items)
+  for key, value in pairs(items) do
+    if getmetatable(value) then
+      items[key] = value:hex(true)
+    elseif type(value) == "table" then
+      items[key] = M.tbl_deep_to_hex(value)
+    end
+  end
+  return items
+end
+
+function M.plugin_path()
+  local path = vim.fn.stdpath("data") .. "/site/pack"
+  path = scan.scan_dir(path, {
+    depth = 3,
+    search_pattern = path .. "/[A-Za-z0-9]+/[A-Za-z0-9]+/nvim%-colo$",
+  })[1]
+  return path
+end
+
+function M.scan_plugin_dir(main_path, after, depth)
+  local modules = {}
+  scan.scan_dir(main_path .. after, {
+    depth = depth,
+    add_dirs = false,
+    on_insert = function(path)
+      local result, _ = vim.fn.fnamemodify(path, (":s?%s??:r"):format(main_path .. "/lua")):gsub("/", ".")
+      table.insert(modules, result:sub(2, #result))
+    end,
+  })
+  return modules
 end
 
 return M

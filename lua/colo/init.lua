@@ -8,22 +8,22 @@ M.config = {
   theme = "radium",
   variant = "dark",
   manual = false,
-  integrations = {
+  plugins = {
     feline = {
-      enable = true,
-      module = "colo.integrations.feline",
+      enable = false,
+      module = "colo.plugins.feline",
     },
     bufferline = {
-      enable = true,
-      module = "colo.integrations.bufferline",
+      enable = false,
+      module = "colo.plugins.bufferline",
     },
     devicons = {
-      enable = true,
-      module = "colo.integrations.devicons",
+      enable = false,
+      module = "colo.plugins.devicons",
     },
     alpha = {
-      enable = true,
-      module = "colo.integrations.alpha",
+      enable = false,
+      module = "colo.plugins.alpha",
     },
   },
 }
@@ -32,7 +32,6 @@ M.config = {
 ---@param user_config table plugin configuration
 function M.setup(user_config)
   M.config = vim.tbl_deep_extend("force", M.config, user_config or {})
-  vim.cmd.colorscheme(M.config.theme .. "-" .. M.config.variant)
 end
 
 return M

@@ -3,10 +3,8 @@
 ---@license GPL-3.0
 
 local util = require("colo.hl")
-util.prepare_theme("ayu-dark", "dark")
-
-local col = require("colo.colors.ayu").dark
-local hl = util.highlight
-local deco = util.decorations
+util.start("ayu-dark", "dark")
+util.load_theme()
+util.finish()
 
 ---vim:filetype=lua

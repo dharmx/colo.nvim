@@ -26,6 +26,7 @@ local function load_plugins()
       "akinsho/bufferline.nvim",
       "lewis6991/gitsigns.nvim",
       "kyazdani42/nvim-web-devicons",
+      "goolord/alpha-nvim",
     },
   })
 
@@ -77,6 +78,7 @@ local function load_config()
   require("colo").setup({
     theme = "mountain",
     variant = "dark",
+    manual = false,
     integrations = {
       feline = {
         enable = true,
@@ -89,6 +91,10 @@ local function load_config()
       devicons = {
         enable = true,
         module = "colo.integrations.devicons",
+      },
+      alpha = {
+        enable = true,
+        module = "colo.integrations.alpha",
       },
     },
   })

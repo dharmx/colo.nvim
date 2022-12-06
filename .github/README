@@ -47,19 +47,23 @@ The following are the default settings.
 local config = {
   theme = "radium", ---only colo-compatible themes allowed
   variant = "dark",
-  plug_manually = false,
+  manual = false,
   integrations = {
     feline = {
-      enable = true,
+      enable = false,
       module = "colo.integrations.feline"
     },
     bufferline = {
-      enable = true,
+      enable = false,
       module = "colo.integrations.bufferline"
     },
     devicons = {
-      enable = true,
+      enable = false,
       module = "colo.integrations.devicons"
+    },
+    alpha = {
+      enable = false,
+      module = "colo.integrations.alpha"
     },
   },
 }
@@ -88,7 +92,7 @@ There are quite a few ways to inprove performance.
    if you decide to modify the colorscheme.
 2. Turn off all integrations and manually call the following. And also
    define an autocmd that will call it on the ColorScheme event.
-3. You may have noticed the plug_manually configuration option. This
+3. You may have noticed the manual configuration option. This
    is added if the user wanted to use colo integration configurations
    but they need to lazy-load them. In this case, you may
    set that option to true, which will skip loading the integrations
@@ -99,7 +103,7 @@ There are quite a few ways to inprove performance.
      event = "UIEnter"
      config = function()
        require("colo").setup({
-         plug_manually = true,
+         manual = true,
          integrations = {
            feline = { enable = true },
            bufferline = { enable = false },
@@ -137,16 +141,16 @@ So, if you can or, have the time then please do so. Make a pull request.
 - [ ] error handling
 - [ ] telescope theme picker
 - [ ] color picker
-- [ ] radium
-- [ ] mountain
-- [ ] aquarium
-- [ ] ayu
-- [ ] everforest
-- [ ] github
-- [ ] none dark
-- [ ] nord
-- [ ] one
-- [ ] oxocarbon
+- [x] radium
+- [x] mountain
+- [x] aquarium
+- [x] ayu
+- [x] everforest
+- [x] github
+- [x] none dark
+- [x] nord
+- [x] one
+- [x] oxocarbon
 - [ ] doc with treesitter
 - [ ] blend/transparency support
 - [ ] revisions

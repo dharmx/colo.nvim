@@ -1,12 +1,6 @@
 require("plenary.reload").reload_module("nvim-web-devicons")
-
-local present, icons = pcall(require, "nvim-web-devicons")
-
-if not present then
-  return
-end
-
-local col = require("colo.util").active_theme_colors()
+local icons = require("nvim-web-devicons")
+local col = require("colo.hl").theme()
 
 local config = {
   override = {

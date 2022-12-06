@@ -1,10 +1,5 @@
-local present, bufferline = pcall(require, "bufferline")
-
-if not present then
-  return
-end
-
-local col = require("colo.util").active_theme_colors()
+local bufferline = require("bufferline")
+local col = require("colo.hl").theme()
 
 local highlights = {
   fill = {

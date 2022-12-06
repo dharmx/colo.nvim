@@ -14,7 +14,7 @@ local heading = {
   type = "text",
   val = options.heading or require("colo.logos").OCTOPI,
   opts = {
-    position = options.align.heading,
+    position = options.align.heading or "center",
     hl = "AlphaHeading",
   },
 }
@@ -93,8 +93,8 @@ local buttons = {
     }),
   },
   opts = {
-    position = options.align.buttons,
-    spacing = 1,
+    position = options.align.buttons or "center",
+    spacing = options.gaps or 1,
   },
 }
 
@@ -102,7 +102,7 @@ local extras = {
   type = "text",
   val = options.extras or string.format(" Loaded %d plugins.", vim.tbl_count(packer_plugins)),
   opts = {
-    position = options.align.extras,
+    position = options.align.extras or "center",
     hl = "AlphaLoaded",
   },
 }
@@ -111,7 +111,7 @@ local footing = {
   type = "text",
   val = options.footing or os.getenv("USER") .. "@" .. vim.fn.hostname(),
   opts = {
-    position = options.align.footing,
+    position = options.align.footing or "center",
     hl = "AlphaFooting",
   },
 }

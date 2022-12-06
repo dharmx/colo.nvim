@@ -8,6 +8,10 @@ local M = {}
 local Color = require("colo.color")
 ---@module "plenary.reload"
 local rel = require("plenary.reload")
+---@module "plenary.scan_dir"
+local scan = require("plenary.scandir")
+---@module "plenary.tbl"
+local tbl = require("plenary.tbl")
 ---@module "colo"
 local colo = require("colo")
 
@@ -243,28 +247,66 @@ function hl.special_of(name, fallback_col)
   return fallback_col
 end
 
----Clear all highlights and reset syntax highlights.
----Reloads integration modules.
----Lastly, it sets the vim.g.colors_name variable.
----@param theme_name string the name of the theme - preferably an nvim-colo theme
+---Clear all highlights, reset syntax highlights and make theming utilities globally available
+---@param theme string the name of the theme - preferably an nvim-colo theme
 ---@param variant string only light and dark theme variants are currently supported
-function M.prepare_theme(theme_name, variant)
+function M.start(theme, variant)
   vim.cmd.highlight("clear")
   if vim.fn.exists("syntax_on") then
     vim.cmd.syntax("reset")
   end
+  vim.g.colors_name = theme
   vim.o.background = variant
-  vim.g.colors_name = theme_name
+
+  _G.col = M.theme()
+  _G.hl = M.highlight
+  _G.deco = M.decorations
+end
+
+---Remove globally available theming utilities.
+function M.finish()
+  _G.col = nil
+  _G.hl = nil
+  _G.deco = nil
+end
+
+---Reloads integration modules.
+---Lastly, it sets the vim.g.colors_name variable.
+function M.load_theme()
+  local plugin_path = scan.scan_dir(vim.fn.stdpath("data") .. "/site", {
+    hidden = false,
+    add_dirs = true,
+    search_pattern = "nvim%-colo$",
+  })[1] .. "/lua/colo/groups"
+
+  local scanned_paths = scan.scan_dir(plugin_path, {
+    hidden = false,
+    add_dirs = false,
+  })
+
+  rel.reload_module("colo.groups")
+  for _, path in ipairs(scanned_paths) do
+    local path_splits = vim.split(vim.fn.fnamemodify(path, ":r"), "/")
+    local hl_path = table.concat(tbl.pack(tbl.unpack(path_splits, #path_splits - 3, #path_splits)), ".")
+    require(hl_path)
+  end
 
   for name, setting in pairs(colo.config.integrations) do
     if setting.enable then
-      if not colo.config.manual or name ~= "alpha" then
+      if not colo.config.manual then
         rel.reload_module(setting.module)
         require(setting.module)
       end
     end
   end
   colo.config.manual = false
+end
+
+---Get colors of current active theme.
+---@return table<Color>
+function M.theme()
+  local theme = vim.split(vim.g.colors_name, "-")
+  return require("colo.colors." .. theme[1])[theme[2]]
 end
 
 M.highlight = hl

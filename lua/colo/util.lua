@@ -165,13 +165,6 @@ function M.list_themes()
   return themes
 end
 
----Get colors of current active theme.
----@return table<Color>
-function M.active_theme_colors()
-  local theme = vim.split(vim.g.colors_name, "-")
-  return require("colo.colors." .. theme[1])[theme[2]]
-end
-
 ---Helper utility for adding a dashboard item
 ---
 ---Example: Add a button to open telescope live_grep builtin

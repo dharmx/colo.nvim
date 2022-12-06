@@ -7,7 +7,7 @@ local Color = require("colo.color")
 return {
   author = "FrenzyExists",
   name = "aquarium",
-  description = "Aquarium, a simple vibrant dark theme.",
+  description = "Aquarium, a simple vibrant theme.",
   source = "https://github.com/frenzyexists/aquarium-vim",
   dark = {
     black = Color:new({ hexcode = "#20202A" }),

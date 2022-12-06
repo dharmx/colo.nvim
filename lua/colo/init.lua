@@ -10,19 +10,19 @@ M.config = {
   manual = false,
   integrations = {
     feline = {
-      enable = true,
+      enable = false,
       module = "colo.integrations.feline",
     },
     bufferline = {
-      enable = true,
+      enable = false,
       module = "colo.integrations.bufferline",
     },
     devicons = {
-      enable = true,
+      enable = false,
       module = "colo.integrations.devicons",
     },
     alpha = {
-      enable = true,
+      enable = false,
       module = "colo.integrations.alpha",
     },
   },

@@ -1,10 +1,5 @@
-local present, feline = pcall(require, "feline")
-
-if not present then
-  return
-end
-
-local col = require("colo.util").active_theme_colors()
+local feline = require("feline")
+local col = require("colo.hl").theme()
 
 local theme = {
   fg = col.white:darken(5),

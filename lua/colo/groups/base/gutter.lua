@@ -1,13 +1,9 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    FoldColumn = { background = col.black, foreground = col.cyan },
-    Folded = { background = col.black, foreground = col.black:lighten(12) },
-    SignColumn = { background = col.black },
-  }
-end
-
-return M
+return {
+  FoldColumn = { background = col.black, foreground = col.cyan },
+  Folded = { background = col.black, foreground = col.black:lighten(12) },
+  SignColumn = { background = col.black },
+}
 
 ---vim:filetype=lua

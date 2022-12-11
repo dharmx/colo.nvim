@@ -1,12 +1,8 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    StatusLine = { background = col.black, foreground = col.blue },
-    StatusLineNC = { foreground = col.blue },
-  }
-end
-
-return M
+return {
+  StatusLine = { background = col.black, foreground = col.blue },
+  StatusLineNC = { foreground = col.blue },
+}
 
 ---vim:filetype=lua

@@ -1,14 +1,10 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    VertSplit = { foreground = col.bright_black },
-    WinSeparator = { link = "VertSplit" },
-    Title = { foreground = col.black:brighten(4):lighten(20) },
-    MsgSeparator = { foreground = col.magenta },
-  }
-end
-
-return M
+return {
+  VertSplit = { foreground = col.bright_black },
+  WinSeparator = { link = "VertSplit" },
+  Title = { foreground = col.black:brighten(4):lighten(20) },
+  MsgSeparator = { foreground = col.magenta },
+}
 
 ---vim:filetype=lua

@@ -1,7 +1,7 @@
 local col = require("colo.api").theme.current()
 
 return {
-  TroubleNormal = { background = col.black:darken(2) },
+  PmenuSel = { background = col.blue, foreground = col.bright_black },
 }
 
 ---vim:filetype=lua

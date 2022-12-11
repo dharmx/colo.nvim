@@ -1,11 +1,7 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    RnvimrNormal = { link = "NormalFloat" },
-  }
-end
-
-return M
+return {
+  RnvimrNormal = { link = "NormalFloat" },
+}
 
 ---vim:filetype=lua

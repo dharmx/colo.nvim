@@ -1,13 +1,9 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    LightBulbFloatWin = { foreground = col.bright_yellow },
-    LightBulbVirtualText = { foreground = col.yellow },
-    LightBulbSign = { foreground = col.yellow },
-  }
-end
-
-return M
+return {
+  LightBulbFloatWin = { foreground = col.bright_yellow },
+  LightBulbVirtualText = { foreground = col.yellow },
+  LightBulbSign = { foreground = col.yellow },
+}
 
 ---vim:filetype=lua

@@ -1,14 +1,10 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    WildMenu = { background = col.blue, foreground = col.black },
-    Substitute = { background = col.bright_magenta, foreground = col.black },
-    Search = { background = col.yellow, foreground = col.black },
-    IncSearch = { background = col.cyan, foreground = col.black },
-  }
-end
-
-return M
+return {
+  WildMenu = { background = col.blue, foreground = col.black },
+  Substitute = { background = col.bright_magenta, foreground = col.black },
+  Search = { background = col.yellow, foreground = col.black },
+  IncSearch = { background = col.cyan, foreground = col.black },
+}
 
 ---vim:filetype=lua

@@ -10,11 +10,13 @@
         "undefined-field",
         "empty-block",
         "cast-local-type",
-        "assign-type-mismatch"
+        "assign-type-mismatch",
+        "deprecated"
     ],
     "Lua.workspace.checkThirdParty": false,
     "Lua.workspace.library": [
-        "/home/maker/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+        "~/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+        "~/.local/share/nvim/site/pack/packer/opt/telescope.nvim",
         "/usr/share/nvim/runtime",
         "/usr/lib/nvim"
     ]

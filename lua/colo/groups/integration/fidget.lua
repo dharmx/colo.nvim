@@ -1,12 +1,8 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    FidgetTitle = { foreground = col.bright_green },
-    FidgetTask = { foreground = col.black:lighten(5) },
-  }
-end
-
-return M
+return {
+  FidgetTitle = { foreground = col.bright_green },
+  FidgetTask = { foreground = col.black:lighten(5) },
+}
 
 ---vim:filetype=lua

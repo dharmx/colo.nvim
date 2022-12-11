@@ -6,6 +6,7 @@ M.bold = {
   "@text.title",
   "@constant.builtin",
   "@include",
+  "@constant",
   "ModeMsg",
   "TelescopePromptCounter",
   "TelescopeMatching",
@@ -28,9 +29,10 @@ M.bold = {
   "WhichKeyGroup",
   "FidgetTitle",
   "Bold",
+  "AlphaKeyPrefix",
+  "AlphaFooting",
 }
 
----hello there
 M.italic = {
   "Comment",
   "Conditional",
@@ -71,6 +73,9 @@ M.underline = {
 }
 
 M.undercurl = {
+  "@spell",
+  "SpellBad",
+  "SpellLocal",
   "DiagnosticUnderlineWarn",
   "DiagnosticUnderlineError",
   "DiagnosticUnderlineInfo",

@@ -216,11 +216,11 @@ function Color:new(col)
     col = Color.HSL2RGB(col.hue, col.saturation, col.luminance)
   else
     ---@diagnostic disable-next-line: param-type-mismatch
-    col.red = math.floor(util.in_range(col.red, 255))
+    col.red = math.floor(in_range(col.red, 255))
     ---@diagnostic disable-next-line: param-type-mismatch
-    col.green = math.floor(util.in_range(col.green, 255))
+    col.green = math.floor(in_range(col.green, 255))
     ---@diagnostic disable-next-line: param-type-mismatch
-    col.blue = math.floor(util.in_range(col.blue, 255))
+    col.blue = math.floor(in_range(col.blue, 255))
   end
 
   self.__index = self

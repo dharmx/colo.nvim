@@ -1,11 +1,7 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    VirtColumn = { link = "ColorColumn" },
-  }
-end
-
-return M
+return {
+  VirtColumn = { link = "ColorColumn" },
+}
 
 ---vim:filetype=lua

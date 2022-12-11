@@ -1,13 +1,9 @@
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.get(col, deco)
-  return {
-    Bold = { deco.B },
-    Italic = { deco.I },
-    Underlined = { deco.ULN },
-  }
-end
-
-return M
+return {
+  Bold = { bold = true },
+  Italic = { italic = true },
+  Underlined = { underline = true },
+}
 
 ---vim:filetype=lua

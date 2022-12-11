@@ -1,6 +1,6 @@
 ---Minimal init file to run Feline with the most basic functionality
 ---Run from Feline top-level directory using:
----nvim --noplugin -u minimal_init.lua
+---nvim --noplugin -u minimal.lua
 
 ---export env before you run the command
 local TMPDIR = os.getenv("COLO_DEBUG_TEMPDIR")
@@ -20,6 +20,7 @@ local function load_plugins()
   use("wbthomason/packer.nvim")
   use({
     "dharmx/nvim-colo",
+    branch = "dev",
     requires = {
       "nvim-lua/plenary.nvim",
       "feline-nvim/feline.nvim",
@@ -76,27 +77,80 @@ local function load_config()
   })
 
   require("colo").setup({
-    theme = "mountain",
-    variant = "dark",
-    manual = false,
-    integrations = {
+    theme = "radium_dark",
+    cycle = true,
+    notifications = {
+      enable = true,
+      options = {},
+    },
+    filetype = {
+      enable = true,
+      items = {
+        ["*.python"] = "nord_dark",
+        ["*.lua"] = "mountain_dark",
+        ["*.cpp"] = "oxocarbon_dark",
+      },
+    },
+    presets = {
+      enable = true,
+      items = {
+        italic_comments = true,
+        dotted_spell = true,
+        transparent_ui = false,
+        contrast = false,
+        visible_borders = true,
+        transparent_statusline = true,
+        transparent_tabline = true,
+        transparent_winbar = false,
+        transparent_floatwin = true,
+      },
+    },
+    aggregates = {
+      bold = true,
+      undercurl = true,
+      underline = true,
+      italic = true,
+    },
+    blacklists = {
+      enable = true,
+      items = {
+        "integration.nui",
+        "base.spell",
+      },
+    },
+    custom_hl = {
+      enable = true,
+      items = {
+        LspDiagnosticsSignWarn = { link = "DevIconHtm" },
+        LspDiagnosticsSignError = { link = "DevIconJava" },
+        LspDiagnosticsSignInfo = { link = "DevIconCobol" },
+        LspDiagnosticsSignHint = { link = "DevIconMaterial" },
+      },
+    },
+    manual = true,
+    extensions = {
       feline = {
         enable = true,
-        module = "colo.integrations.feline",
+        module = "colo.extensions.feline",
+        options = {},
       },
       bufferline = {
         enable = true,
-        module = "colo.integrations.bufferline",
+        module = "colo.extensions.bufferline",
+        options = {},
       },
       devicons = {
         enable = true,
-        module = "colo.integrations.devicons",
+        module = "colo.extensions.devicons",
+        options = {},
       },
       alpha = {
         enable = true,
-        module = "colo.integrations.alpha",
+        module = "colo.extensions.alpha",
+        options = {},
       },
     },
+    logging = vim.log.levels.OFF,
   })
 end
 

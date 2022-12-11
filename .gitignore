@@ -50,3 +50,4 @@ node_modules/
 
 **/*.spl
 .sourcery
+lua/colo/groups/base/editor.lua

@@ -6,14 +6,6 @@ local M = {}
 
 ---@module "colo.color"
 local Color = require("colo.color")
----@module "plenary.reload"
-local rel = require("plenary.reload")
----@module "plenary.scan_dir"
-local scan = require("plenary.scandir")
----@module "plenary.tbl"
-local tbl = require("plenary.tbl")
----@module "colo"
-local colo = require("colo")
 
 ---This is a convenience enum. See |highlight-args|
 ---@enum decorations

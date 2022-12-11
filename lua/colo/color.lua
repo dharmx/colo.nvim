@@ -168,6 +168,39 @@ local named_colors = {
   yellowgreen = "9ACD32",
 }
 
+---Limit percentage overflow
+---@param current number current percentage value
+---@param amount number increase current percentage by
+---@param operation string
+local function limit(current, amount, operation)
+  if operation == "i" then
+    return (current + amount) > 100 and 100 or current + amount
+  elseif operation == "d" then
+    return (current - amount) < 0 and 0 or current - amount
+  end
+  error("operation should be either i or, d", vim.log.levels.ERROR)
+end
+
+---See if a number is in range of given limits
+---@param number number | string the value that needs to be checked
+---@param finish number ending range
+---@return number | nil | string
+local function in_range(number, finish)
+  assert(number, "number should not be nil")
+  local temp = number
+
+  if type(number) == "string" and number:find("%.") and tonumber(number) == 1 then
+    number = tonumber(number) * 100 .. "%"
+  end
+
+  if type(number) == "string" and number:find("%%") then
+    temp = (tonumber(number:sub(1, #number - 1)) * finish) / 100
+  end
+
+  assert(temp >= 0 and temp <= finish, "number should be between 0-255/0-1/0-100")
+  return temp
+end
+
 ---Color class constructor
 ---@param col table field table
 ---@return Color
@@ -296,7 +329,7 @@ end
 function Color:increase_red(amount)
   local color = self:percentage(true)
   return Color:new({
-    red = util.limit(color.red, amount, util.operations.I) .. "%",
+    red = limit(color.red, amount, "i") .. "%",
     green = color.green .. "%",
     blue = color.blue .. "%",
   })
@@ -309,7 +342,7 @@ function Color:increase_green(amount)
   local color = self:percentage(true)
   return Color:new({
     red = color.red .. "%",
-    green = util.limit(color.green, amount, util.operations.I) .. "%",
+    green = limit(color.green, amount, "i") .. "%",
     blue = color.blue .. "%",
   })
 end
@@ -322,7 +355,7 @@ function Color:increase_blue(amount)
   return Color:new({
     red = color.red .. "%",
     green = color.green .. "%",
-    blue = util.limit(color.blue, amount, util.operations.I) .. "%",
+    blue = limit(color.blue, amount, "i") .. "%",
   })
 end
 
@@ -332,7 +365,7 @@ end
 function Color:decrease_red(amount)
   local color = self:percentage(true)
   return Color:new({
-    red = util.limit(color.red, amount, util.operations.D) .. "%",
+    red = limit(color.red, amount, "d") .. "%",
     green = color.green .. "%",
     blue = color.blue .. "%",
   })
@@ -345,7 +378,7 @@ function Color:decrease_green(amount)
   local color = self:percentage(true)
   return Color:new({
     red = color.red .. "%",
-    green = util.limit(color.green, amount, util.operations.D) .. "%",
+    green = limit(color.green, amount, "d") .. "%",
     blue = color.blue .. "%",
   })
 end
@@ -358,7 +391,7 @@ function Color:decrease_blue(amount)
   return Color:new({
     red = color.red .. "%",
     green = color.green .. "%",
-    blue = util.limit(color.blue, amount, util.operations.D) .. "%",
+    blue = limit(color.blue, amount, "d") .. "%",
   })
 end
 

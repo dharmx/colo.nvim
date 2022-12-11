@@ -5,10 +5,7 @@ function M.get(col, deco)
     CursorColumn = { link = "CursorLine" },
     Normal = { background = col.black, foreground = col.white },
     NormalFloat = { background = col.black:brighten(1):lighten(2):darken(1), foreground = col.white:darken(10) },
-    FloatBorder = {
-      background = col.black:brighten(1):lighten(2):darken(1),
-      foreground = col.black:brighten(1):lighten(2):darken(1),
-    },
+    FloatBorder = { background = col.black:brighten(1):lighten(2):darken(1), foreground = col.black:brighten(1):lighten(2):darken(1) },
     Cursor = { background = col.green:lighten(3), foreground = col.black },
     ColorColumn = { background = col.black, foreground = col.black:brighten(0.5):lighten(2) },
     Visual = { background = col.black:brighten(1):lighten(3) },

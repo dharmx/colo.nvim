@@ -62,8 +62,8 @@ function M.plugin.path()
 end
 
 function M.plugin.scan(fragment, options)
-  options = options or {}
-  fragment = fragment or ""
+  options = vim.F.if_nil(options, {})
+  fragment = vim.F.if_nil(fragment, "")
   if fragment:sub(1, 1) ~= "/" then
     fragment = "/" .. fragment
   end

@@ -1,4 +1,4 @@
----@module "colo.colors.github_dark"
+---@module "colo.themes.github_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

@@ -1,4 +1,4 @@
----@module "colo.themes.noel"
+---@module "colo.themes.noel_dark"
 ---@author dharmx
 ---@license GPL-3.0
 
@@ -8,7 +8,10 @@ return {
   author = { "Stardust-Kyun", "Jimmysit0" },
   name = "noel",
   description = "A theme from Stardust's personal dotfiles. OpenBox edition.",
-  source = { "https://github.com/Jimmysit0", "" },
+  source = {
+    "https://github.com/Jimmysit0",
+    "https://github.com/Stardust-kyun/dotfiles/blob/main/home/.config/awesome/themes/colors/old/noel/init.lua",
+  },
   background = "dark",
   black = Color:new({ hexcode = "#403B47" }),
   red = Color:new({ hexcode = "#CE9C97" }),

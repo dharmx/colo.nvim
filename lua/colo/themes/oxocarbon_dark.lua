@@ -1,4 +1,4 @@
----@module "colo.colors.oxocarbon_dark"
+---@module "colo.themes.oxocarbon_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

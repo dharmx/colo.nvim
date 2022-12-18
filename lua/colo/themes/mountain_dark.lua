@@ -1,4 +1,4 @@
----@module "colo.colors.mountain_dark"
+---@module "colo.themes.mountain_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

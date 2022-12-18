@@ -1,4 +1,4 @@
----@module "colo.themes.shore"
+---@module "colo.themes.shore_dark"
 ---@author dharmx
 ---@license GPL-3.0
 
@@ -10,22 +10,22 @@ return {
   description = "A theme from Stardust's personal dotfiles. AwesomeWM edition.",
   source = "https://github.com/stardust-kyun/dotfiles#shore",
   background = "dark",
-  black = Color:new({ hexcode = "#19191e" }),
-  red = Color:new({ hexcode = "#825a5a" }),
-  green = Color:new({ hexcode = "#5a825a" }),
+  black = Color:new({ hexcode = "#19191E" }),
+  red = Color:new({ hexcode = "#825A5A" }),
+  green = Color:new({ hexcode = "#5A825A" }),
   yellow = Color:new({ hexcode = "#968264" }),
-  blue = Color:new({ hexcode = "#505a82" }),
-  magenta = Color:new({ hexcode = "#735a87" }),
-  cyan = Color:new({ hexcode = "#5a7387" }),
-  white = Color:new({ hexcode = "#9999a8" }),
-  bright_black = Color:new({ hexcode = "#2b2b33" }),
-  bright_red = Color:new({ hexcode = "#825a5a" }),
-  bright_green = Color:new({ hexcode = "#5a825a" }),
+  blue = Color:new({ hexcode = "#505A82" }),
+  magenta = Color:new({ hexcode = "#735A87" }),
+  cyan = Color:new({ hexcode = "#5A7387" }),
+  white = Color:new({ hexcode = "#9999A8" }),
+  bright_black = Color:new({ hexcode = "#2B2B33" }),
+  bright_red = Color:new({ hexcode = "#825A5A" }),
+  bright_green = Color:new({ hexcode = "#5A825A" }),
   bright_yellow = Color:new({ hexcode = "#968264" }),
-  bright_blue = Color:new({ hexcode = "#505a82" }),
-  bright_magenta = Color:new({ hexcode = "#735a87" }),
-  bright_cyan = Color:new({ hexcode = "#5a7387" }),
-  bright_white = Color:new({ hexcode = "#9999a8" }),
+  bright_blue = Color:new({ hexcode = "#505A82" }),
+  bright_magenta = Color:new({ hexcode = "#735A87" }),
+  bright_cyan = Color:new({ hexcode = "#5A7387" }),
+  bright_white = Color:new({ hexcode = "#9999A8" }),
 }
 
 ---vim:filetype=lua

@@ -1,4 +1,4 @@
----@module "colo.colors.aquarium_dark"
+---@module "colo.themes.aquarium_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

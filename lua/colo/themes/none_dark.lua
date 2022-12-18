@@ -1,4 +1,4 @@
----@module "colo.colors.none_dark"
+---@module "colo.themes.none_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

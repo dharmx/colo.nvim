@@ -1,4 +1,4 @@
----@module "colo.colors.ayu_dark"
+---@module "colo.themes.ayu_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

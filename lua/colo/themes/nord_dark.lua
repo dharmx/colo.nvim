@@ -1,4 +1,4 @@
----@module "colo.colors.nord_dark"
+---@module "colo.themes.nord_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

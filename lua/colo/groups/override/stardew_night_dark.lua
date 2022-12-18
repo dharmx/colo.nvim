@@ -1,0 +1,15 @@
+local col = require("colo.api").theme.current()
+
+return {
+  Keyword = { foreground = col.magenta },
+  ["@keyword.function"] = { link = "Keyword" },
+  ["@keyword"] = { link = "Keyword" },
+  ["@keyword.return"] = { link = "Keyword" },
+  ["@function.builtin"] = { foreground = col.cyan },
+  ["Function"] = { foreground = col.blue },
+  ["Number"] = { foreground = col.red },
+  ["@field"] = { foreground = col.white:darken(10) },
+  ["@conditional"] = { foreground = col.yellow },
+}
+
+---vim:filetype=lua

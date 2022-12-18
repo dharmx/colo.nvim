@@ -1,7 +1,7 @@
 local col = require("colo.api").theme.current()
 
 return {
-  Boolean = { foreground = col.bright_cyan },
+  Boolean = { foreground = col.red },
   Character = { foreground = col.green:lighten(5) },
   Comment = { foreground = col.bright_black:brighten(5):lighten(20) },
   SpecialComment = { foreground = col.yellow:increase_red(3):darken(3) },

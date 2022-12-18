@@ -1,4 +1,4 @@
----@module "colo.colors.radium_dark"
+---@module "colo.themes.radium_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

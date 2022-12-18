@@ -11,10 +11,28 @@ vim.g.loaded_colo = 1
 local cmd = vim.api.nvim_create_user_command
 
 cmd("Colo", function(...)
-  require("colo.api").theme.set((...).args)
+  local args = (...).args
+  if args == "" then
+    local col = require("colo.api").theme.current()
+    local author = col.author
+    if type(author) == "table" then
+      if #author < 3 then
+        author = table.concat(author, " and ")
+      else
+        author = table.concat(author, ", ", 1, #author - 1) .. " and " .. author[#author]
+      end
+    end
+    local pretty = ("%s %s\nBy %s\n%s"):format(col.name:upper(), col.background:upper(), author, col.description)
+    vim.api.nvim_notify(pretty, vim.log.levels.INFO, {
+      title = "nvim-colo",
+      icon = " ",
+    })
+  else
+    require("colo.api").theme.set(args)
+  end
 end, {
   desc = "Theme switching command.",
-  nargs = 1,
+  nargs = "?",
   complete = function()
     return require("colo.api").theme.list({ all = true })
   end,
@@ -79,12 +97,12 @@ end, {
 })
 
 cmd("ColoLoadExtension", function(...)
-  require("colo.api").extension.load((...).fargs)
+  require("colo.api").extension.load(require("colo").config.extensions, (...).fargs)
 end, {
   desc = "Enable/Reload plugin extension.",
   nargs = "*",
   complete = function()
-    return vim.tbl_keys(require("colo.api").extension.list())
+    return require("colo.api").extension.list()
   end,
 })
 

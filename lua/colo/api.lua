@@ -26,6 +26,7 @@ function M.theme.clean()
   end
 end
 
+---@todo revise
 function M.theme.set(name)
   assert(
     vim.tbl_contains(
@@ -42,7 +43,7 @@ function M.theme.set(name)
   vim.g.colors_name = name
   reload("colo.groups")
 
-  local terminal, hl_chunks, overrides = M.theme.all_hl()
+  local terminal, hl_chunks, overrides = M.theme.all_hl_list()
   theming.terminal_all(terminal)
   for index, hl_chunk in ipairs(hl_chunks) do
     for hl_name, hl_value in pairs(hl_chunk) do
@@ -56,7 +57,7 @@ function M.theme.set(name)
   end
 end
 
-function M.theme.all_hl()
+function M.theme.all_hl_list()
   local term_chunk = M.group.terminal({ resolve = true })
   local hl_chunks = {
     M.group.base({ resolve = true, flatten = true }),
@@ -68,7 +69,7 @@ function M.theme.all_hl()
 end
 
 function M.theme.list(options)
-  options = options or {}
+  options = vim.F.if_nil(options, {})
   local scan_options = {
     silent = true,
     add_dirs = false,
@@ -287,19 +288,24 @@ end
 M.extension = {}
 
 function M.extension.list()
-  return require("colo").config.extensions
+  return util.plugin.scan("extensions", {
+    silent = true,
+    add_dirs = false,
+    on_insert = function(path)
+      return vim.fn.fnamemodify(path, ":t:r")
+    end,
+  })
 end
 
-function M.extension.load(...)
+function M.extension.load(plugin_config, ...)
   ---@module "colo.init"
-  local all_exts = M.extension.list()
-  local enable = vim.tbl_flatten({ ... })
+  local extensions = M.extension.list()
+  local options = vim.tbl_flatten({ ... })
 
-  for _, extension in ipairs(enable) do
-    local ext = all_exts[extension]
-    if ext and ext.enable then
-      reload(ext.module)
-      require(ext.module)
+  for _, name in ipairs(options) do
+    if vim.tbl_contains(extensions, name) and plugin_config[name] and plugin_config[name].enable then
+      reload(plugin_config[name].module)
+      require(plugin_config[name].module)
     end
   end
 end

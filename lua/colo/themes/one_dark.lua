@@ -1,4 +1,4 @@
----@module "colo.colors.one_dark"
+---@module "colo.themes.one_dark"
 ---@author dharmx
 ---@license GPL-3.0
 

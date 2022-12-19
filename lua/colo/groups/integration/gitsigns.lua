@@ -1,7 +1,11 @@
+---@module "colo.groups.integration.gitsigns"
+---@author dharmx
+---@license GPL-3.0
+
 local col = require("colo.api").theme.current()
 
 return {
-  GitSignsChange = { foreground = col.magenta:darken(5):decrease_blue(5) },
+  GitSignsChange = { foreground = col.bright_black:brighten(2):lighten(2) },
   GitSignsChangeNr = { foreground = col.bright_magenta },
   GitSignsChangeLn = { foreground = col.magenta:brighten(3) },
   GitSignsAdd = { foreground = col.blue },

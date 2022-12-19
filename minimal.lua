@@ -79,55 +79,19 @@ local function load_config()
   require("colo").setup({
     theme = "radium_dark",
     cycle = true,
-    notifications = {
-      enable = true,
-      options = {},
-    },
-    filetype = {
-      enable = true,
-      items = {
-        ["*.python"] = "nord_dark",
-        ["*.lua"] = "mountain_dark",
-        ["*.cpp"] = "oxocarbon_dark",
-      },
-    },
-    presets = {
-      enable = true,
-      items = {
-        italic_comments = true,
-        dotted_spell = true,
-        transparent_ui = false,
-        contrast = false,
-        visible_borders = true,
-        transparent_statusline = true,
-        transparent_tabline = true,
-        transparent_winbar = false,
-        transparent_floatwin = true,
-      },
-    },
-    aggregates = {
-      bold = true,
-      undercurl = true,
-      underline = true,
-      italic = true,
-    },
-    blacklists = {
-      enable = true,
-      items = {
-        "integration.nui",
-        "base.spell",
-      },
-    },
-    custom_hl = {
-      enable = true,
-      items = {
-        LspDiagnosticsSignWarn = { link = "DevIconHtm" },
-        LspDiagnosticsSignError = { link = "DevIconJava" },
-        LspDiagnosticsSignInfo = { link = "DevIconCobol" },
-        LspDiagnosticsSignHint = { link = "DevIconMaterial" },
-      },
-    },
     manual = true,
+    notifications = true,
+    inverted = true,
+    logging = vim.log.levels.INFO,
+    mappings = {
+      enable = true,
+      items = {
+        { mode = "n", key = ";a", action = vim.cmd.ColoPrevious, options = { silent = true } },
+        { mode = "n", key = ";s", action = vim.cmd.ColoInvert, options = { silent = true } },
+        { mode = "n", key = ";d", action = vim.cmd.ColoNext, options = { silent = true } },
+        { mode = "n", key = "<leader>t", action = vim.cmd.ColoTele, options = { silent = true } },
+      },
+    },
     extensions = {
       feline = {
         enable = true,
@@ -150,7 +114,88 @@ local function load_config()
         options = {},
       },
     },
-    logging = vim.log.levels.OFF,
+    aggregates = {
+      enable = true,
+      items = {
+        bold = true,
+        undercurl = true,
+        underline = true,
+        italic = true,
+        transparent = false,
+      },
+    },
+    custom_hl = {
+      enable = true,
+      items = {
+        LspDiagnosticsSignWarn = { link = "DevIconHtm" },
+        LspDiagnosticsSignError = { link = "DevIconJava" },
+        LspDiagnosticsSignInfo = { link = "DevIconCobol" },
+        LspDiagnosticsSignHint = { link = "DevIconMaterial" },
+      },
+    },
+    filetype = {
+      enable = true,
+      items = {
+        ["*.python"] = "nord_dark",
+        ["*.lua"] = "mountain_dark",
+        ["*.cpp"] = "oxocarbon_dark",
+      },
+    },
+    presets = {
+      enable = true,
+      items = {
+        italic_comments = true,
+        dotted_spell = true,
+        contrast = true,
+      },
+    },
+    telescope = {
+      theme = "ivy",
+      results_title = false,
+      sorting_strategy = "ascending",
+      layout_strategy = "center",
+      layout_config = {
+        preview_cutoff = 1,
+        width = function(_, max_columns, _)
+          return math.min(max_columns, 60)
+        end,
+        height = function(_, _, max_lines)
+          return math.min(max_lines, 20)
+        end,
+      },
+      border = true,
+      borderchars = {
+        prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+        results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+        preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      },
+      separator = "┃  ",
+      exclude = {
+        "^sexy_",
+        "^tempus_",
+        "^base16_",
+        "^dkeg_",
+        "^stardew_",
+        "^decay_",
+        "^hybrid_",
+      },
+      highlights = {
+        background = {
+          dark = "@debug",
+          light = "@label",
+        },
+        pack = {
+          ["base16"] = "Operator",
+          ["single"] = "Directory",
+          ["sexy"] = "Keyword",
+          ["decay"] = "Question",
+          ["dkeg"] = "Macro",
+          ["stardew"] = "Number",
+          ["hybrid"] = "Todo",
+          ["tempus"] = "Float",
+        },
+      },
+    },
   })
 end
 

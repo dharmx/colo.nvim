@@ -1,6 +1,11 @@
+---@module "colo.groups.syntax.regular"
+---@author dharmx
+---@license GPL-3.0
+
 local col = require("colo.api").theme.current()
 
 return {
+  Whitespace = { foreground = col.black:lighten(4):brighten(2) },
   Boolean = { foreground = col.red },
   Character = { foreground = col.green:lighten(5) },
   Comment = { foreground = col.bright_black:brighten(5):lighten(20) },

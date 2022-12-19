@@ -184,7 +184,7 @@ end
 ---See if a number is in range of given limits
 ---@param number number | string the value that needs to be checked
 ---@param finish number ending range
----@return number | nil | string
+---@return number | string
 local function in_range(number, finish)
   assert(number, "number should not be nil")
   local temp = number
@@ -231,6 +231,7 @@ end
 ---@return string | nil
 function Color:named()
   for name, color in pairs(named_colors) do
+    ---@diagnostic disable-next-line: undefined-field
     if color == self:hex():upper() then
       return name
     end
@@ -270,7 +271,7 @@ end
 ---@param prefix boolean? prepend # if true
 ---@return string
 function Color:hex(prefix)
-  prefix = prefix and "#" or ""
+  local prefix_sym = prefix and "#" or ""
   local function callback(item)
     return item:len() == 1 and item:rep(2) or item
   end
@@ -279,7 +280,7 @@ function Color:hex(prefix)
     string.format("%02X", self.green),
     string.format("%02X", self.blue),
   })
-  return prefix .. table.concat(hex_tbl)
+  return prefix_sym .. table.concat(hex_tbl)
 end
 
 ---Convert RGB color format to HSL
@@ -448,6 +449,29 @@ function Color:darken(amount)
   })
 end
 
+---Alter an attribute by regulating its percentage.
+---@param attribute number
+---@param percent number
+---@return number
+local function alter(attribute, percent)
+  return math.floor(attribute * (100 + percent) / 100)
+end
+
+---Shade a color.
+---@param amount number
+---@return Color
+function Color:shade(amount)
+  amount = amount == 0 and 0 or (amount or 5)
+  self.red = alter(self.red, amount)
+  self.green = alter(self.green, amount)
+  self.blue = alter(self.blue, amount)
+
+  self.red = math.min(self.red, 255)
+  self.green = math.min(self.green, 255)
+  self.blue = math.min(self.blue, 255)
+  return self
+end
+
 ---Saturate a color
 ---@param amount number? [0-100] percentage value
 ---@return Color
@@ -605,6 +629,7 @@ end
 ---@return table
 local function validateWCAG2Parms(parms)
   parms = parms or { level = "AA", size = "small" }
+  ---@diagnostic disable-next-line: undefined-field
   local level = (parms.level or "AA"):upper()
   local size = (parms.size or "small"):lower()
 
@@ -649,6 +674,13 @@ function Color:mix(col, amount)
     green = ((col.green - self.green) * value) + self.green,
     blue = ((col.blue - self.blue) * value) + self.blue,
   })
+end
+
+---Invert a color.
+---@return Color
+function Color:invert()
+  ---@diagnostic disable-next-line: return-type-mismatch
+  return Color:new({ name = "white" }) - self
 end
 
 ---@todo
@@ -778,7 +810,7 @@ end
 ---@param other Color
 ---@return string
 Color.__tostring = function(self, other)
-  return vim.inspect(self:hex(true))
+  return self:hex(true)
 end
 
 ---Compare RGB values to see if they are equal
@@ -786,6 +818,7 @@ end
 ---@param other Color
 ---@return boolean
 Color.__eq = function(self, other)
+  ---@diagnostic disable-next-line: return-type-mismatch
   return self.red == other.red and self.green == other.green and self.blue == other.blue
 end
 
@@ -810,7 +843,10 @@ end
 ---@param other Color
 ---@return Color
 Color.__add = function(self, other)
-  return Color:new({ red = self.red + other.red, green = self.green + other.green, blue = self.blue + other.blue })
+  self.red = self.red + other.red
+  self.green = self.green + other.green
+  self.blue = self.blue + other.blue
+  return self
 end
 
 ---Add self RGB value and other RGB values
@@ -818,7 +854,10 @@ end
 ---@param other Color
 ---@return Color
 Color.__sub = function(self, other)
-  return Color:new({ red = self.red - other.red, green = self.green - other.green, blue = self.blue - other.blue })
+  self.red = self.red - other.red
+  self.green = self.green - other.green
+  self.blue = self.blue - other.blue
+  return self
 end
 
 return Color

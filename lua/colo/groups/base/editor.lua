@@ -1,3 +1,7 @@
+---@module "colo.groups.base"
+---@author dharmx
+---@license GPL-3.0
+
 local col = require("colo.api").theme.current()
 
 return {
@@ -9,7 +13,7 @@ return {
     foreground = col.black:brighten(1):lighten(2):darken(1),
   },
   Cursor = { background = col.green:lighten(3), foreground = col.black },
-  ColorColumn = { background = col.black, foreground = col.black:brighten(0.5):lighten(2) },
+  ColorColumn = { background = col.black:lighten(0.5), foreground = col.black:brighten(0.5):lighten(2) },
   Visual = { background = col.black:brighten(1):lighten(3) },
   CursorLine = { background = col.black:brighten(1):lighten(2):desaturate(4) },
   CursorLineNr = { foreground = col.yellow },

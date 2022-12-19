@@ -5,12 +5,12 @@
 local Color = require("colo.color")
 
 return {
-  author = { "Stardust-Kyun", "Bran", "Jimmysit0" },
+  author = { "Stardust-Kyun", "Bran", "Jimmysit0", "exorcist" },
   name = "cabin",
-  description = "A theme from Stardust's personal dotfiles. OpenBox edition.",
+  description = "A theme from Stardust's personal dotfiles. OpenBox edition. This was derived from salvation_dark.",
   source = {
     "https://github.com/Stardust-kyun/dotfiles/blob/main/home/.config/awesome/themes/colors/old/cabin/init.lua",
-    "Bran#6396",
+    "https://codeberg.org/exorcist/salvation-vim",
     "https://github.com/Jimmysit0",
   },
   background = "dark",

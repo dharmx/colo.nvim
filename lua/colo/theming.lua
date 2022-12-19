@@ -4,7 +4,7 @@
 
 local M = {}
 
-local ap = vim.api
+local api = vim.api
 
 ---@module "colo.color"
 local Color = require("colo.color")
@@ -64,10 +64,10 @@ M.decorations = {
 
 ---Fetch a highlight group and wrap all color attributes like foreground into a Color object
 ---@param name string highlight group name
----@return table<Color | boolean>
+---@return table<string, Color|boolean>
 function M.wrap(name)
   local search_keys = { "foreground", "background", "special" }
-  local ok, hl_info = pcall(ap.nvim_get_hl_by_name, name, true)
+  local ok, hl_info = pcall(api.nvim_get_hl_by_name, name, true)
   hl_info = ok and util.tbl.rm_bool(hl_info) or {}
 
   for key, value in pairs(hl_info) do
@@ -81,14 +81,14 @@ end
 ---Clear the highlight group.
 ---@param name string the name of the highlight group
 function M.clear(name)
-  ap.nvim_set_hl(0, name, {})
+  api.nvim_set_hl(0, name, {})
 end
 
 ---Link one highlighting group with another.
 ---@param source string the highlight group that needs to be linked to
 ---@param target string the highlight group that needs to be linked with
 function M.link(source, target)
-  ap.nvim_set_hl(0, source, {
+  api.nvim_set_hl(0, source, {
     link = target,
   })
 end
@@ -111,128 +111,128 @@ end
 ---@param attributes table font options that are needed to be applied to that hl group
 function M.style(name, attributes)
   attributes = util.tbl.transform_options(attributes)
-  local hl_info = util.tbl.rm_bool(ap.nvim_get_hl_by_name(name, true))
+  local hl_info = util.tbl.rm_bool(api.nvim_get_hl_by_name(name, true))
   attributes = vim.tbl_extend("force", attributes, hl_info)
-  ap.nvim_set_hl(0, name, attributes)
+  api.nvim_set_hl(0, name, attributes)
 end
 
 ---simple highlighting function. only sets the background and foreground of the highlight group.
 ---@param name string highlight group name
 ---@param background Color background color of the highlight group
 ---@param foreground Color foreground color of the highlight group
----@param options? table<number | string, string | number | boolean> other options that will be passed into nvim_set_hl
+---@param options? table<number|string, string|number|boolean> other options that will be passed into |nvim_set_hl()|
 function M.short_set(name, background, foreground, options)
-  background = background:hex(true)
-  foreground = foreground:hex(true)
+  local background_hex = background:hex(true)
+  local foreground_hex = foreground:hex(true)
   if not options then
-    ap.nvim_set_hl(0, name, { background = background, foreground = foreground })
+    api.nvim_set_hl(0, name, { background = background_hex, foreground = foreground_hex })
   else
-    options.background = background
-    options.foreground = foreground
+    options.background = background_hex
+    options.foreground = foreground_hex
     options = util.tbl.transform_options(options)
-    ap.nvim_set_hl(0, name, options)
+    api.nvim_set_hl(0, name, options)
   end
 end
 
 ---Wrapper around nvim_set_hl.
 ---@param name string highlight group name
----@param options? table<number | string, string | number | boolean> other options that will be passed into nvim_set_hl
+---@param options? table<number|string, string|number|boolean|Color> other options that will be passed into |nvim_set_hl()|
 function M.set(name, options)
   ---@diagnostic disable-next-line: param-type-mismatch
-  options = util.tbl.transform_options(util.tbl.rm_bool(options))
-  options.foreground = options.foreground and options.foreground:hex(true) or nil
-  options.background = options.background and options.background:hex(true) or nil
-  options.special = options.special and options.special:hex(true) or nil
-  ap.nvim_set_hl(0, name, options or {})
+  local options_copy = util.tbl.transform_options(util.tbl.rm_bool(options))
+  options_copy.foreground = options_copy.foreground and options_copy.foreground:hex(true) or nil
+  options_copy.background = options_copy.background and options_copy.background:hex(true) or nil
+  options_copy.special = options_copy.special and options_copy.special:hex(true) or nil
+  api.nvim_set_hl(0, name, vim.F.if_nil(options_copy, {}))
 end
 
 ---Only assign a foreground color to a highlight group.
 ---@param name string highlight group name
 ---@param foreground Color foreground color of the highlight group
----@param options? table<number | string, string | number | boolean> other options that will be passed into nvim_set_hl
+---@param options? table<number|string, string|number|boolean> other options that will be passed into |nvim_set_hl()|
 function M.foreground(name, foreground, options)
   foreground = foreground:hex(true)
   if not options then
-    ap.nvim_set_hl(0, name, { foreground = foreground })
+    api.nvim_set_hl(0, name, { foreground = foreground })
   else
     options.foreground = foreground
     options = util.tbl.transform_options(options)
-    ap.nvim_set_hl(0, name, options)
+    api.nvim_set_hl(0, name, options)
   end
 end
 
 ---Clear the foreground color of the highlight group leaving everything else intact.
 ---@param name string the name of the highlight group
 function M.clear_foreground(name)
-  local hl_info = ap.nvim_get_hl_by_name(name, true)
+  local hl_info = api.nvim_get_hl_by_name(name, true)
   hl_info.foreground = nil
-  ap.nvim_set_hl(0, name, hl_info)
+  api.nvim_set_hl(0, name, hl_info)
 end
 
 ---Fetch the foreground of a highlight group
 ---@param name string the highlight group
 function M.foreground_of(name)
-  local foreground = ap.nvim_get_hl_by_name(name, true).foreground
+  local foreground = api.nvim_get_hl_by_name(name, true).foreground
   return foreground or Color:new({ name = "white" })
 end
 
 ---Only assign a background color to a highlight group.
 ---@param name string highlight group name
 ---@param background Color background color of the highlight group
----@param options? table<number | string, string | number | boolean> other options that will be passed into nvim_set_hl
+---@param options? table<number|string, string|number|boolean> other options that will be passed into |nvim_set_hl()|
 function M.background(name, background, options)
   background = background:hex(true)
   if not options then
-    ap.nvim_set_hl(0, name, { background = background })
+    api.nvim_set_hl(0, name, { background = background })
   else
     options.background = background
     options = util.tbl.transform_options(options)
-    ap.nvim_set_hl(0, name, options)
+    api.nvim_set_hl(0, name, options)
   end
 end
 
 ---Clear the background color of the highlight group leaving everything else intact.
 ---@param name string the name of the highlight group
 function M.clear_background(name)
-  local hl_info = ap.nvim_get_hl_by_name(name, true)
-  hl_info.background = nil
-  ap.nvim_set_hl(0, name, hl_info)
+  local hl_info = api.nvim_get_hl_by_name(name, true)
+  al_info.background = nil
+  api.nvim_set_hl(0, name, hl_info)
 end
 
 ---Fetch the background of a highlight group
 ---@param name string the highlight group
 function M.background_of(name)
-  local background = ap.nvim_get_hl_by_name(name, true).background
+  local background = api.nvim_get_hl_by_name(name, true).background
   return fallback or Color:new({ name = "white" })
 end
 
 ---Only assign a special color to a highlight group.
 ---@param name string highlight group name
 ---@param special Color special color of the highlight group
----@param options? table<number | string, string | number | boolean> other options that will be passed into nvim_set_hl
+---@param options? table<number|string, string|number|boolean> other options that will be passed into |nvim_set_hl()|
 function M.special(name, special, options)
   special = special:hex(true)
   if not options then
-    ap.nvim_set_hl(0, name, { special = special })
+    api.nvim_set_hl(0, name, { special = special })
   else
     options.special = special
     options = util.tbl.transform_options(options)
-    ap.nvim_set_hl(0, name, options)
+    api.nvim_set_hl(0, name, options)
   end
 end
 
 ---Clear the special color of the highlight group leaving everything else intact.
 ---@param name string the name of the highlight group
 function M.clear_special(name)
-  local hl_info = ap.nvim_get_hl_by_name(name, true)
+  local hl_info = api.nvim_get_hl_by_name(name, true)
   hl_info.special = nil
-  ap.nvim_set_hl(0, name, hl_info)
+  api.nvim_set_hl(0, name, hl_info)
 end
 
 ---Fetch the special of a highlight group
 ---@param name string the highlight group
 function M.special_of(name)
-  local special = ap.nvim_get_hl_by_name(name, true).special
+  local special = api.nvim_get_hl_by_name(name, true).special
   return special or Color:new({ name = "white" })
 end
 

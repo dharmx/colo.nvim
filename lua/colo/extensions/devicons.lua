@@ -1,5 +1,23 @@
+---@module "colo.groups.extensions.devicons"
+---@author dharmx
+---@license GPL-3.0
+
 require("plenary.reload").reload_module("nvim-web-devicons")
-local icons = require("nvim-web-devicons")
+
+local present, devicons = pcall(require, "nvim-web-devicons")
+
+if not present then
+  vim.notify_once(
+    "The option config.extensions.devicons.enable is set to true, which requires nvim-web-devicons.nvim.",
+    vim.log.levels.WARN,
+    {
+      icon = "!",
+      title = "nvim-colo",
+    }
+  )
+  return
+end
+
 local col = require("colo.api").theme.current()
 
 local config = {
@@ -41,7 +59,7 @@ for filetype, info in pairs(config.override) do
   config.override[filetype].color = info.color:hex(true)
 end
 
-icons.set_default_icon("", col.white:darken(5):hex(true))
-icons.setup(config)
+devicons.set_default_icon("", col.white:darken(5):hex(true))
+devicons.setup(config)
 
 -- vim:ft=lua

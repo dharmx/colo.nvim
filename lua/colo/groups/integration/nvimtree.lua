@@ -1,13 +1,17 @@
+---@module "colo.groups.integration.nvimtree"
+---@author dharmx
+---@license GPL-3.0
+
 local col = require("colo.api").theme.current()
 
 return {
-  NvimTreeCursorColumn = { link = "NvimTreeCursorColumn" },
-  NvimTreeFolderName = { link = "NvimTreeFolderIcon" },
-  NvimTreeWindowPicker = { background = col.black:lighten(3):brighten(1), foreground = col.blue },
   NvimTreeVertSplit = { background = col.black:darken(2), foreground = col.black:darken(2) },
   NvimTreeWinSeparator = { background = col.black:darken(2), foreground = col.black:darken(2) },
   NvimTreeNormal = { background = col.black:darken(2), foreground = col.white:darken(10) },
   NvimTreeNormalNC = { background = col.black:darken(2), foreground = col.white:darken(10) },
+  NvimTreeCursorColumn = { link = "NvimTreeCursorColumn" },
+  NvimTreeFolderName = { link = "NvimTreeFolderIcon" },
+  NvimTreeWindowPicker = { background = col.black:lighten(3):brighten(1), foreground = col.blue },
   NvimTreeBookmark = { foreground = col.yellow },
   NvimTreeClosedFolderIcon = { foreground = col.bright_magenta },
   NvimTreeCursorLineNr = { foreground = col.bright_green },

@@ -1,4 +1,21 @@
-local alpha = require("alpha")
+---@module "colo.groups.extensions.alpha"
+---@author dharmx
+---@license GPL-3.0
+
+local present, alpha = pcall(require, "alpha")
+
+if not present then
+  vim.notify_once(
+    "The option config.extensions.alpha.enable is set to true, which requires alpha.nvim.",
+    vim.log.levels.WARN,
+    {
+      icon = "!",
+      title = "nvim-colo",
+    }
+  )
+  return
+end
+
 local options = require("colo").config.extensions.alpha.options
   or {
     align = {

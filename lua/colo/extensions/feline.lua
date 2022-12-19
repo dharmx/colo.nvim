@@ -1,4 +1,21 @@
-local feline = require("feline")
+---@module "colo.groups.extensions.feline"
+---@author dharmx
+---@license GPL-3.0
+
+local present, feline = pcall(require, "feline")
+
+if not present then
+  vim.notify_once(
+    "The option config.extensions.feline.enable is set to true, which requires feline.nvim.",
+    vim.log.levels.WARN,
+    {
+      icon = "!",
+      title = "nvim-colo",
+    }
+  )
+  return
+end
+
 local col = require("colo.api").theme.current()
 
 local theme = {
@@ -253,14 +270,15 @@ component.scroll_bar = {
     local line_ratio = vim.api.nvim_win_get_cursor(0)[1] / vim.api.nvim_buf_line_count(0)
     local position = math.floor(line_ratio * 100)
 
+    local label
     if position <= 5 then
-      position = " TOP"
+      label = " TOP"
     elseif position >= 95 then
-      position = " BOT"
+      label = " BOT"
     else
-      position = chars[math.floor(line_ratio * #chars)] .. position
+      label = chars[math.floor(line_ratio * #chars)] .. position
     end
-    return position
+    return label
   end,
   hl = function()
     local position = math.floor(vim.api.nvim_win_get_cursor(0)[1] / vim.api.nvim_buf_line_count(0) * 100)

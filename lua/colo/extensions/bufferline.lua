@@ -1,131 +1,22 @@
-local bufferline = require("bufferline")
-local col = require("colo.api").theme.current()
+---@module "colo.groups.extensions.bufferline"
+---@author dharmx
+---@license GPL-3.0
 
-local highlights = {
-  fill = {
-    fg = col.black:lighten(10):brighten(5):hex(true),
-    bg = col.black:hex(true),
-  },
-  background = {
-    fg = col.black:lighten(10):hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  tab = {
-    fg = col.black:lighten(10):hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  tab_separator = {
-    fg = col.black:lighten(2):hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  tab_separator_selected = {
-    fg = col.black:hex(true),
-  },
-  tab_selected = {
-    fg = col.blue:hex(true),
-    bg = col.black:hex(true),
-    bold = true,
-  },
-  tab_close = {
-    fg = col.red:hex(true),
-    bg = col.black:hex(true),
-  },
-  close_button = {
-    fg = col.red:hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  close_button_visible = {
-    fg = col.red:hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  close_button_selected = {
-    fg = col.black:hex(true),
-    bg = col.blue:hex(true),
-  },
-  buffer = {
-    fg = col.black:lighten(2):hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  buffer_visible = {
-    fg = col.blue:hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  buffer_selected = {
-    fg = col.black:hex(true),
-    bg = col.blue:hex(true),
-    bold = true,
-    italic = false,
-  },
-  modified = {
-    fg = col.green:hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  modified_visible = {
-    fg = col.green:hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  modified_selected = {
-    fg = col.black:hex(true),
-    bg = col.blue:hex(true),
-  },
-  duplicate_selected = {
-    fg = col.black:lighten(10):hex(true),
-    bg = col.black:lighten(2):hex(true),
-    italic = false,
-  },
-  duplicate_visible = {
-    fg = col.black:lighten(10):hex(true),
-    bg = col.black:lighten(2):hex(true),
-    italic = false,
-  },
-  duplicate = {
-    fg = col.black:lighten(10):hex(true),
-    bg = col.black:lighten(2):hex(true),
-    italic = false,
-  },
-  pick_selected = {
-    fg = col.green:lighten(10):hex(true),
-    bg = col.blue:hex(true),
-    bold = true,
-    italic = false,
-  },
-  pick_visible = {
-    bg = col.black:lighten(2):hex(true),
-    fg = col.bright_yellow:hex(true),
-    bold = true,
-    italic = false,
-  },
-  pick = {
-    fg = col.magenta:spin(0.1):hex(true),
-    bg = col.black:lighten(2):hex(true),
-    bold = true,
-    italic = false,
-  },
-  separator = {
-    fg = col.black:lighten(2):hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  indicator_visible = {
-    fg = col.black:lighten(2):hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  indicator_selected = {
-    bg = col.blue:hex(true),
-    fg = col.blue:hex(true),
-  },
-  separator_visible = {
-    fg = col.black:lighten(2):hex(true),
-    bg = col.black:lighten(2):hex(true),
-  },
-  separator_selected = {
-    bg = col.blue:hex(true),
-    fg = col.blue:hex(true),
-  },
-  offset_separator = {
-    fg = col.blue:hex(true),
-    bg = col.blue:hex(true),
-  },
-}
+local present, bufferline = pcall(require, "bufferline")
+
+if not present then
+  vim.notify_once(
+    "The option config.extensions.bufferline.enable is set to true, which requires bufferline.nvim.",
+    vim.log.levels.WARN,
+    {
+      icon = "!",
+      title = "nvim-colo",
+    }
+  )
+  return
+end
+
+local col = require("colo.api").theme.current()
 
 local offsets = {
   {
@@ -151,7 +42,6 @@ local offsets = {
 }
 
 bufferline.setup({
-  highlights = highlights,
   options = {
     offsets = offsets,
     mode = "buffers",

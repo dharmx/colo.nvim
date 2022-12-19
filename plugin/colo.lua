@@ -1,5 +1,8 @@
-if vim.fn.has("nvim-0.8.0") ~= 1 then
-  vim.api.nvim_err_writeln("nvim-colo requires at least nvim-0.8.0.")
+if vim.version().minor < 8 then
+  vim.api.nvim_notify("nvim-colo requires at least nvim-0.8.0.", vim.log.levels.ERROR, {
+    icon = "!",
+    title = "nvim-colo",
+  })
   return
 end
 
@@ -34,7 +37,28 @@ end, {
   desc = "Theme switching command.",
   nargs = "?",
   complete = function()
-    return require("colo.api").theme.list({ all = true })
+    return require("colo.api").theme.list({
+      operation = "all",
+      map_callback = require("colo.util").canned.filenamermx,
+    })
+  end,
+})
+
+cmd("ColoInvert", function(...)
+  local colo_api = require("colo.api")
+  local args = (...).fargs
+  if #args ~= 0 then
+    colo_api.theme.set(args[1])
+  end
+  colo_api.theme.invert()
+end, {
+  desc = "Invert a theme.",
+  nargs = "?",
+  complete = function()
+    return require("colo.api").theme.list({
+      operation = "all",
+      map_callback = require("colo.util").canned.filenamermx,
+    })
   end,
 })
 
@@ -97,7 +121,13 @@ end, {
 })
 
 cmd("ColoLoadExtension", function(...)
-  require("colo.api").extension.load(require("colo").config.extensions, (...).fargs)
+  local args = (...).fargs
+  local colo_api = require("colo.api")
+  if #args == 0 then
+    colo_api.extension.load(require("colo").config.extensions, colo_api.extension.list())
+    return
+  end
+  colo_api.extension.load(require("colo").config.extensions, (...).fargs)
 end, {
   desc = "Enable/Reload plugin extension.",
   nargs = "*",
@@ -110,6 +140,27 @@ cmd("ColoTele", function()
   require("telescope").extensions.colo.colo()
 end, {
   desc = "Theme picker.",
+  nargs = 0,
+})
+
+cmd("ColoPresetItalicComments", function()
+  require("colo.presets").enable_italic_comments()
+end, {
+  desc = "Enable italic comments.",
+  nargs = 0,
+})
+
+cmd("ColoPresetContrast", function()
+  require("colo.presets").enable_contrast()
+end, {
+  desc = "Enable contrast.",
+  nargs = 0,
+})
+
+cmd("ColoPresetDottedSpell", function()
+  require("colo.presets").enable_dotted_spell()
+end, {
+  desc = "Use dotted underlines instead for spellcheck.",
   nargs = 0,
 })
 

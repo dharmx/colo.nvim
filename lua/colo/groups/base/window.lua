@@ -1,6 +1,14 @@
-hl.link("WinSeparator", "VertSplit")
-hl.foreground("Title", col.black:brighten(4):lighten(20), { deco.B })
-hl.foreground("VertSplit", col.bright_black)
-hl.foreground("MsgSeparator", col.magenta)
+---@module "colo.groups.base.window"
+---@author dharmx
+---@license GPL-3.0
+
+local col = require("colo.api").theme.current()
+
+return {
+  VertSplit = { foreground = col.bright_black },
+  WinSeparator = { link = "VertSplit" },
+  Title = { foreground = col.black:brighten(4):lighten(20) },
+  MsgSeparator = { foreground = col.magenta },
+}
 
 ---vim:filetype=lua

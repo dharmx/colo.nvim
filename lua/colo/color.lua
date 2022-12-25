@@ -168,6 +168,39 @@ local named_colors = {
   yellowgreen = "9ACD32",
 }
 
+---Limit percentage overflow
+---@param current number current percentage value
+---@param amount number increase current percentage by
+---@param operation string
+local function limit(current, amount, operation)
+  if operation == "i" then
+    return (current + amount) > 100 and 100 or current + amount
+  elseif operation == "d" then
+    return (current - amount) < 0 and 0 or current - amount
+  end
+  error("operation should be either i or, d", vim.log.levels.ERROR)
+end
+
+---See if a number is in range of given limits
+---@param number number | string the value that needs to be checked
+---@param finish number ending range
+---@return number | string
+local function in_range(number, finish)
+  assert(number, "number should not be nil")
+  local temp = number
+
+  if type(number) == "string" and number:find("%.") and tonumber(number) == 1 then
+    number = tonumber(number) * 100 .. "%"
+  end
+
+  if type(number) == "string" and number:find("%%") then
+    temp = (tonumber(number:sub(1, #number - 1)) * finish) / 100
+  end
+
+  assert(temp >= 0 and temp <= finish, "number should be between 0-255/0-1/0-100")
+  return temp
+end
+
 ---Color class constructor
 ---@param col table field table
 ---@return Color
@@ -183,11 +216,11 @@ function Color:new(col)
     col = Color.HSL2RGB(col.hue, col.saturation, col.luminance)
   else
     ---@diagnostic disable-next-line: param-type-mismatch
-    col.red = math.floor(util.in_range(col.red, 255))
+    col.red = math.floor(in_range(col.red, 255))
     ---@diagnostic disable-next-line: param-type-mismatch
-    col.green = math.floor(util.in_range(col.green, 255))
+    col.green = math.floor(in_range(col.green, 255))
     ---@diagnostic disable-next-line: param-type-mismatch
-    col.blue = math.floor(util.in_range(col.blue, 255))
+    col.blue = math.floor(in_range(col.blue, 255))
   end
 
   self.__index = self
@@ -198,6 +231,7 @@ end
 ---@return string | nil
 function Color:named()
   for name, color in pairs(named_colors) do
+    ---@diagnostic disable-next-line: undefined-field
     if color == self:hex():upper() then
       return name
     end
@@ -237,7 +271,7 @@ end
 ---@param prefix boolean? prepend # if true
 ---@return string
 function Color:hex(prefix)
-  prefix = prefix and "#" or ""
+  local prefix_sym = prefix and "#" or ""
   local function callback(item)
     return item:len() == 1 and item:rep(2) or item
   end
@@ -246,7 +280,7 @@ function Color:hex(prefix)
     string.format("%02X", self.green),
     string.format("%02X", self.blue),
   })
-  return prefix .. table.concat(hex_tbl)
+  return prefix_sym .. table.concat(hex_tbl)
 end
 
 ---Convert RGB color format to HSL
@@ -296,7 +330,7 @@ end
 function Color:increase_red(amount)
   local color = self:percentage(true)
   return Color:new({
-    red = util.limit(color.red, amount, util.operations.I) .. "%",
+    red = limit(color.red, amount, "i") .. "%",
     green = color.green .. "%",
     blue = color.blue .. "%",
   })
@@ -309,7 +343,7 @@ function Color:increase_green(amount)
   local color = self:percentage(true)
   return Color:new({
     red = color.red .. "%",
-    green = util.limit(color.green, amount, util.operations.I) .. "%",
+    green = limit(color.green, amount, "i") .. "%",
     blue = color.blue .. "%",
   })
 end
@@ -322,7 +356,7 @@ function Color:increase_blue(amount)
   return Color:new({
     red = color.red .. "%",
     green = color.green .. "%",
-    blue = util.limit(color.blue, amount, util.operations.I) .. "%",
+    blue = limit(color.blue, amount, "i") .. "%",
   })
 end
 
@@ -332,7 +366,7 @@ end
 function Color:decrease_red(amount)
   local color = self:percentage(true)
   return Color:new({
-    red = util.limit(color.red, amount, util.operations.D) .. "%",
+    red = limit(color.red, amount, "d") .. "%",
     green = color.green .. "%",
     blue = color.blue .. "%",
   })
@@ -345,7 +379,7 @@ function Color:decrease_green(amount)
   local color = self:percentage(true)
   return Color:new({
     red = color.red .. "%",
-    green = util.limit(color.green, amount, util.operations.D) .. "%",
+    green = limit(color.green, amount, "d") .. "%",
     blue = color.blue .. "%",
   })
 end
@@ -358,7 +392,7 @@ function Color:decrease_blue(amount)
   return Color:new({
     red = color.red .. "%",
     green = color.green .. "%",
-    blue = util.limit(color.blue, amount, util.operations.D) .. "%",
+    blue = limit(color.blue, amount, "d") .. "%",
   })
 end
 
@@ -413,6 +447,29 @@ function Color:darken(amount)
     green = RGB.green,
     blue = RGB.blue,
   })
+end
+
+---Alter an attribute by regulating its percentage.
+---@param attribute number
+---@param percent number
+---@return number
+local function alter(attribute, percent)
+  return math.floor(attribute * (100 + percent) / 100)
+end
+
+---Shade a color.
+---@param amount number
+---@return Color
+function Color:shade(amount)
+  amount = amount == 0 and 0 or (amount or 5)
+  self.red = alter(self.red, amount)
+  self.green = alter(self.green, amount)
+  self.blue = alter(self.blue, amount)
+
+  self.red = math.min(self.red, 255)
+  self.green = math.min(self.green, 255)
+  self.blue = math.min(self.blue, 255)
+  return self
 end
 
 ---Saturate a color
@@ -572,6 +629,7 @@ end
 ---@return table
 local function validateWCAG2Parms(parms)
   parms = parms or { level = "AA", size = "small" }
+  ---@diagnostic disable-next-line: undefined-field
   local level = (parms.level or "AA"):upper()
   local size = (parms.size or "small"):lower()
 
@@ -616,6 +674,13 @@ function Color:mix(col, amount)
     green = ((col.green - self.green) * value) + self.green,
     blue = ((col.blue - self.blue) * value) + self.blue,
   })
+end
+
+---Invert a color.
+---@return Color
+function Color:invert()
+  ---@diagnostic disable-next-line: return-type-mismatch
+  return Color:new({ name = "white" }) - self
 end
 
 ---@todo
@@ -745,7 +810,7 @@ end
 ---@param other Color
 ---@return string
 Color.__tostring = function(self, other)
-  return vim.inspect(self:hex(true))
+  return self:hex(true)
 end
 
 ---Compare RGB values to see if they are equal
@@ -753,6 +818,7 @@ end
 ---@param other Color
 ---@return boolean
 Color.__eq = function(self, other)
+  ---@diagnostic disable-next-line: return-type-mismatch
   return self.red == other.red and self.green == other.green and self.blue == other.blue
 end
 
@@ -777,7 +843,10 @@ end
 ---@param other Color
 ---@return Color
 Color.__add = function(self, other)
-  return Color:new({ red = self.red + other.red, green = self.green + other.green, blue = self.blue + other.blue })
+  self.red = self.red + other.red
+  self.green = self.green + other.green
+  self.blue = self.blue + other.blue
+  return self
 end
 
 ---Add self RGB value and other RGB values
@@ -785,7 +854,10 @@ end
 ---@param other Color
 ---@return Color
 Color.__sub = function(self, other)
-  return Color:new({ red = self.red - other.red, green = self.green - other.green, blue = self.blue - other.blue })
+  self.red = self.red - other.red
+  self.green = self.green - other.green
+  self.blue = self.blue - other.blue
+  return self
 end
 
 return Color

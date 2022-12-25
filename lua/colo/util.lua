@@ -4,136 +4,30 @@
 
 local M = {}
 
----@module "plenary.functional"
-local F = require("plenary.functional")
----@module "plenary.path"
-local Path = require("plenary.path")
+local api = vim.api
+local fn = vim.fn
+
 ---@module "plenary.scandir"
-local dir = require("plenary.scandir")
----@module "plenary.tbl"
-local tbl = require("plenary.tbl")
+local scandir = require("plenary.scandir")
 
----Get base16 colors from Xresources - depends on xrdb
----@return table | nil
-function M.get_xresources()
-  local xrdb_exists = F.any(function(_, path)
-    return Path:new(path .. "/xrdb"):exists()
-  end, {
-    "/bin",
-    "/usr/bin",
-    "/usr/sbin",
-    "/usr/local/bin",
-    "/usr/local/sbin",
-  })
+---Table utils.
+M.tbl = {}
 
-  if not xrdb_exists then
-    vim.api.nvim_notify("xorg-xrdb needs to be installed", vim.log.levels.ERROR, {})
-    return
+---Remove boolean keys from a table.
+---@param options table<boolean|any, any>
+---@return table
+function M.tbl.rm_bool(options)
+  if options then
+    options[true] = nil
+    options[false] = nil
   end
-
-  local xrdb_query = vim.split(vim.api.nvim_exec("!xrdb -query", true):sub(17, 390), "\n", {
-    plain = false,
-    trimempty = true,
-  })
-
-  local xcolors = {}
-  for _, xcol in ipairs(xrdb_query) do
-    local xcol_spl = vim.split(xcol, ":\t", {
-      plain = false,
-      trimempty = true,
-    })
-
-    local key = xcol_spl[1]
-    local key_sub = key:sub(8)
-    if #key_sub == 1 then
-      xcolors["base0" .. key_sub] = xcol_spl[2]:upper()
-    elseif #key_sub == 2 then
-      xcolors["base" .. key_sub] = xcol_spl[2]:upper()
-    end
-  end
-
-  xcolors["base00"] = vim
-    .split(xrdb_query[1], ":\t", {
-      plain = false,
-      trimempty = true,
-    })[2]
-    :upper()
-
-  return xcolors
-end
-
----See if a number is in range of given limits
----@param number number | string the value that needs to be checked
----@param finish number ending range
----@return number | nil | string
-function M.in_range(number, finish)
-  assert(number, "number should not be nil")
-  local temp = number
-
-  if type(number) == "string" and number:find("%.") and tonumber(number) == 1 then
-    number = tonumber(number) * 100 .. "%"
-  end
-
-  if type(number) == "string" and number:find("%%") then
-    temp = (tonumber(number:sub(1, #number - 1)) * finish) / 100
-  end
-
-  assert(temp >= 0 and temp <= finish, "number should be between 0-255/0-1/0-100")
-  return temp
-end
-
----Types of operations
----@enum operations
-M.operations = {
-  ---Increase operation shorthand
-  I = 1,
-  ---Decrease operation shorthand
-  D = 2,
-  ---Increase operation
-  INCREASE = 1,
-  ---Decrease operation
-  DECREASE = 2,
-}
-
----Limit percentage overflow
----@param current number current percentage value
----@param amount number increase current percentage by
----@param operation operations
-function M.limit(current, amount, operation)
-  if operation == M.operations.INCREASE then
-    return (current + amount) > 100 and 100 or current + amount
-  elseif operation == M.operations.DECREASE then
-    return (current - amount) < 0 and 0 or current - amount
-  end
-  error("operation should be either I or, D", vim.log.levels.ERROR)
-end
-
----Bound a number
----@param number number | string
----@param finish number
----@return number
-function M.bound(number, finish)
-  if type(number) == "string" and number:find("%.") and tonumber(number) == 1 then
-    number = "100%"
-  end
-
-  local percent = type(number) == "string" and number:find("%%")
-  number = math.min(finish, math.max(0, tonumber(number)))
-  if percent then
-    ---@diagnostic disable-next-line: param-type-mismatch
-    number = tonumber(number * finish, 10) / 100
-  end
-
-  if math.abs(number - finish) < 0.000001 then
-    return 1
-  end
-  return (number % finish) / tonumber(finish)
+  return options
 end
 
 ---Sum of an array
 ---@param array table<number>
 ---@return number
-function M.tbl_sum(array)
+function M.tbl.sum(array)
   local sum = 0
   for _, value in pairs(array) do
     sum = sum + value
@@ -141,111 +35,113 @@ function M.tbl_sum(array)
   return sum
 end
 
----Scan datapath/site for nvim-colo. We need do this to get make it compatible for all plugin managers.
+---Helper for transforming indexed decoration options into key-value pairs.
+---@param options table<number|string, string|number|boolean>
+---@return table<number|string, string|number|boolean>
+function M.tbl.transform_options(options)
+  for index, value in ipairs(options) do
+    options[index] = nil
+    options[value] = true
+  end
+  return options
+end
+
+---String utils.
+M.str = {}
+
+---Uppercases the initial charater of words.
+---@param item string
 ---@return string
-function M.plugin_path()
-  return dir.scan_dir(vim.fn.stdpath("data") .. "/site", {
-    hidden = false,
-    add_dirs = true,
-    search_pattern = "nvim%-colo$",
+function M.str.capitalize(item)
+  return (item:gsub("%a", string.upper, 1))
+end
+
+---Remove all leading whitespace characters.
+---@param item string
+---@return string
+function M.str.trim_left(item)
+  return (item:gsub("^%s*", ""))
+end
+
+---Remove all trailing whitespace characters.
+---@param item string
+---@return string
+function M.str.trim_right(item)
+  local len = #item
+  while len > 0 and item:find("^%s", len) do
+    len = len - 1
+  end
+  return item:sub(1, len)
+end
+
+---Plugin utils.
+M.plugin = {}
+
+---Returns the path where the plugin directory is at.
+---@return string
+function M.plugin.path()
+  local runtime_paths = api.nvim_list_runtime_paths()
+  for index, path in ipairs(runtime_paths) do
+    if path:match("nvim%-colo$") then
+      return path
+    end
+  end
+
+  -- use plenary.scan_dir for looking at the plugin installation directory
+  local data_path = fn.stdpath("data") .. "/site/pack"
+  return scandir.scan_dir(data_path, {
+    depth = 3,
+    silent = true,
+    only_dirs = true,
+    search_pattern = "/%w+/nvim%-colo$",
   })[1]
 end
 
----Scan the colo/themes for builtin themes.
+---Scan for both the plugin directory and the user configuration directory.
+---@param fragment string
+---@param options table<string, boolean|function>
+---  options.user      (boolean): add only user paths.
+---  options.on_insert (fun(path: string) -> string): callback that may change the path when detected.
 ---@return table<string>
-function M.list_themes()
-  local scanned_paths = dir.scan_dir(M.plugin_path() .. "/colors", {
-    hidden = false,
-    add_dirs = false,
-  })
-  local themes = {}
-  for _, path in ipairs(scanned_paths) do
-    table.insert(themes, vim.fn.fnamemodify(path, ":t:r"))
+function M.plugin.scan(fragment, options)
+  options = vim.F.if_nil(options, {})
+  fragment = vim.F.if_nil(fragment, "")
+  if fragment:sub(1, 1) ~= "/" then
+    fragment = "/" .. fragment
   end
-  return themes
+
+  local scan_path
+  if options.user then
+    options.user = nil
+    scan_path = vim.fn.stdpath("config")
+  else
+    scan_path = M.plugin.path()
+  end
+  local results = scandir.scan_dir(("%s/lua/colo%s"):format(scan_path, fragment), options)
+
+  if #results > 0 and options.on_insert then
+    for index, path in ipairs(results) do
+      results[index] = options.on_insert(path)
+    end
+  end
+  return results
 end
 
----Helper utility for adding a dashboard item
----
----Example: Add a button to open telescope live_grep builtin
----<pre>
----generate_button(function()
----require("telescope.builtin").live_grep()
----end, {
----  width = 25,
----  cursor = 15,
----  align = "center",
----  spacing = 2,
----  shortcut = {
----    value = " T ",
----    align = "right",
----    hl = "AlphaKeyPrefix",
----    lead = " ",
----    trail = " ",
----  },
----  label = {
----    value = "Grep",
----    hl = "MoreMsg",
----  },
----  icon = {
----    value = " ",
----    hl = "MsgSeparator",
----  },
----})
----</pre>
----
----@param callback function callback to run when the button is pressed
----@param metadata table configures button function, layout and contents
----                      + icon.value
----                      + icon.hl
----                      + label.value
----                      + label.hl
----                      + shortcut.value
----                      + shortcut.hl
----                      + shortcut.align
----                      + shortcut.before
----                      + shortcut.after
----                      + cursor
----                      + width
----                      + align
----                      + spacing
----@return table
-function M.generate_button(callback, metadata)
-  local setting = {
-    type = "button",
-    on_press = callback,
-    val = ("%s%s%s"):format(metadata.icon.value, (" "):rep(metadata.spacing or 2), metadata.label.value),
-    opts = {
-      position = metadata.align or "center", ---left | right | center
-      shortcut = metadata.shortcut.value,
-      cursor = metadata.cursor or 5,
-      width = metadata.width or 25,
-      align_shortcut = metadata.shortcut.align or "right", ---right | left
-      hl_shortcut = metadata.shortcut.hl,
-      hl = {},
-    },
-  }
+---Utilities that are mainly used as callbacks.
+M.canned = {}
 
-  if metadata.shortcut.before then
-    setting.opts.shortcut = metadata.shortcut.before .. setting.opts.shortcut
-  else
-    setting.opts.shortcut = " " .. setting.opts.shortcut
-  end
+---Canned function to remove the /../../plugin_path/lua part from /../../plugin_path/lua/colo/groups/base/prompts.lua
+---@param path string
+---@return string
+function M.canned.to_module_path(path)
+  return fn.fnamemodify(path, (":s?%s??:r"):format(M.plugin.path() .. "/lua")):gsub("/", "."):sub(2)
+end
 
-  if metadata.shortcut.after then
-    setting.opts.shortcut = setting.opts.shortcut .. metadata.shortcut.after
-  else
-    setting.opts.shortcut = setting.opts.shortcut .. " "
-  end
-
-  local icon_length = metadata.icon.value:len()
-  local label_length = metadata.label.value:len()
-  setting.opts.hl = {
-    { metadata.icon.hl, 1, icon_length },
-    { metadata.label.hl, icon_length + metadata.spacing, icon_length + (metadata.spacing or 2) + label_length },
-  }
-
-  return setting
+---Remove just the extension from the path. See |filename-modifiers| and |fnamemodify()|.
+---@param path string
+---@return string
+function M.canned.filenamermx(path)
+  return fn.fnamemodify(path, ":r")
 end
 
 return M

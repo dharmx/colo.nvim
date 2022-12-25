@@ -1,6 +1,14 @@
-hl.short_set("WildMenu", col.blue, col.black)
-hl.short_set("Substitute", col.bright_magenta, col.black)
-hl.short_set("Search", col.yellow, col.black)
-hl.short_set("IncSearch", col.cyan, col.black)
+---@module "colo.groups.base.prompt"
+---@author dharmx
+---@license GPL-3.0
+
+local col = require("colo.api").theme.current()
+
+return {
+  WildMenu = { background = col.blue, foreground = col.black },
+  Substitute = { background = col.bright_magenta, foreground = col.black },
+  Search = { background = col.yellow, foreground = col.black },
+  IncSearch = { background = col.cyan, foreground = col.black },
+}
 
 ---vim:filetype=lua

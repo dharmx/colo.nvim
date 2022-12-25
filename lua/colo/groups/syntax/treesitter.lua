@@ -1,57 +1,63 @@
-hl.set("TSStrong", { deco.B })
-hl.set("TSEmphasis", { deco.I })
-hl.set("TSUnderline", { deco.ULN })
-hl.set("TSStrike", { deco.ST })
-hl.link("@text.uri", "TSURI")
-hl.link("@property", "TSProperty")
-hl.link("TSBoolean", "Boolean")
-hl.link("TSCharacter", "Character")
-hl.link("TSConditional", "Conditional")
-hl.link("TSConstant", "Constant")
-hl.link("TSConstMacro", "Macro")
-hl.link("TSError", "Error")
-hl.link("TSException", "Exception")
-hl.link("TSFloat", "Float")
-hl.link("TSInclude", "Include")
-hl.link("TSKeyword", "Keyword")
-hl.link("TSRepeat", "Repeat")
-hl.link("TSString", "String")
-hl.link("TSTag", "Tag")
-hl.link("TSLabel", "Label")
-hl.link("TSComment", "Comment")
-hl.link("TSFunction", "Function")
-hl.link("TSNumber", "Number")
-hl.link("TSOperator", "Operator")
-hl.link("TSType", "Type")
-hl.foreground("TSConstructor", col.bright_blue)
-hl.foreground("TSAnnotation", col.yellow)
-hl.foreground("TSAttribute", col.blue)
-hl.foreground("TSConstBuiltin", col.yellow:darken(5))
-hl.foreground("TSField", col.yellow:increase_red(5))
-hl.foreground("TSFuncBuiltin", col.bright_magenta, { deco.B })
-hl.foreground("TSFuncMacro", col.red:increase_red(4):lighten(3))
-hl.foreground("TSLiteral", col.green:decrease_green(5):darken(2))
-hl.foreground("TSTypeBuiltin", col.bright_green:darken(2))
-hl.foreground("TSVariable", col.green:increase_red(2):increase_green(2))
-hl.foreground("TSText", col.white)
-hl.foreground("TSURI", col.bright_red, { deco.ULN })
-hl.foreground("TSProperty", col.green:increase_green(5):decrease_blue(1))
-hl.foreground("TSKeywordFunction", col.blue:darken(5))
-hl.foreground("TSSymbol", col.cyan, { deco.B })
-hl.foreground("TSKeywordOperator", col.cyan:darken(3))
-hl.foreground("TSMethod", col.magenta:brighten(2):spin(10))
-hl.foreground("TSNamespace", col.bright_blue:desaturate(1.5))
-hl.foreground("TSParameter", col.yellow:increase_red(6))
-hl.foreground("TSParameterReference", col.bright_cyan)
-hl.foreground("TSPunctDelimiter", col.bright_yellow:darken(3))
-hl.foreground("TSPunctBracket", col.red:brighten(4))
-hl.foreground("TSPunctSpecial", col.bright_red:lighten(6))
-hl.foreground("TSStringRegex", col.yellow:increase_red(20))
-hl.foreground("TSStringEscape", col.yellow)
-hl.foreground("TSTagDelimiter", col.bright_blue)
-hl.foreground("TSTitle", col.bright_red:darken(2))
-hl.foreground("TSVariableBuiltin", col.yellow)
-hl.background("TSCurrentScope", col.black, { deco.I })
-hl.background("TreesitterContext", col.black:brighten(0.5):lighten(2))
+---@module "colo.groups.syntax.treesitter"
+---@author dharmx
+---@license GPL-3.0
+
+local col = require("colo.api").theme.current()
+
+return {
+  TreesitterContext = { background = col.black:brighten(0.5):lighten(2) },
+  ["@boolean"] = { link = "Boolean" },
+  ["@character"] = { link = "Character" },
+  ["@character.special"] = {},
+  ["@comment"] = { link = "Comment" },
+  ["@conditional"] = { link = "Conditional" },
+  ["@constant"] = { link = "Constant" },
+  ["@constant.builtin"] = { foreground = col.yellow:darken(5) },
+  ["@constant.macro"] = { foreground = col.red:decrease_red(8) },
+  ["@constructor"] = { foreground = col.bright_blue },
+  ["@exception"] = { link = "Exception" },
+  ["@field"] = { foreground = col.bright_green },
+  ["@float"] = { link = "Float" },
+  ["@function"] = { link = "Function" },
+  ["@function.builtin"] = { foreground = col.bright_green },
+  ["@function.macro"] = { foreground = col.red:increase_red(5) },
+  ["@include"] = { link = "Include" },
+  ["@keyword"] = { link = "Keyword" },
+  ["@keyword.return"] = { link = "Keyword" },
+  ["@keyword.operator"] = { foreground = col.cyan },
+  ["@keyword.function"] = { foreground = col.bright_red },
+  ["@label"] = { link = "Label" },
+  ["@macro"] = { link = "Macro" },
+  ["@method"] = { foreground = col.bright_magenta },
+  ["@namespace"] = { foreground = col.bright_blue:desaturate(1.5) },
+  ["@number"] = { link = "Number" },
+  ["@operator"] = { link = "Operator" },
+  ["@parameter"] = { foreground = col.yellow:increase_red(6) },
+  ["@preproc"] = { link = "PreProc" },
+  ["@property"] = { foreground = col.bright_cyan },
+  ["@punctuation.delimiter"] = { link = "Delimeter" },
+  ["@punctuation.bracket"] = { foreground = col.red:brighten(5) },
+  ["@punctuation"] = { link = "Delimeter" },
+  ["@repeat"] = { link = "Repeat" },
+  ["@storageclass"] = { link = "StorageClass" },
+  ["@string"] = { link = "String" },
+  ["@string.escape"] = { foreground = col.yellow:decrease_red(10) },
+  ["@string.regex"] = { foreground = col.yellow:increase_red(10):decrease_blue(5) },
+  ["@string.special"] = { foreground = col.bright_yellow },
+  ["@structure"] = { link = "Structure" },
+  ["@tag"] = { link = "Tag" },
+  ["@text"] = { foreground = col.white },
+  ["@text.literal"] = { foreground = col.green:decrease_green(5) },
+  ["@text.reference"] = { foreground = col.blue },
+  ["@text.title"] = { foreground = col.bright_red:darken(2) },
+  ["@text.todo"] = { foreground = col.yellow },
+  ["@text.uri"] = { foreground = col.bright_red },
+  ["@type"] = { link = "Type" },
+  ["@variable"] = { foreground = col.white },
+  ["@type.definition"] = { link = "Typedef" },
+  ["@text.underline"] = { link = "Underlined" },
+  ["@debug"] = { foreground = col.blue:decrease_blue(10) },
+  ["@define"] = { link = "Define" },
+}
 
 ---vim:filetype=lua

@@ -1,38 +1,46 @@
-hl.foreground("Boolean", col.bright_magenta)
-hl.foreground("Character", col.green:lighten(5))
-hl.foreground("Comment", col.bright_black:brighten(5):lighten(20))
-hl.foreground("SpecialComment", col.yellow:increase_red(3):darken(3))
-hl.foreground("Conceal", col.bright_black:lighten(2))
-hl.foreground("Conditional", col.red)
-hl.foreground("Constant", col.red:increase_red(3):darken(2))
-hl.foreground("Decorator", col.yellow)
-hl.foreground("Define", col.magenta)
-hl.foreground("Delimeter", col.blue)
-hl.foreground("Exception", col.bright_green)
-hl.foreground("Float", col.magenta:increase_blue(20):desaturate(25):spin(0.1))
-hl.foreground("Function", col.magenta:darken(2))
-hl.foreground("Identifier", col.bright_green)
-hl.foreground("Include", col.blue:darken(4):increase_blue(2))
-hl.foreground("Keyword", col.blue:increase_green(5):darken(5):increase_blue(15))
-hl.foreground("Label", col.red)
-hl.foreground("Number", col.bright_cyan)
-hl.foreground("Operator", col.cyan)
-hl.foreground("PreProc", col.red:darken(3):increase_red(1))
-hl.foreground("Repeat", col.bright_magenta)
-hl.foreground("Special", col.bright_red)
-hl.foreground("SpecialChar", col.magenta)
-hl.foreground("SpecialKey", col.yellow, { deco.B })
-hl.foreground("Statement", col.red)
-hl.foreground("StorageClass", col.red:darken(5))
-hl.foreground("String", col.green)
-hl.foreground("Structure", col.bright_blue)
-hl.foreground("Tag", col.blue)
-hl.foreground("Todo", col.yellow)
-hl.foreground("Type", col.red)
-hl.foreground("Typedef", col.magenta)
-hl.foreground("Macro", col.red:lighten(5))
-hl.foreground("Exception", col.yellow:darken(2))
-hl.foreground("NonText", col.bright_black:lighten(5))
-hl.background("MatchParen", col.black:lighten(8), { deco.B })
+---@module "colo.groups.syntax.regular"
+---@author dharmx
+---@license GPL-3.0
+
+local col = require("colo.api").theme.current()
+
+return {
+  Whitespace = { foreground = col.black:lighten(4):brighten(2) },
+  Boolean = { foreground = col.red },
+  Character = { foreground = col.green:lighten(5) },
+  Comment = { foreground = col.bright_black:brighten(5):lighten(20) },
+  SpecialComment = { foreground = col.yellow:increase_red(3):darken(3) },
+  Conceal = { foreground = col.bright_black:lighten(2) },
+  Conditional = { foreground = col.red },
+  Constant = { foreground = col.red:increase_red(3):darken(2) },
+  Decorator = { foreground = col.yellow },
+  Define = { foreground = col.magenta },
+  Delimeter = { foreground = col.blue },
+  Exception = { foreground = col.bright_green },
+  Float = { foreground = col.magenta:increase_blue(20):desaturate(25):spin(0.1) },
+  Function = { foreground = col.magenta:darken(2) },
+  Identifier = { foreground = col.bright_green },
+  Include = { foreground = col.blue:darken(4):increase_blue(2) },
+  Keyword = { foreground = col.blue:increase_green(5):darken(5):increase_blue(15) },
+  Label = { foreground = col.red },
+  Number = { foreground = col.bright_cyan },
+  Operator = { foreground = col.cyan },
+  PreProc = { foreground = col.red:darken(3):increase_red(1) },
+  Repeat = { foreground = col.bright_magenta },
+  Special = { foreground = col.bright_red },
+  SpecialChar = { foreground = col.magenta },
+  SpecialKey = { foreground = col.yellow },
+  Statement = { foreground = col.red },
+  StorageClass = { foreground = col.red:darken(5) },
+  String = { foreground = col.green },
+  Structure = { foreground = col.bright_blue },
+  Tag = { foreground = col.blue },
+  Todo = { foreground = col.yellow },
+  Type = { foreground = col.red },
+  Typedef = { foreground = col.magenta },
+  Macro = { foreground = col.red:lighten(5) },
+  NonText = { foreground = col.bright_black:lighten(5) },
+  MatchParen = { background = col.black:lighten(8) },
+}
 
 ---vim:filetype=lua

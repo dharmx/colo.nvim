@@ -1,10 +1,18 @@
-hl.link("LspDiagnosticsSignWarn", "DiagnosticSignHint")
-hl.link("LspDiagnosticsSignError", "DiagnosticSignHint")
-hl.link("LspDiagnosticsSignInfo", "DiagnosticSignHint")
-hl.link("LspDiagnosticsSignHint", "DiagnosticSignHint")
-hl.short_set("LspReferenceText", col.black:lighten(3), col.magenta:brighten(3), { deco.B })
-hl.short_set("LspReferenceRead", col.black:lighten(3), col.blue:brighten(3), { deco.B })
-hl.short_set("LspReferenceWrite", col.black:lighten(3), col.magenta:increase_red(10):decrease_blue(5), { deco.B })
-hl.short_set("LspSignatureActiveParameter", col.black:lighten(3), col.cyan:brighten(3), { deco.B })
+---@module "colo.groups.base.lsp"
+---@author dharmx
+---@license GPL-3.0
+
+local col = require("colo.api").theme.current()
+
+return {
+  LspDiagnosticsSignWarn = { foreground = col.red:brighten(5) },
+  LspDiagnosticsSignError = { foreground = col.bright_red },
+  LspDiagnosticsSignInfo = { foreground = col.blue },
+  LspDiagnosticsSignHint = { foreground = col.magenta },
+  LspReferenceText = { background = col.black:lighten(3), foreground = col.magenta:brighten(3) },
+  LspReferenceRead = { background = col.black:lighten(3), foreground = col.blue:brighten(3) },
+  LspReferenceWrite = { background = col.black:lighten(3), foreground = col.magenta:increase_red(10):decrease_blue(5) },
+  LspSignatureActiveParameter = { background = col.black:lighten(3), foreground = col.cyan:brighten(3) },
+}
 
 ---vim:filetype=lua

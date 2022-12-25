@@ -20,7 +20,6 @@ local function load_plugins()
   use("wbthomason/packer.nvim")
   use({
     "dharmx/nvim-colo",
-    branch = "dev",
     requires = {
       "nvim-lua/plenary.nvim",
       "feline-nvim/feline.nvim",

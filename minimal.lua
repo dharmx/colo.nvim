@@ -17,7 +17,8 @@ local function load_plugins()
     },
   })
 
-  use("wbthomason/packer.nvim")
+  use({ "wbthomason/packer.nvim" })
+
   use({
     "dharmx/nvim-colo",
     requires = {
@@ -26,11 +27,11 @@ local function load_plugins()
       "akinsho/bufferline.nvim",
       "lewis6991/gitsigns.nvim",
       "kyazdani42/nvim-web-devicons",
-      "goolord/alpha-nvim",
     },
   })
 
-  packer.sync()
+  packer.install()
+  packer.compile()
 end
 
 local function load_config()
@@ -108,7 +109,7 @@ local function load_config()
         options = {},
       },
       alpha = {
-        enable = true,
+        enable = false,
         module = "colo.extensions.alpha",
         options = {},
       },

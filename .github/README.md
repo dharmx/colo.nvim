@@ -114,11 +114,6 @@ local defaults = {
       module = "colo.extensions.devicons",
       options = {},
     },
-    alpha = {
-      enable = false,
-      module = "colo.extensions.alpha",
-      options = {},
-    },
   },
   ---Add, remove and toggle font styles for some specific highlights.
   aggregates = {

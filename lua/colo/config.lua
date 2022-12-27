@@ -5,6 +5,7 @@
 local M = {}
 
 ---The evergrowing default configuration for nvim-colo.
+---TODO: Allow functions too.
 M.defaults = {
   -- Neovim theme.
   theme = "radium_dark",
@@ -13,7 +14,7 @@ M.defaults = {
   cycle = false,
   ---Skip loading extensions when colo is first loaded i.e. only set the colorscheme.
   manual = false,
-  ---Allow showing a dialog stating facts and information about the theme.
+  ---TODO: Allow showing a dialog stating facts and information about the theme.
   notifications = false,
   ---Set the inverted version of the theme.
   ---WARN: This will not change the source colors itself. It will only change the current highlights.
@@ -21,7 +22,7 @@ M.defaults = {
   ---      would not be inverted.
   inverted = false,
   ---Developer option that prints error and info messages for logging and monitoring.
-  ---@todo
+  ---TODO: Allow functions too.
   logging = vim.log.levels.OFF,
   ---This sets mappings. Note that mappings.items is just a table that passes values through |vim.keymap.set()|
   mappings = {
@@ -67,9 +68,10 @@ M.defaults = {
       transparent = false,
     },
   },
-  ---Do not require the following files from plugin_path .. "/lua/colo/groups/{base,integration,override,syntax}"
+  ---TODO: Do not require the following files from plugin_path .. "/lua/colo/groups/{base,integration,override,syntax}"
   blacklists = {
     enable = false,
+    ---TODO: Allow functions too.
     items = {
       "integration.nui",
       "base.spell",
@@ -78,6 +80,7 @@ M.defaults = {
   ---Extra highlights. These will be sourced after overrides.
   custom_hl = {
     enable = false,
+    ---TODO: Allow functions too.
     items = {
       LspDiagnosticsSignWarn = { link = "DevIconHtm" },
       LspDiagnosticsSignError = { link = "DevIconJava" },

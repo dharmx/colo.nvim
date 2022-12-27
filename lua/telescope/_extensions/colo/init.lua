@@ -32,11 +32,10 @@ local colo_util = require("colo.util")
 local colo = require("colo")
 
 local api = vim.api
-local defaults
+local defaults = require("colo").config.telescope
 
 local function setup(options)
-  options = vim.F.if_nil(options, {})
-  defaults = vim.tbl_deep_extend("force", defaults, options)
+  defaults = vim.tbl_deep_extend("force", defaults, vim.F.if_nil(options, {}))
 end
 
 -- stylua: ignore start
@@ -54,12 +53,12 @@ local function choose_theme(options)
       end)
       return true
     end,
-    previewer = previewers.buffer_previewer_maker({
-      define_preview = function(self, entry)
-        vim.notify(vim.inspect(self))
-        vim.notify(vim.inspect(entry))
-      end,
-    }),
+    -- previewer = previewers.buffer_previewer_maker({
+    --   define_preview = function(self, entry)
+    --     vim.notify(vim.inspect(self))
+    --     vim.notify(vim.inspect(entry))
+    --   end,
+    -- }),
   }):find()
 end
 -- stylua: ignore end

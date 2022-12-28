@@ -25,9 +25,7 @@ function M.setup(options)
     cycle = M.config.cycle,
   }
 
-  pcall(function()
-    vim.cmd.Colo(M.config.theme)
-  end)
+  vim.cmd.Colo(M.config.theme)
 
   ---load the inverted version of the theme instead
   if M.config.inverted then

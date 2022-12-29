@@ -19,9 +19,8 @@ NVIM: v0.8.0
 # PACKER
 
 Following is a very minimal configuration for colo.
-Plenary is the only hard-dependency. You can opt-out installing
-integration plugins if you decide not to use
-colo integrations or, prefer your own configuration instead.
+Plenary is the only hard-dependency. You can opt out installing
+extensions if you decide not to use them or, prefer your own configuration instead.
 
 ```lua
 use({
@@ -47,6 +46,10 @@ use({
 Configuration is done by passing a table to the setup function.
 The following are the default settings.
 
+<details>
+
+<summary>The default configuration.</summary>
+
 ```lua
 local defaults = {
   -- Neovim theme.
@@ -57,16 +60,11 @@ local defaults = {
   cycle = false,
   ---Skip loading extensions when colo is first loaded i.e. only set the colorscheme.
   manual = false,
-  ---Allow showing a dialog stating facts and information about the theme.
-  notifications = false,
   ---Set the inverted version of the theme.
   ---WARN: This will not change the source colors itself. It will only change the
   ---current highlights. So, if one decides to import colors from the theme after
   ---inversion then the imported colors would not be inverted.
   inverted = false,
-  ---Developer option that prints error and info messages for logging and monitoring.
-  ---@todo
-  logging = vim.log.levels.OFF,
   ---This sets mappings. Note that mappings.items is just a table that passes values
   ---through |vim.keymap.set()|
   mappings = {
@@ -136,14 +134,6 @@ local defaults = {
       transparent = false,
     },
   },
-  ---Do not require the following files from plugin_path .. "/lua/colo/groups/{base,integration,override,syntax}"
-  blacklists = {
-    enable = false,
-    items = {
-      "integration.nui",
-      "base.spell",
-    },
-  },
   ---Extra highlights. These will be sourced after overrides.
   custom_hl = {
     enable = false,
@@ -152,16 +142,6 @@ local defaults = {
       LspDiagnosticsSignError = { link = "DevIconJava" },
       LspDiagnosticsSignInfo = { link = "DevIconCobol" },
       LspDiagnosticsSignHint = { link = "DevIconMaterial" },
-    },
-  },
-  ---Sets colorschemes for specific filetypes.
-  filetypes = {
-    enable = false,
-    inital = false,
-    items = {
-      ["*.py"] = "nord_dark",
-      ["*.lua"] = "mountain_dark",
-      ["*.c"] = "oxocarbon_dark",
     },
   },
   ---Special style options.
@@ -195,6 +175,7 @@ local defaults = {
       preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     },
     separator = "┃  ",
+    ---Exclude theme file patterns that you do not want to show in the picker.
     exclude = {
       "^sexy_",
       "^tempus_",
@@ -227,6 +208,8 @@ local defaults = {
 }
 ```
 
+</details>
+
 ### Tips
 
 Extension caches are needed to be cleared. That is why a `extensions.<extension>.module`
@@ -238,7 +221,7 @@ of this. If you want to integrate another plugin then do the following.
 
 ```lua
 ...
-config.integrations.example = {
+config.extensions.example = {
   enable = true,
   module = "my_config.example"
   options = { ... },
@@ -263,3 +246,46 @@ Following are the default commands that come with nvim-colo.
 - Enable dotted underline for spelling `:ColoPresetDottedSpell`.
 - Enable italic comments `:ColoPresetItalicComments`.
 - Add contrasts on Floating windows, sidebars, message pane by `:ColoPresetContrast`.
+
+## GALLERY
+
+Following are some demo videos of this plugin in action.
+
+<details>
+
+<summary>It's good to use your mouse sometimes. Wink.</summary>
+
+### Set a theme
+
+![apply](./apply.gif)
+
+### A telescope picker
+
+![picker](./telescope.gif)
+
+### Cycle themes
+
+![cycle](./cycle.gif)
+
+### Set a random theme
+
+![random](./random.gif)
+
+### Invert colors of a theme
+
+![invert](./invert.gif)
+
+### Add contrasts to floating windows, file explorers, cmdline and pmenu
+
+![contrast](./contrast.gif)
+
+### Make comments italic
+
+![italic](./italic.gif)
+
+</details>
+
+---
+
+<div align="center"><img src="./GPL.png"/></div>
+<p align="center"><samp><strong>This project is licensed under <a href="https://github.com/dharmx/nvim-colo/blob/main/LICENSE">GPL-3.0</a>.</strong></samp></p>

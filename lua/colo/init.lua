@@ -29,9 +29,7 @@ function M.setup(options)
   colo.theme.set(M.config.theme)
 
   ---load the inverted version of the theme instead
-  if M.config.inverted then
-    colo.theme.invert()
-  end
+  if M.config.inverted then colo.theme.invert() end
 
   ---add mappings - these will be passed onto |vim.keymap.set()|
   if M.config.mappings.enable then
@@ -43,9 +41,7 @@ function M.setup(options)
   ---apply aggregates i.e. font styles
   if M.config.aggregates.enable then
     for aggregate, enable in pairs(M.config.aggregates.items) do
-      if enable then
-        colo.aggregate.add(aggregate)
-      end
+      if enable then colo.aggregate.add(aggregate) end
     end
   end
 
@@ -58,18 +54,14 @@ function M.setup(options)
     for filetype, theme in pairs(M.config.filetypes.items) do
       vim.api.nvim_create_autocmd("BufEnter", {
         pattern = filetype,
-        callback = function()
-          colo.theme.set(theme)
-        end,
+        callback = function() colo.theme.set(theme) end,
         group = colo_augroup,
       })
     end
 
     vim.api.nvim_create_autocmd("BufLeave", {
       callback = function()
-        if vim.g.colors_name ~= M.config.theme then
-          colo.theme.set(M.config.theme)
-        end
+        if vim.g.colors_name ~= M.config.theme then colo.theme.set(M.config.theme) end
       end,
       group = colo_augroup,
     })
@@ -86,9 +78,7 @@ function M.setup(options)
   if M.config.presets.enable then
     local presets = require("colo.presets")
     for preset, enable in pairs(M.config.presets.items) do
-      if enable then
-        presets["enable_" .. preset]()
-      end
+      if enable then presets["enable_" .. preset]() end
     end
   end
 end

@@ -108,36 +108,20 @@ function M.enable_contrast()
   for _, value in ipairs(contrast_modules) do
     local fetched = require(value)
     for name, items in pairs(fetched) do
-      if not items.background then
-        items.background = col.black
-      end
-      if type(items.background) == "string" then
-        items.background = Color:new({ hexcode = items.background })
-      end
-      if type(items.foreground) == "string" then
-        items.foreground = Color:new({ hexcode = items.foreground })
-      end
-      if type(items.special) == "string" then
-        items.special = Color:new({ hexcode = items.special })
-      end
+      if not items.background then items.background = col.black end
+      if type(items.background) == "string" then items.background = Color:new({ hexcode = items.background }) end
+      if type(items.foreground) == "string" then items.foreground = Color:new({ hexcode = items.foreground }) end
+      if type(items.special) == "string" then items.special = Color:new({ hexcode = items.special }) end
       modules[name] = items
     end
   end
 
   local overrides = colo_api.group.override({ resolve = true })
   for name, items in pairs(overrides) do
-    if not items.background then
-      items.background = col.black
-    end
-    if type(items.background) == "string" then
-      items.background = Color:new({ hexcode = items.background })
-    end
-    if type(items.foreground) == "string" then
-      items.foreground = Color:new({ hexcode = items.foreground })
-    end
-    if type(items.special) == "string" then
-      items.special = Color:new({ hexcode = items.special })
-    end
+    if not items.background then items.background = col.black end
+    if type(items.background) == "string" then items.background = Color:new({ hexcode = items.background }) end
+    if type(items.foreground) == "string" then items.foreground = Color:new({ hexcode = items.foreground }) end
+    if type(items.special) == "string" then items.special = Color:new({ hexcode = items.special }) end
     overrides[name] = items
   end
   local extended = vim.tbl_extend("force", overrides, modules)

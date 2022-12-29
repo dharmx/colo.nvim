@@ -79,17 +79,13 @@ local modes = setmetatable({
   ["!"] = "SH",
   ["t"] = "T",
 }, {
-  __index = function()
-    return "-"
-  end,
+  __index = function() return "-" end,
 })
 
 local component = {}
 
 component.vim_mode = {
-  provider = function()
-    return modes[vim.api.nvim_get_mode().mode]
-  end,
+  provider = function() return modes[vim.api.nvim_get_mode().mode] end,
   hl = function()
     return {
       fg = "bg",
@@ -178,14 +174,10 @@ component.diagnostic_info = {
 
 component.lsp = {
   provider = function()
-    if not rawget(vim, "lsp") then
-      return ""
-    end
+    if not rawget(vim, "lsp") then return "" end
 
     local progress = vim.lsp.util.get_progress_messages()[1]
-    if vim.o.columns < 120 then
-      return ""
-    end
+    if vim.o.columns < 120 then return "" end
 
     local clients = vim.lsp.get_active_clients({ bufnr = 0 })
     if #clients ~= 0 then

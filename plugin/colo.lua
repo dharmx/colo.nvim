@@ -6,9 +6,7 @@ if vim.version().minor < 8 then
   return
 end
 
-if vim.g.loaded_colo == 1 then
-  return
-end
+if vim.g.loaded_colo == 1 then return end
 vim.g.loaded_colo = 1
 
 local cmd = vim.api.nvim_create_user_command
@@ -47,9 +45,7 @@ end, {
 cmd("ColoInvert", function(...)
   local colo_api = require("colo.api")
   local args = (...).fargs
-  if #args ~= 0 then
-    colo_api.theme.set(args[1])
-  end
+  if #args ~= 0 then colo_api.theme.set(args[1]) end
   colo_api.theme.invert()
 end, {
   desc = "Invert a theme.",
@@ -62,62 +58,42 @@ end, {
   end,
 })
 
-cmd("ColoClean", function()
-  require("colo.api").theme.clean()
-end, {
+cmd("ColoClean", function() require("colo.api").theme.clean() end, {
   desc = "Remove all highlights.",
   nargs = 0,
 })
 
-cmd("ColoRandom", function()
-  require("colo.api").theme.random()
-end, {
+cmd("ColoRandom", function() require("colo.api").cycle.random() end, {
   desc = "Cycle to a random colorscheme.",
   nargs = 0,
 })
 
-cmd("ColoPrevious", function()
-  require("colo.api").cycle.previous()
-end, {
+cmd("ColoPrevious", function() require("colo.api").cycle.previous() end, {
   desc = "Cycle to the previous colorscheme.",
   nargs = 0,
 })
 
-cmd("ColoNext", function()
-  require("colo.api").cycle.next()
-end, {
+cmd("ColoNext", function() require("colo.api").cycle.next() end, {
   desc = "Cycle to the next colorscheme.",
   nargs = 0,
 })
 
-cmd("ColoAdd", function(...)
-  require("colo.api").aggregate.add((...).fargs)
-end, {
+cmd("ColoAdd", function(...) require("colo.api").aggregate.add((...).fargs) end, {
   desc = "Make selected highlights transparent/strong/italicized/undercurled/underlined.",
   nargs = "*",
-  complete = function()
-    return require("colo.api").aggregate.categories
-  end,
+  complete = function() return require("colo.api").aggregate.categories end,
 })
 
-cmd("ColoToggle", function(...)
-  require("colo.api").aggregate.toggle((...).fargs)
-end, {
+cmd("ColoToggle", function(...) require("colo.api").aggregate.toggle((...).fargs) end, {
   desc = "Make selected highlights transparent/strong/italicized/undercurled/underlined if they aren't. Do the opposite otherwise.",
   nargs = "*",
-  complete = function()
-    return require("colo.api").aggregate.categories
-  end,
+  complete = function() return require("colo.api").aggregate.categories end,
 })
 
-cmd("ColoRemove", function(...)
-  require("colo.api").aggregate.remove((...).fargs)
-end, {
+cmd("ColoRemove", function(...) require("colo.api").aggregate.remove((...).fargs) end, {
   desc = "Make selected highlights not transparent/strong/italicized/undercurled/underlined.",
   nargs = "*",
-  complete = function()
-    return require("colo.api").aggregate.categories
-  end,
+  complete = function() return require("colo.api").aggregate.categories end,
 })
 
 cmd("ColoLoadExtension", function(...)
@@ -131,35 +107,25 @@ cmd("ColoLoadExtension", function(...)
 end, {
   desc = "Enable/Reload plugin extension.",
   nargs = "*",
-  complete = function()
-    return require("colo.api").extension.list()
-  end,
+  complete = function() return require("colo.api").extension.list() end,
 })
 
-cmd("ColoTele", function()
-  require("telescope").extensions.colo.colo()
-end, {
+cmd("ColoTele", function() require("telescope").extensions.colo.colo() end, {
   desc = "Theme picker.",
   nargs = 0,
 })
 
-cmd("ColoPresetItalicComments", function()
-  require("colo.presets").enable_italic_comments()
-end, {
+cmd("ColoPresetItalicComments", function() require("colo.presets").enable_italic_comments() end, {
   desc = "Enable italic comments.",
   nargs = 0,
 })
 
-cmd("ColoPresetContrast", function()
-  require("colo.presets").enable_contrast()
-end, {
+cmd("ColoPresetContrast", function() require("colo.presets").enable_contrast() end, {
   desc = "Enable contrast.",
   nargs = 0,
 })
 
-cmd("ColoPresetDottedSpell", function()
-  require("colo.presets").enable_dotted_spell()
-end, {
+cmd("ColoPresetDottedSpell", function() require("colo.presets").enable_dotted_spell() end, {
   desc = "Use dotted underlines instead for spellcheck.",
   nargs = 0,
 })

@@ -1,4 +1,4 @@
----@module "telescope._extensions.colo"
+---@module "telescope._extensions.colo.init"
 ---@author dharmx
 ---@license GPL-3.0
 
@@ -34,9 +34,7 @@ local colo = require("colo")
 local api = vim.api
 local defaults = require("colo").config.telescope
 
-local function setup(options)
-  defaults = vim.tbl_deep_extend("force", defaults, vim.F.if_nil(options, {}))
-end
+local function setup(options) defaults = vim.tbl_deep_extend("force", defaults, vim.F.if_nil(options, {})) end
 
 -- stylua: ignore start
 local function choose_theme(options)

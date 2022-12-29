@@ -232,9 +232,7 @@ end
 function Color:named()
   for name, color in pairs(named_colors) do
     ---@diagnostic disable-next-line: undefined-field
-    if color == self:hex():upper() then
-      return name
-    end
+    if color == self:hex():upper() then return name end
   end
   return nil
 end
@@ -247,9 +245,7 @@ function Color:percentage(number)
     green = (self.green / 255) * 100,
     blue = (self.blue / 255) * 100,
   }
-  if number then
-    return color
-  end
+  if number then return color end
   color.red = color.red .. "%"
   color.green = color.green .. "%"
   color.blue = color.blue .. "%"
@@ -272,9 +268,7 @@ end
 ---@return string
 function Color:hex(prefix)
   local prefix_sym = prefix and "#" or ""
-  local function callback(item)
-    return item:len() == 1 and item:rep(2) or item
-  end
+  local function callback(item) return item:len() == 1 and item:rep(2) or item end
   local hex_tbl = vim.tbl_map(callback, {
     string.format("%02X", self.red),
     string.format("%02X", self.green),
@@ -399,9 +393,7 @@ end
 ---Make any positive value stay within [0-1]
 ---@param value number number that needs to be clamped
 ---@return number
-local function clamp(value)
-  return math.min(1, math.max(0, value))
-end
+local function clamp(value) return math.min(1, math.max(0, value)) end
 
 ---Brighten a color
 ---@param amount number? [0-100] percentage value
@@ -453,9 +445,7 @@ end
 ---@param attribute number
 ---@param percent number
 ---@return number
-local function alter(attribute, percent)
-  return math.floor(attribute * (100 + percent) / 100)
-end
+local function alter(attribute, percent) return math.floor(attribute * (100 + percent) / 100) end
 
 ---Shade a color.
 ---@param amount number
@@ -569,21 +559,15 @@ end
 
 ---Get the brightness of the color
 ---@return number
-function Color:brightness()
-  return (self.red * 299 + self.green * 587 + self.blue * 114) / 1000
-end
+function Color:brightness() return (self.red * 299 + self.green * 587 + self.blue * 114) / 1000 end
 
 ---Check if a color is light
 ---@return boolean
-function Color:light()
-  return not self:dark()
-end
+function Color:light() return not self:dark() end
 
 ---Check if a color is dark
 ---@return boolean
-function Color:dark()
-  return self:brightness() < 128
-end
+function Color:dark() return self:brightness() < 128 end
 
 ---Get the luminance of a color
 ---@return number
@@ -612,9 +596,7 @@ function Color:lumin()
 end
 
 ---Transform a color into greyscale.
-function Color:greyscale()
-  self:desaturate(100)
-end
+function Color:greyscale() self:desaturate(100) end
 
 ---Compute color readability
 ---@param col Color that needs its readability computed
@@ -633,13 +615,9 @@ local function validateWCAG2Parms(parms)
   local level = (parms.level or "AA"):upper()
   local size = (parms.size or "small"):lower()
 
-  if level ~= "AA" and level ~= "AAA" then
-    level = "AA"
-  end
+  if level ~= "AA" and level ~= "AAA" then level = "AA" end
 
-  if size ~= "small" and size ~= "large" then
-    size = "small"
-  end
+  if size ~= "small" and size ~= "large" then size = "small" end
   return { level = level, size = size }
 end
 
@@ -728,9 +706,7 @@ function Color:decrease_contrast(amount) end
 ---@return table
 function Color.HEX2RGB(hex)
   hex = hex:sub(1, 1) == "#" and hex:sub(2) or hex
-  if hex:len() == 3 then
-    hex = hex:sub(1, 1):rep(2) .. hex:sub(2, 2):rep(2) .. hex:sub(3, 3):rep(2)
-  end
+  if hex:len() == 3 then hex = hex:sub(1, 1):rep(2) .. hex:sub(2, 2):rep(2) .. hex:sub(3, 3):rep(2) end
 
   return {
     red = tonumber(hex:sub(1, 2), 16),
@@ -772,21 +748,11 @@ function Color.HSL2RGB(hue, saturation, luminance)
   local RGB = {}
 
   function HUE2RGB(P, Q, T)
-    if T < 0 then
-      T = T + 1
-    end
-    if T > 1 then
-      T = T - 1
-    end
-    if T < 1 / 6 then
-      return P + (Q - P) * 6 * T
-    end
-    if T < 1 / 2 then
-      return Q
-    end
-    if T < 2 / 3 then
-      return P + (Q - P) * (2 / 3 - T) * 6
-    end
+    if T < 0 then T = T + 1 end
+    if T > 1 then T = T - 1 end
+    if T < 1 / 6 then return P + (Q - P) * 6 * T end
+    if T < 1 / 2 then return Q end
+    if T < 2 / 3 then return P + (Q - P) * (2 / 3 - T) * 6 end
     return P
   end
 
@@ -809,9 +775,7 @@ end
 ---@param self Color
 ---@param other Color
 ---@return string
-Color.__tostring = function(self, other)
-  return self:hex(true)
-end
+Color.__tostring = function(self, other) return self:hex(true) end
 
 ---Compare RGB values to see if they are equal
 ---@param self Color
@@ -826,17 +790,13 @@ end
 ---@param self Color
 ---@param other Color
 ---@return boolean
-Color.__lt = function(self, other)
-  return util.tbl_sum(self:RGB()) > util.tbl_sum(other:RGB())
-end
+Color.__lt = function(self, other) return util.tbl_sum(self:RGB()) > util.tbl_sum(other:RGB()) end
 
 ---Add self RGB value and other RGB values and compare to see if they self is lesser
 ---@param self Color
 ---@param other Color
 ---@return boolean
-Color.__gt = function(self, other)
-  return util.tbl_sum(self:RGB()) < util.tbl_sum(other:RGB())
-end
+Color.__gt = function(self, other) return util.tbl_sum(self:RGB()) < util.tbl_sum(other:RGB()) end
 
 ---Add self RGB value and other RGB values
 ---@param self Color

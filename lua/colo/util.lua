@@ -52,16 +52,12 @@ M.str = {}
 ---Uppercases the initial charater of words.
 ---@param item string
 ---@return string
-function M.str.capitalize(item)
-  return (item:gsub("%a", string.upper, 1))
-end
+function M.str.capitalize(item) return (item:gsub("%a", string.upper, 1)) end
 
 ---Remove all leading whitespace characters.
 ---@param item string
 ---@return string
-function M.str.trim_left(item)
-  return (item:gsub("^%s*", ""))
-end
+function M.str.trim_left(item) return (item:gsub("^%s*", "")) end
 
 ---Remove all trailing whitespace characters.
 ---@param item string
@@ -82,9 +78,7 @@ M.plugin = {}
 function M.plugin.path()
   local runtime_paths = api.nvim_list_runtime_paths()
   for index, path in ipairs(runtime_paths) do
-    if path:match("nvim%-colo$") then
-      return path
-    end
+    if path:match("nvim%-colo$") then return path end
   end
 
   -- use plenary.scan_dir for looking at the plugin installation directory
@@ -106,9 +100,7 @@ end
 function M.plugin.scan(fragment, options)
   options = vim.F.if_nil(options, {})
   fragment = vim.F.if_nil(fragment, "")
-  if fragment:sub(1, 1) ~= "/" then
-    fragment = "/" .. fragment
-  end
+  if fragment:sub(1, 1) ~= "/" then fragment = "/" .. fragment end
 
   local scan_path
   if options.user then
@@ -140,9 +132,7 @@ end
 ---Remove just the extension from the path. See |filename-modifiers| and |fnamemodify()|.
 ---@param path string
 ---@return string
-function M.canned.filenamermx(path)
-  return fn.fnamemodify(path, ":r")
-end
+function M.canned.filenamermx(path) return fn.fnamemodify(path, ":r") end
 
 return M
 

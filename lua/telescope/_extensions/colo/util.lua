@@ -14,10 +14,8 @@ local colo_util = require("colo.util")
 local api = vim.api
 
 function M.make_entry(theme, options)
-  local name_table = vim.split(theme, "_")
-  if #name_table < 3 then
-    table.insert(name_table, 1, "single")
-  end
+  local name_table = vim.split(theme, "_", { plain = true })
+  if #name_table < 3 then table.insert(name_table, 1, "single") end
 
   local background = name_table[#name_table]
   local category = name_table[1]
@@ -30,7 +28,7 @@ function M.make_entry(theme, options)
     highlights = {
       background = options.highlights.background[background],
       category = options.highlights.pack[category],
-      name = "Normal",
+      name = options.highlights.name,
     },
   }
 end
@@ -46,9 +44,7 @@ function M.entries(options)
   ---@private
   local function exclude_match(item)
     for _, exclude_item in ipairs(options.exclude) do
-      if item:match(exclude_item) then
-        return false
-      end
+      if item:match(exclude_item) then return false end
     end
     return true
   end

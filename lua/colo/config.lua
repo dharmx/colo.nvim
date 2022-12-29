@@ -8,7 +8,7 @@ local M = {}
 ---TODO: Allow functions too.
 M.defaults = {
   -- Neovim theme.
-  theme = "houseki_dark",
+  theme = "radium_dark",
   ---Enable theme cycles and history tracking. This will keep track of previous and next themes
   ---so you can switch back and forth between them.
   cycle = false,
@@ -115,12 +115,8 @@ M.defaults = {
     layout_strategy = "center",
     layout_config = {
       preview_cutoff = 1,
-      width = function(_, max_columns, _)
-        return math.min(max_columns, 60)
-      end,
-      height = function(_, _, max_lines)
-        return math.min(max_lines, 20)
-      end,
+      width = function(_, max_columns, _) return math.min(max_columns, 60) end,
+      height = function(_, _, max_lines) return math.min(max_lines, 20) end,
     },
     border = true,
     borderchars = {
@@ -140,6 +136,8 @@ M.defaults = {
     },
     ---Highlights for theme categories and variants.
     highlights = {
+      ---Normal results text.
+      name = "NONE",
       ---Theme variant color marking.
       background = {
         dark = "@debug",

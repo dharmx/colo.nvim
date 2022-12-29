@@ -121,9 +121,7 @@ local heading = {
 local buttons = {
   type = "group",
   val = options.buttons or {
-    generate_button(function()
-      require("telescope.builtin").live_grep()
-    end, {
+    generate_button(function() require("telescope.builtin").live_grep() end, {
       width = 25,
       cursor = 15,
       align = "center",
@@ -144,9 +142,7 @@ local buttons = {
         hl = "MsgSeparator",
       },
     }),
-    generate_button(function()
-      require("telescope.builtin").find_files()
-    end, {
+    generate_button(function() require("telescope.builtin").find_files() end, {
       width = 25,
       cursor = 5,
       align = "center",
@@ -167,9 +163,7 @@ local buttons = {
         hl = "MsgSeparator",
       },
     }),
-    generate_button(function()
-      require("telescope.builtin").keymaps()
-    end, {
+    generate_button(function() require("telescope.builtin").keymaps() end, {
       width = 25,
       cursor = 5,
       align = "center",

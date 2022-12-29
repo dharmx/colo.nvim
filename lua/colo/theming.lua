@@ -71,18 +71,14 @@ function M.wrap(name)
   hl_info = ok and util.tbl.rm_bool(hl_info) or {}
 
   for key, value in pairs(hl_info) do
-    if vim.tbl_contains(search_keys, key) then
-      hl_info[key] = Color:new({ hexcode = ("#%06X"):format(value) })
-    end
+    if vim.tbl_contains(search_keys, key) then hl_info[key] = Color:new({ hexcode = ("#%06X"):format(value) }) end
   end
   return hl_info
 end
 
 ---Clear the highlight group.
 ---@param name string the name of the highlight group
-function M.clear(name)
-  api.nvim_set_hl(0, name, {})
-end
+function M.clear(name) api.nvim_set_hl(0, name, {}) end
 
 ---Link one highlighting group with another.
 ---@param source string the highlight group that needs to be linked to
@@ -96,9 +92,7 @@ end
 ---sets neovim terminal color
 ---@param base number basen value from base16 color architecture
 ---@param value Color color of the base
-function M.terminal(base, value)
-  vim.g["terminal_color_" .. base] = value:hex(true)
-end
+function M.terminal(base, value) vim.g["terminal_color_" .. base] = value:hex(true) end
 
 function M.terminal_all(colors)
   for index, value in ipairs(colors) do

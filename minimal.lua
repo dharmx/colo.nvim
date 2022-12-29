@@ -157,12 +157,8 @@ local function load_config()
       layout_strategy = "center",
       layout_config = {
         preview_cutoff = 1,
-        width = function(_, max_columns, _)
-          return math.min(max_columns, 60)
-        end,
-        height = function(_, _, max_lines)
-          return math.min(max_lines, 20)
-        end,
+        width = function(_, max_columns, _) return math.min(max_columns, 60) end,
+        height = function(_, _, max_lines) return math.min(max_lines, 20) end,
       },
       border = true,
       borderchars = {
@@ -198,6 +194,7 @@ local function load_config()
       },
     },
   })
+  require("plugin.colo")
 end
 
 local install_path = TMPDIR .. "/nvim/site/pack/packer/start/packer.nvim"

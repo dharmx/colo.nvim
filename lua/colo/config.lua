@@ -8,7 +8,7 @@ local M = {}
 ---TODO: Allow functions too.
 M.defaults = {
   -- Neovim theme.
-  theme = "radium_dark",
+  theme = "houseki_dark",
   ---Enable theme cycles and history tracking. This will keep track of previous and next themes
   ---so you can switch back and forth between them.
   cycle = false,

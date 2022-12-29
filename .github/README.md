@@ -29,7 +29,16 @@ use({
   config = function()
     require("colo").setup()
   end,
-  requires = "nvim-lua/plenary.nvim"
+  requires = {
+    "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope.nvim",    ---optional
+    "nvim-lua/plenary.nvim",            ---optional
+    "nvim-telescope/telescope.nvim",    ---optional
+    "feline-nvim/feline.nvim",          ---optional
+    "akinsho/bufferline.nvim",          ---optional
+    "lewis6991/gitsigns.nvim",          ---optional
+    "kyazdani42/nvim-web-devicons",     ---optional
+  }
 })
 ```
 
@@ -98,6 +107,7 @@ local defaults = {
     },
   },
   ---Configure builtin extension and your own custom extensions.
+  ---Don't install them if all of them are set to false
   extensions = {
     feline = {
       enable = false,

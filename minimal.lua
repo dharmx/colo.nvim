@@ -23,6 +23,7 @@ local function load_plugins()
     "dharmx/nvim-colo",
     requires = {
       "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
       "feline-nvim/feline.nvim",
       "akinsho/bufferline.nvim",
       "lewis6991/gitsigns.nvim",
@@ -79,7 +80,7 @@ local function load_config()
   require("colo").setup({
     theme = "radium_dark",
     cycle = true,
-    manual = true,
+    manual = false,
     notifications = true,
     inverted = true,
     logging = vim.log.levels.INFO,

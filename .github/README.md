@@ -30,7 +30,6 @@ use({
     require("colo").setup()
   end,
   requires = "nvim-lua/plenary.nvim"
-  event = "UIEnter", -- needs to be lazy loaded
 })
 ```
 

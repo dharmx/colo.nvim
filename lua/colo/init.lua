@@ -25,11 +25,12 @@ function M.setup(options)
     cycle = M.config.cycle,
   }
 
-  vim.cmd.Colo(M.config.theme)
+  local colo = require("colo.api")
+  colo.theme.set(M.config.theme)
 
   ---load the inverted version of the theme instead
   if M.config.inverted then
-    vim.cmd.ColoInvert()
+    colo.theme.invert()
   end
 
   ---add mappings - these will be passed onto |vim.keymap.set()|
@@ -43,7 +44,7 @@ function M.setup(options)
   if M.config.aggregates.enable then
     for aggregate, enable in pairs(M.config.aggregates.items) do
       if enable then
-        vim.cmd.ColoAdd(aggregate)
+        colo.aggregate.add(aggregate)
       end
     end
   end
@@ -58,7 +59,7 @@ function M.setup(options)
       vim.api.nvim_create_autocmd("BufEnter", {
         pattern = filetype,
         callback = function()
-          vim.cmd.Colo(theme)
+          colo.theme.set(theme)
         end,
         group = colo_augroup,
       })
@@ -67,7 +68,7 @@ function M.setup(options)
     vim.api.nvim_create_autocmd("BufLeave", {
       callback = function()
         if vim.g.colors_name ~= M.config.theme then
-          vim.cmd.Colo(M.config.theme)
+          colo.theme.set(M.config.theme)
         end
       end,
       group = colo_augroup,

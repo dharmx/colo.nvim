@@ -185,4 +185,4 @@ local logos = setmetatable({
 
 return logos
 
--- vim:ft=lua
+---vim:filetype=lua

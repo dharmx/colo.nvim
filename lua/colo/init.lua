@@ -11,14 +11,14 @@ local M = {}
 ---@alias WARN 3
 ---@alias OFF 5
 
----@alias defaults { theme: string, cycle: boolean, manual: boolean, notifications: boolean, inverted: boolean, logging: DEBUG|ERROR|INFO|TRACE|WARN|OFF, mappings: { enable: boolean, items: { mode: string, key: string, action: function|string, options: table<string, boolean> }[] }, extensions: table<string, { enable: boolean, module: string, options: table }>, aggregates: { enable: boolean, items: { italic: boolean, bold: boolean, undercurl: boolean, underline: boolean, transparent: boolean } }, filetypes: { enable: boolean, initial: boolean, items: table<string, string> }, custom_hl: { enable: boolean, items: table<string, table<string, boolean|number|string>> }, presets: { enable: boolean, items: { italic_comments: boolean, dotted_spell: boolean, contrast: boolean } }, telescope: table }
+---@alias ColoConfig { theme: string, cycle: boolean, manual: boolean, notifications: boolean, inverted: boolean, logging: DEBUG|ERROR|INFO|TRACE|WARN|OFF, mappings: { enable: boolean, items: { mode: string, key: string, action: function|string, options: table<string, boolean> }[] }, extensions: table<string, { enable: boolean, module: string, options: table }>, aggregates: { enable: boolean, items: { italic: boolean, bold: boolean, undercurl: boolean, underline: boolean, transparent: boolean } }, filetypes: { enable: boolean, initial: boolean, items: table<string, string> }, custom_hl: { enable: boolean, items: table<string, table<string, boolean|number|string>> }, presets: { enable: boolean, items: { italic_comments: boolean, dotted_spell: boolean, contrast: boolean } }, telescope: table }
 
 ---Current config.
----@type defaults
+---@type ColoConfig
 M.config = {}
 
 ---Configure and enable the plugin
----@param options defaults
+---@param options ColoConfig?
 function M.setup(options)
   M.config = vim.tbl_deep_extend("force", require("colo.config").defaults, vim.F.if_nil(options, {}))
   _G.___colo_private = {

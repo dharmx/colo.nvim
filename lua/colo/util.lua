@@ -77,7 +77,7 @@ M.plugin = {}
 ---@return string
 function M.plugin.path()
   local runtime_paths = api.nvim_list_runtime_paths()
-  for index, path in ipairs(runtime_paths) do
+  for _, path in ipairs(runtime_paths) do
     if path:match("nvim%-colo$") then return path end
   end
 

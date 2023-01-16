@@ -1,0 +1,136 @@
+M.wrap({name})                                                          *M.wrap*
+    Fetch a highlight group and wrap all color attributes like foreground into a Color object
+
+    Parameters: ~
+        {name}  (string)  highlight group name
+
+    Returns: ~
+        (table<string,Color|boolean>)
+
+
+M.clear({name})                                                        *M.clear*
+    Clear the highlight group.
+
+    Parameters: ~
+        {name}  (string)  the name of the highlight group
+
+
+M.link({source}, {target})                                              *M.link*
+    Link one highlighting group with another.
+
+    Parameters: ~
+        {source}  (string)  the highlight group that needs to be linked to
+        {target}  (string)  the highlight group that needs to be linked with
+
+
+M.terminal({base}, {value})                                         *M.terminal*
+    sets neovim terminal color
+
+    Parameters: ~
+        {base}   (number)  basen value from base16 color architecture
+        {value}  (Color)   color of the base
+
+
+M.terminal_all()                                                *M.terminal_all*
+
+
+M.style({name}, {attributes})                                          *M.style*
+    Only apply font decorations/styles to the selected hl group.
+
+    Parameters: ~
+        {name}        (string)  name of the hl group
+        {attributes}  (table)   font options that are needed to be applied to that hl group
+
+
+                                                                   *M.short_set*
+M.short_set({name}, {background}, {foreground}, {options?})
+    simple highlighting function. only sets the background and foreground of the highlight group.
+
+    Parameters: ~
+        {name}        (string)                                      highlight group name
+        {background}  (Color)                                       background color of the highlight group
+        {foreground}  (Color)                                       foreground color of the highlight group
+        {options?}    (table<number|string,string|number|boolean>)  other options that will be passed into |nvim_set_hl()|
+
+
+M.set({name}, {options?})                                                *M.set*
+    Wrapper around nvim_set_hl.
+
+    Parameters: ~
+        {name}      (string)                                            highlight group name
+        {options?}  (table<number|string,string|number|boolean|Color>)  other options that will be passed into |nvim_set_hl()|
+
+
+                                                                  *M.foreground*
+M.foreground({name}, {foreground}, {options?})
+    Only assign a foreground color to a highlight group.
+
+    Parameters: ~
+        {name}        (string)                                      highlight group name
+        {foreground}  (Color)                                       foreground color of the highlight group
+        {options?}    (table<number|string,string|number|boolean>)  other options that will be passed into |nvim_set_hl()|
+
+
+M.clear_foreground({name})                                  *M.clear_foreground*
+    Clear the foreground color of the highlight group leaving everything else intact.
+
+    Parameters: ~
+        {name}  (string)  the name of the highlight group
+
+
+M.foreground_of({name})                                        *M.foreground_of*
+    Fetch the foreground of a highlight group
+
+    Parameters: ~
+        {name}  (string)  the highlight group
+
+
+                                                                  *M.background*
+M.background({name}, {background}, {options?})
+    Only assign a background color to a highlight group.
+
+    Parameters: ~
+        {name}        (string)                                      highlight group name
+        {background}  (Color)                                       background color of the highlight group
+        {options?}    (table<number|string,string|number|boolean>)  other options that will be passed into |nvim_set_hl()|
+
+
+M.clear_background({name})                                  *M.clear_background*
+    Clear the background color of the highlight group leaving everything else intact.
+
+    Parameters: ~
+        {name}  (string)  the name of the highlight group
+
+
+M.background_of({name})                                        *M.background_of*
+    Fetch the background of a highlight group
+
+    Parameters: ~
+        {name}  (string)  the highlight group
+
+
+M.special({name}, {special}, {options?})                             *M.special*
+    Only assign a special color to a highlight group.
+
+    Parameters: ~
+        {name}      (string)                                      highlight group name
+        {special}   (Color)                                       special color of the highlight group
+        {options?}  (table<number|string,string|number|boolean>)  other options that will be passed into |nvim_set_hl()|
+
+
+M.clear_special({name})                                        *M.clear_special*
+    Clear the special color of the highlight group leaving everything else intact.
+
+    Parameters: ~
+        {name}  (string)  the name of the highlight group
+
+
+M.special_of({name})                                              *M.special_of*
+    Fetch the special of a highlight group
+
+    Parameters: ~
+        {name}  (string)  the highlight group
+
+
+vim:tw=78:ts=8:noet:ft=help:norl:
+

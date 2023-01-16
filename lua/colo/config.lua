@@ -4,8 +4,9 @@
 
 local M = {}
 
+-- TODO: Allow functions too.
 ---The evergrowing default configuration for nvim-colo.
----TODO: Allow functions too.
+---@type ColoConfig
 M.defaults = {
   -- Neovim theme.
   theme = "radium_dark",
@@ -159,3 +160,5 @@ M.defaults = {
 }
 
 return M
+
+---vim:filetype=lua

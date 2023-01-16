@@ -1,0 +1,171 @@
+M.theme.get({name})                                                *M.theme.get*
+    Get theme colors and info.
+
+    Parameters: ~
+        {name}  (string)
+
+    Returns: ~
+        (table<string,string>)
+
+
+M.theme.current()                                              *M.theme.current*
+    Get current theme colors and info.
+
+    Returns: ~
+        (table)
+
+
+M.theme.clean()                                                  *M.theme.clean*
+    Clear all highlights and reset syntax highlights.
+
+
+M.theme.set({name})                                                *M.theme.set*
+    Set a theme.
+
+    Parameters: ~
+        {name}  (string)
+
+
+M.theme.invert()                                                *M.theme.invert*
+    Invert all highlight groups.
+
+
+M.theme.list_all_hl()                                      *M.theme.list_all_hl*
+    @return table, table, table
+
+
+M.theme.list({options})                                           *M.theme.list*
+    List all themes.
+
+    Parameters: ~
+        {options}  (table<string,function|string>)  @return table<string>
+
+
+M.cycle.next()                                                    *M.cycle.next*
+    Goto the next theme in the cycle.
+
+
+M.cycle.previous()                                            *M.cycle.previous*
+    Goto the previous theme in the cycle.
+
+
+M.cycle.random()                                                *M.cycle.random*
+    Goto a random theme in the cycle.
+
+
+M.group.base({options})                                           *M.group.base*
+    Get modules in the {plugin_,config_}path/lua/colo/groups/base path.
+
+    Parameters: ~
+        {options}  (table<string,boolean>)  additional settings
+                                              options.resolve (boolean): require the module path
+                                              options.indexed (boolean): dump all module paths and sort them by groups
+                                              options.flatten (boolean): dump all module paths and flatten them
+
+    Returns: ~
+        (table)
+
+
+M.group.syntax({options})                                       *M.group.syntax*
+    Get modules in the {plugin_,config_}path/lua/colo/groups/syntax path.
+
+    Parameters: ~
+        {options}  (table<string,boolean>)  additional settings
+                                              options.resolve (boolean): require the module path
+                                              options.indexed (boolean): dump all module paths and sort them by groups
+                                              options.flatten (boolean): dump all module paths and flatten them
+
+    Returns: ~
+        (table)
+
+
+M.group.integration({options})                             *M.group.integration*
+    Get modules in the {plugin_,config_}path/lua/colo/groups/integration path.
+
+    Parameters: ~
+        {options}  (table<string,boolean>)  additional settings
+                                              options.resolve (boolean): require the module path
+                                              options.indexed (boolean): dump all module paths and sort them by groups
+                                              options.flatten (boolean): dump all module paths and flatten them
+
+    Returns: ~
+        (table)
+
+
+M.group.override()                                            *M.group.override*
+      options.resolve (boolean): require the module path
+
+    Returns: ~
+        (table)
+
+
+M.group.terminal({options})                                   *M.group.terminal*
+    Get module in the {plugin_,config_}path/lua/colo/groups/extra/terminal path.
+
+    Parameters: ~
+        {options}  (table<string,boolean>)  additional settings
+                                              options.resolve (boolean): require the module path
+
+
+M.aggregate.get({...})                                         *M.aggregate.get*
+    Get highlight groups for aggregates.
+
+    Parameters: ~
+        {...}  (any)  one or more options from aggregate.categories
+
+    Returns: ~
+        (table)
+
+
+M.aggregate.set({...})                                         *M.aggregate.set*
+
+    Parameters: ~
+        {...}  (any)  one or more options from aggregate.categories
+
+
+M.aggregate.add({...})                                         *M.aggregate.add*
+    Add an aggregate.
+
+    Parameters: ~
+        {...}  (string[])  one of the items from aggregate.categories.
+
+
+M.aggregate.remove({...})                                   *M.aggregate.remove*
+    Remove an aggregate.
+
+    Parameters: ~
+        {...}  (string[])  one of the items from aggregate.categories.
+
+
+M.aggregate.toggle({...})                                   *M.aggregate.toggle*
+    Add/Remove an aggregate if it is already set.
+
+    Parameters: ~
+        {...}  (string[])  one of the items from aggregate.categories.
+
+
+M.extension.list()                                            *M.extension.list*
+    Scan for extensions in the {plugin,user}_path/lua/colo/extensions.
+    @return table<string>
+
+
+M.extension.load({config}, {...})                             *M.extension.load*
+    Load an extension. This reloads all extensions as well.
+    Noe that if pluging config has three keys then ... needs to three params as well.
+
+    Parameters: ~
+        {config}  (table)  needs to return the following table:
+                             {
+                               module = "path.to.extension",
+                               enable = true,
+                               options = { some_options... },
+                             }
+        {...}     (any)    extension(s)
+
+
+M.extension.reload_all()                                *M.extension.reload_all*
+    Reload and require all extensions.
+
+
+vim:tw=78:ts=8:noet:ft=help:norl:
+

@@ -9,8 +9,6 @@ local M = {}
 local util = require("colo.util")
 ---@module "colo.theming"
 local theming = require("colo.theming")
----@module "colo.color"
-local Color = require("colo.color")
 
 ---@module "plenary.reload"
 local reload = require("plenary.reload")
@@ -46,7 +44,7 @@ function M.theme.set(name)
 
   local terminal, hl_chunks, overrides = M.theme.list_all_hl()
   theming.terminal_all(terminal)
-  for index, hl_chunk in ipairs(hl_chunks) do
+  for _, hl_chunk in ipairs(hl_chunks) do
     for hl_name, hl_value in pairs(hl_chunk) do
       theming.set(hl_name, hl_value)
     end
@@ -67,7 +65,7 @@ end
 ---Invert all highlight groups.
 function M.theme.invert()
   local hl_list = fn.getcompletion("", "highlight")
-  local hl_chunks = {}
+  -- local hl_chunks = {}
   for _, hl_name in ipairs(hl_list) do
     local hl = theming.wrap(hl_name)
     if hl.foreground then hl.foreground = hl.foreground:invert() end
@@ -399,4 +397,4 @@ end
 
 return M
 
----vim:filetype=lua
+-- vim:filetype=lua

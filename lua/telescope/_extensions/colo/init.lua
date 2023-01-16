@@ -15,23 +15,11 @@ end
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local actions = require("telescope.actions")
-local previewers = require("telescope.previewers")
-
 local config = require("telescope.config")
 local util = require("telescope._extensions.colo.util")
-
 local action_state = require("telescope.actions.state")
-local entry_display = require("telescope.pickers.entry_display")
-local preview_util = require("telescope.previewers.utils")
-
-local filetype = require("plenary.filetype")
-local reload = require("plenary.reload")
-
 local colo_api = require("colo.api")
-local colo_util = require("colo.util")
-local colo = require("colo")
 
-local api = vim.api
 local defaults = require("colo").config.telescope
 
 local function setup(options) defaults = vim.tbl_deep_extend("force", defaults, vim.F.if_nil(options, {})) end
@@ -51,12 +39,6 @@ local function choose_theme(options)
       end)
       return true
     end,
-    -- previewer = previewers.buffer_previewer_maker({
-    --   define_preview = function(self, entry)
-    --     vim.notify(vim.inspect(self))
-    --     vim.notify(vim.inspect(entry))
-    --   end,
-    -- }),
   }):find()
 end
 -- stylua: ignore end

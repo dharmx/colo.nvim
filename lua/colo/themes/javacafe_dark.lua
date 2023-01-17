@@ -17,7 +17,7 @@ return {
   blue = Color:new({ hexcode = "#a3b8ef" }),
   magenta = Color:new({ hexcode = "#ccaced" }),
   cyan = Color:new({ hexcode = "#9ce5c0" }),
-  white = Color:new({ hexcode = "#3b4b58" }),
+  white = Color:new({ hexcode = "#dee1e6" }),
   bright_black = Color:new({ hexcode = "#21262e" }),
   bright_red = Color:new({ hexcode = "#fca2aa" }),
   bright_green = Color:new({ hexcode = "#a5d4af" }),
@@ -25,7 +25,7 @@ return {
   bright_blue = Color:new({ hexcode = "#bac8ef" }),
   bright_magenta = Color:new({ hexcode = "#d7c1ed" }),
   bright_cyan = Color:new({ hexcode = "#c7e5d6" }),
-  bright_white = Color:new({ hexcode = "#c7e5d6" }),
+  bright_white = Color:new({ hexcode = "#eaeaea" }),
 }
 
 ---vim:filetype=lua

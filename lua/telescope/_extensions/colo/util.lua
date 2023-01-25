@@ -4,11 +4,8 @@
 
 local M = {}
 
--- local config = require("telescope.config")
 local entry_display = require("telescope.pickers.entry_display")
 local colo_util = require("colo.util")
-
--- local A = vim.api
 
 function M.make_entry(theme, options)
   local name_table = vim.split(theme, "_", { plain = true })
@@ -31,8 +28,6 @@ function M.make_entry(theme, options)
 end
 
 function M.entries(options)
-  -- local buffer = A.nvim_get_current_buf()
-  -- local filename = A.nvim_buf_get_name(buffer)
   local themes = require("colo.api").theme.list({
     operation = "all",
     map_callback = colo_util.canned.filenamermx,
@@ -49,7 +44,6 @@ function M.entries(options)
   return {
     results = vim.tbl_filter(exclude_match, themes),
     entry_maker = function(entry)
-      -- local tele_width = config.values.layout_config.width
       local displayer = entry_display.create({
         separator = options.separator,
         items = {

@@ -111,20 +111,6 @@ M.defaults = {
   ---Options regarding the telescope theme picker.
   telescope = {
     theme = "ivy",
-    results_title = false,
-    sorting_strategy = "ascending",
-    layout_strategy = "center",
-    layout_config = {
-      preview_cutoff = 1,
-      width = function(_, max_columns, _) return math.min(max_columns, 60) end,
-      height = function(_, _, max_lines) return math.min(max_lines, 20) end,
-    },
-    border = true,
-    borderchars = {
-      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    },
     separator = "┃  ",
     exclude = {
       "^sexy_",

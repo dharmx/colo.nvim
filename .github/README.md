@@ -250,8 +250,8 @@ Following are the default commands that come with nvim-colo.
 - Enable dotted underline for spelling `:ColoPresetDottedSpell`.
 - Enable italic comments `:ColoPresetItalicComments`.
 - Add contrasts on Floating windows, sidebars, message pane by `:ColoPresetContrast`.
-- Add [nordic.nvim](https://github.com/AlexvZyl/nordic.nvim).
-- Add [rasmus.nvim](https://github.com/kvrohit/rasmus.nvim).
+- Add [nordic.nvim](https://github.com/AlexvZyl/nordic.nvim), [rasmus.nvim](https://github.com/kvrohit/rasmus.nvim),
+  nirvana, warm and [boo](https://github.com/rockerBOO/boo-colorscheme-nvim) and [nordic](https://github.com/AlexvZyl/nordic.nvim).
 - Support codewindow.nvim, aerial.nvim, harpoon.nvim, grapple.nvim, lazy.nvim,
   leap.nvim, flit.nvim, trouble.nvim, portal.nvim, overseer.nvim, dapui.nvim
   diffview.nvim, jaq.nvim, vim-illuminate, move.nvim, pretty-fold.nvim, vim-sneak,

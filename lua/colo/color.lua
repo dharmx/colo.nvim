@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local, param-type-mismatch
 ---@module "colo.color"
 ---@author dharmx
 ---@license GPL-3.0
@@ -11,7 +12,7 @@
 ---@field hue number?
 ---@field saturation number?
 ---@field luminance number?
----@field hexcode string?
+---@field hex string?
 local Color = {}
 
 ---@module "colo.util"
@@ -201,30 +202,30 @@ local function in_range(number, finish)
   return temp
 end
 
----Color class constructor
----@param col table field table
+---Create a Color instance.
+---@param params table field table
 ---@return Color
-function Color:new(col)
-  col = col or { red = 0, green = 0, blue = 0 }
-  if col.name then
-    local color = named_colors[col.name]
-    assert(color, col.name .. " is not a named color")
-    col = Color.HEX2RGB(color)
-  elseif col.hexcode then
-    col = Color.HEX2RGB(col.hexcode)
-  elseif col.hue and col.saturation and col.luminance then
-    col = Color.HSL2RGB(col.hue, col.saturation, col.luminance)
+function Color:new(params)
+  local colors = vim.F.if_nil(params, { red = 0, green = 0, blue = 0 })
+  if colors.name then
+    local color = named_colors[colors.name]
+    assert(color, colors.name .. " is not a named color")
+    colors = Color.HEX2RGB(color)
+  elseif colors.hex then
+    colors = Color.HEX2RGB(colors.hex)
+  elseif colors.int then
+    colors = Color.HEX2RGB(string.format("#%06X", colors.int))
+  elseif colors.hue and colors.saturation and colors.luminance then
+    colors = Color.HSL2RGB(colors.hue, colors.saturation, colors.luminance)
   else
-    ---@diagnostic disable-next-line: param-type-mismatch
-    col.red = math.floor(in_range(col.red, 255))
-    ---@diagnostic disable-next-line: param-type-mismatch
-    col.green = math.floor(in_range(col.green, 255))
-    ---@diagnostic disable-next-line: param-type-mismatch
-    col.blue = math.floor(in_range(col.blue, 255))
+    colors.red = math.floor(in_range(colors.red, 255))
+    colors.green = math.floor(in_range(colors.green, 255))
+    colors.blue = math.floor(in_range(colors.blue, 255))
   end
 
   self.__index = self
-  return setmetatable(col, self)
+  setmetatable(colors, self)
+  return colors
 end
 
 ---See if the color exists in named colors
@@ -232,7 +233,7 @@ end
 function Color:named()
   for name, color in pairs(named_colors) do
     ---@diagnostic disable-next-line: undefined-field
-    if color == self:hex():upper() then return name end
+    if color == self:HEX():upper() then return name end
   end
   return nil
 end
@@ -266,7 +267,7 @@ end
 ---Convert RGB to hex color format
 ---@param prefix boolean? prepend # if true
 ---@return string
-function Color:hex(prefix)
+function Color:HEX(prefix)
   local prefix_sym = prefix and "#" or ""
   local function callback(item) return item:len() == 1 and item:rep(2) or item end
   local hex_tbl = vim.tbl_map(callback, {
@@ -275,6 +276,12 @@ function Color:hex(prefix)
     string.format("%02X", self.blue),
   })
   return prefix_sym .. table.concat(hex_tbl)
+end
+
+---Convert RGB to int color format
+---@return string
+function Color:INT()
+  return self.red .. self.green .. self.blue
 end
 
 ---Convert RGB color format to HSL
@@ -450,7 +457,7 @@ local function alter(attribute, percent) return math.floor(attribute * (100 + pe
 ---Shade a color.
 ---@param amount number
 ---@return Color
-function Color:shade(amount)
+function Color:oldshade(amount)
   amount = amount == 0 and 0 or (amount or 5)
   self.red = alter(self.red, amount)
   self.green = alter(self.green, amount)
@@ -460,6 +467,22 @@ function Color:shade(amount)
   self.green = math.min(self.green, 255)
   self.blue = math.min(self.blue, 255)
   return self
+end
+
+---Stolen from https://drafts.csswg.org/css-color/#tint-shade-adjusters.
+---@param amount number
+---@return Color
+function Color:shade(amount)
+  amount = amount == 0 and 0 or (amount or 10)
+  return self:mix(Color:new({ name = "black" }), amount)
+end
+
+---Stolen from https://drafts.csswg.org/css-color/#tint-shade-adjusters.
+---@param amount number
+---@return Color
+function Color:tint(amount)
+  amount = amount == 0 and 0 or (amount or 10)
+  return self:mix(Color:new({ name = "white" }), amount)
 end
 
 ---Saturate a color
@@ -623,8 +646,9 @@ end
 
 ---Check if a color is readable or not
 ---@param col Color color that needs to be checked
+---@param wcag2 table
 ---@return boolean
-function Color:readable(col)
+function Color:readable(col, wcag2)
   local readability = self:readability(col)
   local output = false
   local wcag2Parms = validateWCAG2Parms(wcag2)
@@ -643,7 +667,7 @@ end
 ---Mix two colors
 ---@param col Color color to be mixed with
 ---@param amount number?
----@return table
+---@return Color
 function Color:mix(col, amount)
   amount = amount == 0 and 0 or (amount or 50)
   local value = amount / 100
@@ -661,9 +685,6 @@ function Color:invert()
   return Color:new({ name = "white" }) - self
 end
 
----@todo
-function Color:achromatic() end
-
 ---Get the RGB table from the Color instance
 ---@return table
 function Color:RGB()
@@ -675,31 +696,37 @@ function Color:RGB()
 end
 
 ---@todo
-function Color:XYZ() end
+function Color:__achromatic() end
 
 ---@todo
-function Color:temperature() end
+function Color:__XYZ() end
 
 ---@todo
-function Color:warm() end
+function Color:__temperature() end
 
 ---@todo
-function Color:cold() end
+function Color:__warm() end
 
 ---@todo
-function Color:more_cold(amount) end
+function Color:__cold() end
 
 ---@todo
-function Color:more_warm(amount) end
+function Color:__more_cold(amount) end
 
 ---@todo
-function Color:contrast(amount) end
+function Color:__more_warm(amount) end
 
 ---@todo
-function Color:increase_contrast(amount) end
+function Color:__less_cold(amount) end
 
 ---@todo
-function Color:decrease_contrast(amount) end
+function Color:__less_warm(amount) end
+
+---@todo
+function Color:__increase_contrast(amount) end
+
+---@todo
+function Color:__decrease_contrast(amount) end
 
 ---Convert a hex color to RGB
 ---@param hex string that should a hex color
@@ -747,7 +774,7 @@ end
 function Color.HSL2RGB(hue, saturation, luminance)
   local RGB = {}
 
-  function HUE2RGB(P, Q, T)
+  local function HUE2RGB(P, Q, T)
     if T < 0 then T = T + 1 end
     if T > 1 then T = T - 1 end
     if T < 1 / 6 then return P + (Q - P) * 6 * T end
@@ -775,7 +802,7 @@ end
 ---@param self Color
 ---@param other Color
 ---@return string
-Color.__tostring = function(self, other) return self:hex(true) end
+Color.__tostring = function(self, other) return self:HEX(true) end
 
 ---Compare RGB values to see if they are equal
 ---@param self Color

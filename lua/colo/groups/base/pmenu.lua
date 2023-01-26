@@ -2,13 +2,17 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local col = require("colo.api").theme.current()
+local M = {}
 
-return {
-  Pmenu = { background = col.black:brighten(1):lighten(2), foreground = col.white:darken(20) },
-  PmenuSel = { background = col.green, foreground = col.black },
-  PmenuSbar = { link = "Pmenu" },
-  PmenuThumb = { background = col.black:brighten(2):lighten(3) },
-}
+function M.prime(col)
+  return {
+    Pmenu = { background = col.black:darken(1.4), foreground = col.white:darken(20) },
+    PmenuSel = { background = col.green, foreground = col.black },
+    PmenuSbar = { link = "Pmenu" },
+    PmenuThumb = { background = col.black:lighten(1) },
+  }
+end
+
+return M
 
 ---vim:filetype=lua

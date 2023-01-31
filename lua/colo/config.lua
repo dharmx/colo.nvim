@@ -135,6 +135,7 @@ local _DEFAULTS = {
       },
     },
   },
+  _private = {},
 }
 
 M._DEFAULTS = _DEFAULTS

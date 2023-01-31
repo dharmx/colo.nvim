@@ -90,6 +90,15 @@ function M.link(s, t)
   })
 end
 
+---Resolve a linked highlight group to actual color values.
+---@param n string
+---@return table
+function M.reslove_link(n)
+  local hl = A.nvim_get_hl_by_name(n, true)
+  if hl.link then return M.resolve_link(hl.link) end
+  return M.wrap(n)
+end
+
 function M.set_term(cols)
   for i, v in ipairs(cols) do
     local base = i - 1

@@ -1,4 +1,4 @@
----@module "colo.groups.base.specialell"
+---@module "colo.groups.base.spell"
 ---@author dharmx
 ---@license GPL-3.0
 

@@ -24,6 +24,7 @@ function M.prime(col)
     },
     Pmenu = { background = col.black:brighten(1):lighten(2), foreground = col.white:darken(20) },
     PmenuThumb = { background = col.black:brighten(2):lighten(3) },
+    PmenuSel = { background = col.black:brighten(1):lighten(4), foreground = col.white:darken(15) },
   }
 end
 

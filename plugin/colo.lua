@@ -84,4 +84,14 @@ cmd("ColoTele", function() require("telescope").extensions.colo.colo() end, {
   nargs = 0,
 })
 
+cmd("ColoKindGLazeToggle", function() require("colo.preset").kind_glaze_toggle() end, {
+  desc = "Swap background with foreground for nvim-cmp kind and make the icons glow.",
+  nargs = 0,
+})
+
+cmd("ColoKindSwapToggle", function() require("colo.preset").kind_swap_toggle() end, {
+  desc = "Swap background with foreground for nvim-cmp kind.",
+  nargs = 0,
+})
+
 -- vim:filetype=lua

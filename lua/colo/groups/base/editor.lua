@@ -1,4 +1,4 @@
----@module "colo.groups.base"
+---@module "colo.groups.base.editor"
 ---@author dharmx
 ---@license GPL-3.0
 

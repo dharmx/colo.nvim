@@ -7,4 +7,4 @@
 
 ((string ("string_content") @query) (#lua-match? @query "^%s*;+%s?query"))
 
-; vim:filetype=query
+; viim:filetype=lua

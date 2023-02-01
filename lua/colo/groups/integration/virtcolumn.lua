@@ -2,10 +2,14 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local col = require("colo.api").theme.current()
+local M = {}
 
-return {
-  VirtColumn = { background = col.black, foreground = col.black:brighten(0.5):lighten(2) },
-}
+function M.prime(col)
+  return {
+    VirtColumn = { background = col.black, foreground = col.black:brighten(0.5):lighten(2) },
+  }
+end
+
+return M
 
 ---vim:filetype=lua

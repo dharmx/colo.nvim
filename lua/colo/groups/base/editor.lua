@@ -1,24 +1,25 @@
----@module "colo.groups.base"
+---@module "colo.groups.base.editor"
 ---@author dharmx
 ---@license GPL-3.0
 
-local col = require("colo.api").theme.current()
+local M = {}
 
-return {
-  CursorColumn = { link = "CursorLine" },
-  Normal = { background = col.black, foreground = col.white },
-  NormalFloat = { background = col.black:brighten(1):lighten(2):darken(1), foreground = col.white:darken(10) },
-  FloatBorder = {
-    background = col.black:brighten(1):lighten(2):darken(1),
-    foreground = col.black:brighten(1):lighten(2):darken(1),
-  },
-  Cursor = { background = col.green:lighten(3), foreground = col.black },
-  ColorColumn = { background = col.black:lighten(0.5), foreground = col.black:brighten(0.5):lighten(2) },
-  Visual = { background = col.black:brighten(1):lighten(3) },
-  CursorLine = { background = col.black:brighten(1):lighten(2):desaturate(4) },
-  CursorLineNr = { foreground = col.yellow },
-  Error = { foreground = col.red:darken(3) },
-  LineNr = { foreground = col.black:lighten(15) },
-}
+function M.prime(col)
+  return {
+    Normal = { background = col.black, foreground = col.white },
+    NormalFloat = { background = col.black:darken(1.5), foreground = col.white:darken(10) },
+    FloatBorder = { background = col.black:darken(1.5), foreground = col.black:brighten(1):lighten(2):darken(1) },
+    CursorColumn = { link = "CursorLine" },
+    Cursor = { background = col.green:lighten(3), foreground = col.black },
+    ColorColumn = { background = col.black:lighten(0.5), foreground = col.black:brighten(0.5):lighten(2) },
+    Visual = { background = col.black:brighten(1):lighten(3) },
+    CursorLine = { background = col.black:brighten(1):lighten(2):desaturate(4) },
+    CursorLineNr = { foreground = col.yellow },
+    Error = { foreground = col.red:darken(3) },
+    LineNr = { foreground = col.black:lighten(15) },
+  }
+end
+
+return M
 
 ---vim:filetype=lua

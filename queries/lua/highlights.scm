@@ -1,13 +1,21 @@
 ; extends
 
-(_ table: (identifier) @constant
-  (#match? @constant "^vim$"))
+(_ table: (identifier) @lua.constant.vim
+  (#match? @lua.constant.vim "^vim$"))
 
-(_ value: (identifier) @constant
-  (#match? @constant "^vim$"))
+(_ value: (identifier) @lua.constant.vim
+  (#match? @lua.constant.vim "^vim$"))
 
 ((dot_index_expression) @_dot_index_expression
   (#match? @_dot_index_expression "^vim.cmd.*")
-  (identifier) @namespace)
+  (identifier) @lua.function.cmd)
+
+((identifier) @lua.parameter.self
+ (#match? @lua.parameter.self "^self$"))
+
+((function_call 
+  (arguments 
+    (identifier) @lua.function.pcall
+  (#match? @lua.function.pcall "^require$"))))
 
 ; vim:filetype=query

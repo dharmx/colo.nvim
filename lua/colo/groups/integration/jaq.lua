@@ -2,11 +2,15 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local col = require("colo.api").theme.current()
+local M = {}
 
-return {
-  JaqWin = { background = col.black:lighten(3) },
-  JaqBorder = { background = col.black:lighten(3) },
-}
+function M.prime(col)
+  return {
+    JaqWin = { background = col.black:lighten(3) },
+    JaqBorder = { background = col.black:lighten(3) },
+  }
+end
+
+return M
 
 ---vim:filetype=lua

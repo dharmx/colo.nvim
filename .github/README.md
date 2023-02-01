@@ -14,6 +14,9 @@ NVIM: v0.8.0
   Feel free to try it out though and let me know if you have
   any problems/suggestions.</samp>
 
+> <samp>WARN: Lock a401cad1762b458332d563484c05eb149bfa7a48 and do NOT
+  update. Rewrite is in progress.</samp>
+
 <h2><samp>PACKER</samp></h2>
 
 <samp>
@@ -48,169 +51,7 @@ Configuration is done by passing a table to the setup function.
 The following are the default settings.
 </samp>
 
-<details>
-
-<summary><samp>The default configuration.</samp></summary>
-
-```lua
-local defaults = {
-  -- Neovim theme.
-  theme = "radium_dark",
-  ---Enable theme cycles and history tracking. This will keep track of previous
-  ---and next themes
-  ---so you can switch back and forth between them.
-  cycle = false,
-  ---Skip loading extensions when colo is first loaded i.e. only set the colorscheme.
-  manual = false,
-  ---Set the inverted version of the theme.
-  ---WARN: This will not change the source colors itself. It will only change the
-  ---current highlights. So, if one decides to import colors from the theme after
-  ---inversion then the imported colors would not be inverted.
-  inverted = false,
-  ---This sets mappings. Note that mappings.items is just a table that passes values
-  ---through |vim.keymap.set()|
-  mappings = {
-    enable = false,
-    items = {
-      {
-        mode = "n",
-        key = ";a",
-        action = vim.cmd.ColoPrevious,
-        options = {
-          silent = true
-        }
-      },
-      {
-        mode = "n",
-        key = ";s",
-        action = vim.cmd.ColoInvert,
-        options = {
-          silent = true
-        }
-      },
-      {
-        mode = "n",
-        key = ";d",
-        action = vim.cmd.ColoNext,
-        options = {
-          silent = true
-        }
-      },
-      {
-        mode = "n",
-        key = "<leader>t",
-        action = vim.cmd.ColoTele,
-        options = {
-          silent = true
-        }
-      },
-    },
-  },
-  ---Configure builtin extension and your own custom extensions.
-  ---Don't install them if all of them are set to false
-  extensions = {
-    feline = {
-      enable = false,
-      module = "colo.extensions.feline",
-      options = {},
-    },
-    bufferline = {
-      enable = false,
-      module = "colo.extensions.bufferline",
-      options = {},
-    },
-    devicons = {
-      enable = false,
-      module = "colo.extensions.devicons",
-      options = {},
-    },
-  },
-  ---Add, remove and toggle font styles for some specific highlights.
-  aggregates = {
-    enable = false,
-    items = {
-      bold = false,
-      undercurl = false,
-      underline = false,
-      italic = false,
-      transparent = false,
-    },
-  },
-  ---Extra highlights. These will be sourced after overrides.
-  custom_hl = {
-    enable = false,
-    items = {
-      LspDiagnosticsSignWarn = { link = "DevIconHtm" },
-      LspDiagnosticsSignError = { link = "DevIconJava" },
-      LspDiagnosticsSignInfo = { link = "DevIconCobol" },
-      LspDiagnosticsSignHint = { link = "DevIconMaterial" },
-    },
-  },
-  ---Special style options.
-  presets = {
-    enable = false,
-    items = {
-      italic_comments = false,
-      dotted_spell = false,
-      contrast = false,
-    },
-  },
-  ---Options regarding the telescope theme picker.
-  telescope = {
-    theme = "ivy",
-    results_title = false,
-    sorting_strategy = "ascending",
-    layout_strategy = "center",
-    layout_config = {
-      preview_cutoff = 1,
-      width = function(_, max_columns, _)
-        return math.min(max_columns, 60)
-      end,
-      height = function(_, _, max_lines)
-        return math.min(max_lines, 20)
-      end,
-    },
-    border = true,
-    borderchars = {
-      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    },
-    separator = "┃  ",
-    ---Exclude theme file patterns that you do not want to show in the picker.
-    exclude = {
-      "^sexy_",
-      "^tempus_",
-      "^base16_",
-      "^dkeg_",
-      "^stardew_",
-      "^decay_",
-      "^hybrid_",
-    },
-    ---Highlights for theme categories and variants.
-    highlights = {
-      ---Theme variant color marking.
-      background = {
-        dark = "@debug",
-        light = "@label",
-      },
-      ---Theme category color marking.
-      pack = {
-        ["base16"] = "Operator",
-        ["single"] = "Directory",
-        ["sexy"] = "Keyword",
-        ["decay"] = "Question",
-        ["dkeg"] = "Macro",
-        ["stardew"] = "Number",
-        ["hybrid"] = "Todo",
-        ["tempus"] = "Float",
-      },
-    },
-  },
-}
-```
-
-</details>
+<samp>The default configuration can be found [here](../lua/colo/config.lua).</samp>
 
 <h3><samp>TIPS</samp></h3>
 
@@ -241,22 +82,30 @@ Following are the default commands that come with nvim-colo.
 - Add a font style or, transparency by `:ColoAdd <aggregate>`.
 - Remove a font style or, transparency by `:ColoRemove <aggregate>`.
 - Toggle a font style or, transparency `:ColoToggle <aggregate>`.
-- Move to the next theme by `:ColoNext`.
-- Move to the previous theme by `:ColoPrevious`.
 - Remove all highlights by `:ColoClean`.
 - Invert current theme or, invert the selected theme by `:ColoInvert _|<theme_name>`.
-- Load all or, a specific extension by `:ColoLoadExtension _|<extension_name>`.
 - Open the telescope theme picker by `:ColoTele`.
-- Enable dotted underline for spelling `:ColoPresetDottedSpell`.
-- Enable italic comments `:ColoPresetItalicComments`.
-- Add contrasts on Floating windows, sidebars, message pane by `:ColoPresetContrast`.
-- Add [nordic.nvim](https://github.com/AlexvZyl/nordic.nvim), [rasmus.nvim](https://github.com/kvrohit/rasmus.nvim),
-  nirvana, warm and [boo](https://github.com/rockerBOO/boo-colorscheme-nvim) and [nordic](https://github.com/AlexvZyl/nordic.nvim).
+
+## TODOS
+
+- Add [nordic.nvim](https://github.com/AlexvZyl/nordic.nvim), [rasmus.nvim](https://github.com/kvrohit/rasmus.nvim), nirvana, warm and [boo](https://github.com/rockerBOO/boo-colorscheme-nvim), [nordic](https://github.com/AlexvZyl/nordic.nvim) and [chocolate](https://gitlab.com/snakedye/chocolate).
 - Support codewindow.nvim, aerial.nvim, harpoon.nvim, grapple.nvim, lazy.nvim,
   leap.nvim, flit.nvim, trouble.nvim, portal.nvim, overseer.nvim, dapui.nvim
   diffview.nvim, jaq.nvim, vim-illuminate, move.nvim, pretty-fold.nvim, vim-sneak,
-  lsp-saga.nvim, barbar.nvim and lightspeed.nvim
-
+  lsp-saga.nvim, barbar.nvim and lightspeed.nvim.
+- Add a colorpicker.
+- Add an interactive playground.
+- Add acromatic color checker function.
+- Add temperature related functions.
+- Add cold related functions.
+- Add warmth related functions.
+- Add contrast related functions.
+- Write tests.
+- Write guides.
+- Refactor `api.lua`.
+- Refactor `color.lua`.
+- Refactor `extensions`.
+- Fix telescope: previews are not showed when results list is empty. (Invalied buffer ID)
 
 <h2><samp>GALLERY</samp></h2>
 

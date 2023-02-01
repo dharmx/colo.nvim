@@ -6,6 +6,7 @@ local M = {}
 
 local entry_display = require("telescope.pickers.entry_display")
 local colo_util = require("colo.util")
+local colo_config = require("colo.config").current
 
 function M.make_entry(theme, options)
   local name_table = vim.split(theme, "_", { plain = true })
@@ -30,19 +31,10 @@ end
 function M.entries(options)
   local themes = require("colo.api").theme.list({
     operation = "all",
-    map_callback = colo_util.canned.filenamermx,
   })
 
-  ---@private
-  local function exclude_match(item)
-    for _, exclude_item in ipairs(options.exclude) do
-      if item:match(exclude_item) then return false end
-    end
-    return true
-  end
-
   return {
-    results = vim.tbl_filter(exclude_match, themes),
+    results = themes,
     entry_maker = function(entry)
       local displayer = entry_display.create({
         separator = options.separator,

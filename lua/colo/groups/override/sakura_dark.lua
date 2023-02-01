@@ -2,14 +2,18 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local col = require("colo.api").theme.current()
+local M = {}
 
-return {
-  PmenuSel = { background = col.blue, foreground = col.bright_black },
-  NvimTreeNormal = { background = col.black:darken(0.6), foreground = col.white },
-  NvimTreeVertSplit = { background = col.black:darken(0.6), foreground = col.black:darken(0.6) },
-  NvimTreeWinSeparator = { background = col.black:darken(0.6), foreground = col.black:darken(0.6) },
-  NvimTreeNormalNC = { background = col.black:darken(0.6), foreground = col.white },
-}
+function M.prime(col)
+  return {
+    PmenuSel = { background = col.blue, foreground = col.bright_black },
+    NvimTreeNormal = { background = col.black:darken(0.6), foreground = col.white },
+    NvimTreeVertSplit = { background = col.black:darken(0.6), foreground = col.black:darken(0.6) },
+    NvimTreeWinSeparator = { background = col.black:darken(0.6), foreground = col.black:darken(0.6) },
+    NvimTreeNormalNC = { background = col.black:darken(0.6), foreground = col.white },
+  }
+end
+
+return M
 
 ---vim:filetype=lua

@@ -2,10 +2,14 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local col = require("colo.api").theme.current()
+local M = {}
 
-return {
-  PmenuSel = { background = col.blue, foreground = col.bright_black },
-}
+function M.prime(col)
+  return {
+    PmenuSel = { background = col.blue, foreground = col.bright_black },
+  }
+end
+
+return M
 
 ---vim:filetype=lua

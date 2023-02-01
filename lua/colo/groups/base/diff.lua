@@ -4,12 +4,12 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    DiffAdd = { foreground = col.green, reverse = true },
-    DiffChange = { foreground = col.magenta, reverse = true },
-    DiffDelete = { foreground = col.red, reverse = true },
-    DiffText = { foreground = col.blue, reverse = true },
+    DiffAdd = { foreground = c.green, reverse = true },
+    DiffChange = { foreground = c.magenta, reverse = true },
+    DiffDelete = { foreground = c.red, reverse = true },
+    DiffText = { foreground = c.blue, reverse = true },
   }
 end
 

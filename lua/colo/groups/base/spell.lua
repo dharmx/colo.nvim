@@ -4,12 +4,12 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    SpellBad = { foreground = col.red },
-    SpellCap = { foreground = col.bright_yellow },
-    SpellRare = { foreground = col.bright_cyan },
-    SpellLocal = { foreground = col.bright_red },
+    SpellBad = { foreground = c.red },
+    SpellCap = { foreground = c.bright_yellow },
+    SpellRare = { foreground = c.bright_cyan },
+    SpellLocal = { foreground = c.bright_red },
   }
 end
 

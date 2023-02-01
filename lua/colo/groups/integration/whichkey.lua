@@ -4,15 +4,15 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    WhichKeyGroup = { foreground = col.red },
-    WhichKeyDesc = { foreground = col.yellow },
-    WhichKeySeparator = { foreground = col.blue },
-    WhichKeyValue = { foreground = col.white:darken(25) },
-    WhichKey = { foreground = col.magenta },
-    WhichKeyFloat = { background = col.black:darken(1) },
-    WhichKeyBorder = { background = col.black:darken(1) },
+    WhichKeyGroup = { foreground = c.red },
+    WhichKeyDesc = { foreground = c.yellow },
+    WhichKeySeparator = { foreground = c.blue },
+    WhichKeyValue = { foreground = c.white:darken(25) },
+    WhichKey = { foreground = c.magenta },
+    WhichKeyFloat = { background = c.black:darken(1) },
+    WhichKeyBorder = { background = c.black:darken(1) },
   }
 end
 

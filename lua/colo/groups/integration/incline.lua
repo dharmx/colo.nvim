@@ -4,15 +4,15 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    InclineBG = { background = col.bright_black },
-    InclineFG = { foreground = col.white },
-    InclineBGNC = { background = col.black:lighten(2) },
-    InclineFGNC = { foreground = col.magenta },
-    InclineThemeBG = { background = col.yellow },
-    InclineCursorLine = { background = col.bright_black:darken(1) },
-    InclineCursorLineNC = { background = col.black:brighten(1):lighten(1) },
+    InclineBG = { background = c.bright_black },
+    InclineFG = { foreground = c.white },
+    InclineBGNC = { background = c.black:lighten(2) },
+    InclineFGNC = { foreground = c.magenta },
+    InclineThemeBG = { background = c.yellow },
+    InclineCursorLine = { background = c.bright_black:darken(1) },
+    InclineCursorLineNC = { background = c.black:brighten(1):lighten(1) },
   }
 end
 

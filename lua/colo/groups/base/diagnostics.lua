@@ -4,20 +4,20 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    DiagnosticSignWarn = { foreground = col.red:lighten(3) },
-    DiagnosticSignError = { foreground = col.bright_red },
-    DiagnosticSignInfo = { foreground = col.blue },
-    DiagnosticSignHint = { foreground = col.magenta },
-    DiagnosticWarn = { foreground = col.red:lighten(3) },
-    DiagnosticError = { foreground = col.red },
-    DiagnosticInfo = { foreground = col.blue },
-    DiagnosticHint = { foreground = col.magenta },
-    DiagnosticUnderlineWarn = { foreground = col.red:lighten(3) },
-    DiagnosticUnderlineError = { foreground = col.red },
-    DiagnosticUnderlineInfo = { foreground = col.blue },
-    DiagnosticUnderlineHint = { foreground = col.magenta },
+    DiagnosticSignWarn = { foreground = c.red:lighten(3) },
+    DiagnosticSignError = { foreground = c.bright_red },
+    DiagnosticSignInfo = { foreground = c.blue },
+    DiagnosticSignHint = { foreground = c.magenta },
+    DiagnosticWarn = { foreground = c.red:lighten(3) },
+    DiagnosticError = { foreground = c.red },
+    DiagnosticInfo = { foreground = c.blue },
+    DiagnosticHint = { foreground = c.magenta },
+    DiagnosticUnderlineWarn = { foreground = c.red:lighten(3) },
+    DiagnosticUnderlineError = { foreground = c.red },
+    DiagnosticUnderlineInfo = { foreground = c.blue },
+    DiagnosticUnderlineHint = { foreground = c.magenta },
   }
 end
 

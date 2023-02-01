@@ -4,16 +4,16 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    EndOfBuffer = { foreground = col.magenta },
-    ErrorMsg = { foreground = col.red },
-    ModeMsg = { foreground = col.blue },
-    MsgArea = { foreground = col.white:darken(4) },
-    MoreMsg = { foreground = col.yellow },
-    Question = { foreground = col.green },
-    Directory = { foreground = col.yellow },
-    WarningMsg = { foreground = col.bright_red },
+    EndOfBuffer = { foreground = c.magenta },
+    ErrorMsg = { foreground = c.red },
+    ModeMsg = { foreground = c.blue },
+    MsgArea = { foreground = c.white:darken(4) },
+    MoreMsg = { foreground = c.yellow },
+    Question = { foreground = c.green },
+    Directory = { foreground = c.yellow },
+    WarningMsg = { foreground = c.bright_red },
   }
 end
 

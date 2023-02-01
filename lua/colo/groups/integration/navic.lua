@@ -4,7 +4,7 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
     NavicIconsFile = { link = "Directory" },
     NavicIconsModule = { link = "@macro" },
@@ -32,8 +32,8 @@ function M.prime(col)
     NavicIconsEvent = { link = "@text.literal" },
     NavicIconsOperator = { link = "@keyword.operator" },
     NavicIconsTypeParameter = { link = "@parameter" },
-    NavicText = { foreground = col.white:darken(16) },
-    NavicSeparator = { foreground = col.blue },
+    NavicText = { foreground = c.white:darken(16) },
+    NavicSeparator = { foreground = c.blue },
   }
 end
 

@@ -4,10 +4,10 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    StatusLine = { background = col.black, foreground = col.blue },
-    StatusLineNC = { foreground = col.blue },
+    StatusLine = { background = c.black, foreground = c.blue },
+    StatusLineNC = { foreground = c.blue },
   }
 end
 

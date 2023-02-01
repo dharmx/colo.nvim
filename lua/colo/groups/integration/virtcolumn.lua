@@ -4,9 +4,9 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    VirtColumn = { background = col.black, foreground = col.black:brighten(0.5):lighten(2) },
+    VirtColumn = { background = c.black, foreground = c.black:brighten(0.5):lighten(2) },
   }
 end
 

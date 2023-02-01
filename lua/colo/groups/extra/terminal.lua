@@ -4,24 +4,24 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    col.black:lighten(4),
-    col.red,
-    col.green,
-    col.yellow,
-    col.blue,
-    col.magenta,
-    col.cyan,
-    col.white,
-    col.bright_black:lighten(2),
-    col.bright_red,
-    col.bright_green,
-    col.bright_yellow,
-    col.bright_blue,
-    col.bright_magenta,
-    col.bright_cyan,
-    col.bright_white,
+    c.black:lighten(4),
+    c.red,
+    c.green,
+    c.yellow,
+    c.blue,
+    c.magenta,
+    c.cyan,
+    c.white,
+    c.bright_black:lighten(2),
+    c.bright_red,
+    c.bright_green,
+    c.bright_yellow,
+    c.bright_blue,
+    c.bright_magenta,
+    c.bright_cyan,
+    c.bright_white,
   }
 end
 

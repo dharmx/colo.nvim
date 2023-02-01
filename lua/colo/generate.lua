@@ -13,8 +13,8 @@ local FORMAT = [[
 ---${name}
 ---${background}
 
-vim.g.colors_name = ${name}
-vim.o.background = ${background}
+vim.g.colors_name = "${name}"
+vim.o.background = "${background}"
 
 local function HL(name, val) vim.api.nvim_set_hl(0, name, val) end
 

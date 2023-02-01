@@ -4,10 +4,10 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    JaqWin = { background = col.black:lighten(3) },
-    JaqBorder = { background = col.black:lighten(3) },
+    JaqWin = { background = c.black:lighten(3) },
+    JaqBorder = { background = c.black:lighten(3) },
   }
 end
 

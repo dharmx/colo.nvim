@@ -4,13 +4,13 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    PmenuSel = { background = col.blue, foreground = col.bright_black },
-    NvimTreeNormal = { background = col.black:darken(0.6), foreground = col.white },
-    NvimTreeVertSplit = { background = col.black:darken(0.6), foreground = col.black:darken(0.6) },
-    NvimTreeWinSeparator = { background = col.black:darken(0.6), foreground = col.black:darken(0.6) },
-    NvimTreeNormalNC = { background = col.black:darken(0.6), foreground = col.white },
+    PmenuSel = { background = c.blue, foreground = c.bright_black },
+    NvimTreeNormal = { background = c.black:darken(0.6), foreground = c.white },
+    NvimTreeVertSplit = { background = c.black:darken(0.6), foreground = c.black:darken(0.6) },
+    NvimTreeWinSeparator = { background = c.black:darken(0.6), foreground = c.black:darken(0.6) },
+    NvimTreeNormalNC = { background = c.black:darken(0.6), foreground = c.white },
   }
 end
 

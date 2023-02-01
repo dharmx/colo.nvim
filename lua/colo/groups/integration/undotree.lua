@@ -4,7 +4,7 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
     UndotreeBranch = { link = "Constant" },
     UndotreeCurrent = { link = "Statement" },
@@ -19,7 +19,7 @@ function M.prime(col)
     UndotreeSavedBig = { link = "MatchParen" },
     UndotreeSavedSmall = { link = "WarningMsg" },
     UndotreeSeq = { link = "Comment" },
-    UndotreeTimeStamp = { foreground = col.cyan },
+    UndotreeTimeStamp = { foreground = c.cyan },
   }
 end
 

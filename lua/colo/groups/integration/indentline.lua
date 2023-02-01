@@ -4,13 +4,13 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
     IndentBlanklineSpaceChar = {},
     IndentBlanklineSpaceCharBlankline = {},
-    IndentBlanklineChar = { foreground = col.bright_black:brighten(4) },
-    IndentBlanklineContextChar = { foreground = col.blue },
-    IndentBlanklineContextStart = { background = col.black:lighten(1.5):brighten(1) },
+    IndentBlanklineChar = { foreground = c.bright_black:brighten(4) },
+    IndentBlanklineContextChar = { foreground = c.blue },
+    IndentBlanklineContextStart = { background = c.black:lighten(1.5):brighten(1) },
   }
 end
 

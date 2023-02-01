@@ -4,17 +4,17 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    Keyword = { foreground = col.magenta },
+    Keyword = { foreground = c.magenta },
     ["@keyword.function"] = { link = "Keyword" },
     ["@keyword"] = { link = "Keyword" },
     ["@keyword.return"] = { link = "Keyword" },
-    ["@function.builtin"] = { foreground = col.cyan },
-    ["Function"] = { foreground = col.blue },
-    ["Number"] = { foreground = col.red },
-    ["@field"] = { foreground = col.white:darken(10) },
-    ["@conditional"] = { foreground = col.yellow },
+    ["@function.builtin"] = { foreground = c.cyan },
+    ["Function"] = { foreground = c.blue },
+    ["Number"] = { foreground = c.red },
+    ["@field"] = { foreground = c.white:darken(10) },
+    ["@conditional"] = { foreground = c.yellow },
   }
 end
 

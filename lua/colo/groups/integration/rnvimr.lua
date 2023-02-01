@@ -4,7 +4,7 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
     RnvimrNormal = { link = "NormalFloat" },
   }

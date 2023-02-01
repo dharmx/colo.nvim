@@ -4,10 +4,10 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    FidgetTitle = { foreground = col.bright_green },
-    FidgetTask = { foreground = col.black:lighten(5) },
+    FidgetTitle = { foreground = c.bright_green },
+    FidgetTask = { foreground = c.black:lighten(5) },
   }
 end
 

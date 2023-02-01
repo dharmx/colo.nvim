@@ -4,14 +4,14 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    AlphaKeyPrefix = { background = col.blue, foreground = col.black },
-    AlphaFooting = { foreground = col.magenta },
-    AlphaHeading = { foreground = col.bright_black:lighten(1) },
-    AlphaLoaded = { foreground = col.bright_black:brighten(4):lighten(1) },
-    AlphaScroll = { foreground = col.magenta },
-    AlphaButtonLabelText = { foreground = col.yellow },
+    AlphaKeyPrefix = { background = c.blue, foreground = c.black },
+    AlphaFooting = { foreground = c.magenta },
+    AlphaHeading = { foreground = c.bright_black:lighten(1) },
+    AlphaLoaded = { foreground = c.bright_black:brighten(4):lighten(1) },
+    AlphaScroll = { foreground = c.magenta },
+    AlphaButtonLabelText = { foreground = c.yellow },
   }
 end
 

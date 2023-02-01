@@ -4,11 +4,11 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    LightBulbFloatWin = { foreground = col.bright_yellow },
-    LightBulbVirtualText = { foreground = col.yellow },
-    LightBulbSign = { foreground = col.yellow },
+    LightBulbFloatWin = { foreground = c.bright_yellow },
+    LightBulbVirtualText = { foreground = c.yellow },
+    LightBulbSign = { foreground = c.yellow },
   }
 end
 

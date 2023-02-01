@@ -4,28 +4,28 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    NotifyINFOBody = { background = col.bright_black, foreground = col.blue },
-    NotifyINFOBorder = { background = col.bright_black, foreground = col.bright_black },
-    NotifyINFOIcon = { background = col.bright_black, foreground = col.bright_blue },
-    NotifyINFOTitle = { background = col.bright_black, foreground = col.blue },
-    NotifyWARNBody = { background = col.bright_black, foreground = col.yellow },
-    NotifyWARNIcon = { background = col.bright_black, foreground = col.bright_yellow },
-    NotifyWARNTitle = { background = col.bright_black, foreground = col.yellow },
-    NotifyWARNBorder = { background = col.bright_black, foreground = col.bright_black },
-    NotifyDEBUGBody = { background = col.bright_black, foreground = col.magenta },
-    NotifyDEBUGIcon = { background = col.bright_black, foreground = col.bright_magenta },
-    NotifyDEBUGTitle = { background = col.bright_black, foreground = col.magenta },
-    NotifyDEBUGBorder = { background = col.bright_black, foreground = col.bright_black },
-    NotifyERRORBody = { background = col.bright_black, foreground = col.red },
-    NotifyERRORIcon = { background = col.bright_black, foreground = col.bright_red },
-    NotifyERRORTitle = { background = col.bright_black, foreground = col.red },
-    NotifyERRORBorder = { background = col.bright_black, foreground = col.bright_black },
-    NotifyTRACEBody = { background = col.bright_black, foreground = col.green },
-    NotifyTRACEIcon = { background = col.bright_black, foreground = col.bright_green },
-    NotifyTRACETitle = { background = col.bright_black, foreground = col.green },
-    NotifyTRACEBorder = { background = col.bright_black, foreground = col.bright_black },
+    NotifyINFOBody = { background = c.bright_black, foreground = c.blue },
+    NotifyINFOBorder = { background = c.bright_black, foreground = c.bright_black },
+    NotifyINFOIcon = { background = c.bright_black, foreground = c.bright_blue },
+    NotifyINFOTitle = { background = c.bright_black, foreground = c.blue },
+    NotifyWARNBody = { background = c.bright_black, foreground = c.yellow },
+    NotifyWARNIcon = { background = c.bright_black, foreground = c.bright_yellow },
+    NotifyWARNTitle = { background = c.bright_black, foreground = c.yellow },
+    NotifyWARNBorder = { background = c.bright_black, foreground = c.bright_black },
+    NotifyDEBUGBody = { background = c.bright_black, foreground = c.magenta },
+    NotifyDEBUGIcon = { background = c.bright_black, foreground = c.bright_magenta },
+    NotifyDEBUGTitle = { background = c.bright_black, foreground = c.magenta },
+    NotifyDEBUGBorder = { background = c.bright_black, foreground = c.bright_black },
+    NotifyERRORBody = { background = c.bright_black, foreground = c.red },
+    NotifyERRORIcon = { background = c.bright_black, foreground = c.bright_red },
+    NotifyERRORTitle = { background = c.bright_black, foreground = c.red },
+    NotifyERRORBorder = { background = c.bright_black, foreground = c.bright_black },
+    NotifyTRACEBody = { background = c.bright_black, foreground = c.green },
+    NotifyTRACEIcon = { background = c.bright_black, foreground = c.bright_green },
+    NotifyTRACETitle = { background = c.bright_black, foreground = c.green },
+    NotifyTRACEBorder = { background = c.bright_black, foreground = c.bright_black },
   }
 end
 

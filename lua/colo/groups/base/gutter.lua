@@ -4,11 +4,11 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    FoldColumn = { background = col.black, foreground = col.cyan },
-    Folded = { background = col.black, foreground = col.black:lighten(12) },
-    SignColumn = { background = col.black },
+    FoldColumn = { background = c.black, foreground = c.cyan },
+    Folded = { background = c.black, foreground = c.black:lighten(12) },
+    SignColumn = { background = c.black },
   }
 end
 

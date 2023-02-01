@@ -4,12 +4,12 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    VertSplit = { foreground = col.bright_black },
+    VertSplit = { foreground = c.bright_black },
     WinSeparator = { link = "VertSplit" },
-    Title = { foreground = col.black:brighten(4):lighten(20) },
-    MsgSeparator = { foreground = col.magenta },
+    Title = { foreground = c.black:brighten(4):lighten(20) },
+    MsgSeparator = { foreground = c.magenta },
   }
 end
 

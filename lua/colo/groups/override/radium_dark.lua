@@ -4,27 +4,27 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    NUIHeading = { background = col.black:brighten(1):lighten(2):darken(1), foreground = col.red },
-    NUIText = { background = col.black:brighten(1):lighten(2):darken(1), foreground = col.white:darken(10) },
-    NUILine = { background = col.black:brighten(1):lighten(2):darken(1), foreground = col.bright_black:brighten(4) },
+    NUIHeading = { background = c.black:brighten(1):lighten(2):darken(1), foreground = c.red },
+    NUIText = { background = c.black:brighten(1):lighten(2):darken(1), foreground = c.white:darken(10) },
+    NUILine = { background = c.black:brighten(1):lighten(2):darken(1), foreground = c.bright_black:brighten(4) },
     NUINormal = {
-      background = col.black:brighten(1):lighten(2):darken(1),
-      foreground = col.black:brighten(1):lighten(2):darken(1),
+      background = c.black:brighten(1):lighten(2):darken(1),
+      foreground = c.black:brighten(1):lighten(2):darken(1),
     },
-    NUIPrompt = { background = col.black:brighten(1):lighten(2):darken(1), foreground = col.blue },
-    NUIYes = { foreground = col.blue },
-    NUINo = { foreground = col.red },
-    NUICancel = { foreground = col.bright_black:lighten(5) },
-    NormalFloat = { background = col.black:brighten(1):lighten(2):darken(1), foreground = col.white:darken(10) },
+    NUIPrompt = { background = c.black:brighten(1):lighten(2):darken(1), foreground = c.blue },
+    NUIYes = { foreground = c.blue },
+    NUINo = { foreground = c.red },
+    NUICancel = { foreground = c.bright_black:lighten(5) },
+    NormalFloat = { background = c.black:brighten(1):lighten(2):darken(1), foreground = c.white:darken(10) },
     FloatBorder = {
-      background = col.black:brighten(1):lighten(2):darken(1),
-      foreground = col.black:brighten(1):lighten(2):darken(1),
+      background = c.black:brighten(1):lighten(2):darken(1),
+      foreground = c.black:brighten(1):lighten(2):darken(1),
     },
-    Pmenu = { background = col.black:brighten(1):lighten(2), foreground = col.white:darken(20) },
-    PmenuThumb = { background = col.black:brighten(2):lighten(3) },
-    PmenuSel = { background = col.black:brighten(1):lighten(4), foreground = col.white:darken(15) },
+    Pmenu = { background = c.black:brighten(1):lighten(2), foreground = c.white:darken(20) },
+    PmenuThumb = { background = c.black:brighten(2):lighten(3) },
+    PmenuSel = { background = c.black:brighten(1):lighten(4), foreground = c.white:darken(15) },
   }
 end
 

@@ -4,9 +4,9 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    PmenuSel = { background = col.blue, foreground = col.bright_black },
+    PmenuSel = { background = c.blue, foreground = c.bright_black },
   }
 end
 

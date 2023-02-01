@@ -4,9 +4,9 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    TroubleNormal = { background = col.black:darken(2) },
+    TroubleNormal = { background = c.black:darken(2) },
   }
 end
 

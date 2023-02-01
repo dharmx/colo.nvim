@@ -4,12 +4,12 @@
 
 local M = {}
 
-function M.prime(col)
+function M.prime(c)
   return {
-    WildMenu = { background = col.blue, foreground = col.black },
-    Substitute = { background = col.bright_magenta, foreground = col.black },
-    Search = { background = col.yellow, foreground = col.black },
-    IncSearch = { background = col.cyan, foreground = col.black },
+    WildMenu = { background = c.blue, foreground = c.black },
+    Substitute = { background = c.bright_magenta, foreground = c.black },
+    Search = { background = c.yellow, foreground = c.black },
+    IncSearch = { background = c.cyan, foreground = c.black },
   }
 end
 

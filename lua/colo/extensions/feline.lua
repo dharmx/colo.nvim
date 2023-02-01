@@ -1,48 +1,60 @@
----@diagnostic disable: undefined-field
 ---@module "colo.groups.extensions.feline"
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local present, feline = pcall(require, "feline")
 
-M.theme = {
-  fg = vim.api.nvim_get_hl_by_name("@string", true).foreground,
-  bg = vim.api.nvim_get_hl_by_name("BufferLineTab", true).background,
-  transparent = vim.api.nvim_get_hl_by_name("Normal", true).background,
-  green = vim.api.nvim_get_hl_by_name("@exception", true).foreground,
-  yellow = vim.api.nvim_get_hl_by_name("@constant.builtin", true).foreground,
-  purple = vim.api.nvim_get_hl_by_name("@function", true).foreground,
-  orange = vim.api.nvim_get_hl_by_name("@character", true).foreground,
-  cyan = vim.api.nvim_get_hl_by_name("@property", true).foreground,
-  red = vim.api.nvim_get_hl_by_name("@boolean", true).foreground,
-  aqua = vim.api.nvim_get_hl_by_name("@include", true).foreground,
-  blue = vim.api.nvim_get_hl_by_name("@keyword", true).foreground,
-  darkred = vim.api.nvim_get_hl_by_name("@constant", true).foreground,
-  gray = vim.api.nvim_get_hl_by_name("ColorColumn", true).foreground,
-  pink = vim.api.nvim_get_hl_by_name("@float", true).foreground,
-  lime = vim.api.nvim_get_hl_by_name("@keyword.operator", true).foreground,
-}
-
-for key, value in pairs(M.theme) do
-  M.theme[key] = string.format("#%06X", value)
+if not present then
+  vim.notify_once(
+    "The option config.extensions.feline.enable is set to true, which requires feline.nvim.",
+    vim.log.levels.WARN,
+    {
+      icon = "!",
+      title = "nvim-colo",
+    }
+  )
+  return
 end
 
-M.colors = {
-  ["NORMAL"] = M.theme.green,
-  ["OP"] = M.theme.cyan,
-  ["INSERT"] = M.theme.aqua,
-  ["VISUAL"] = M.theme.yellow,
-  ["LINES"] = M.theme.darkred,
-  ["BLOCK"] = M.theme.orange,
-  ["REPLACE"] = M.theme.purple,
-  ["V-REPLACE"] = M.theme.pink,
-  ["ENTER"] = M.theme.pink,
-  ["MORE"] = M.theme.pink,
-  ["SELECT"] = M.theme.darkred,
-  ["SHELL"] = M.theme.cyan,
-  ["TERM"] = M.theme.lime,
-  ["NONE"] = M.theme.gray,
-  ["COMMAND"] = M.theme.blue,
+local col = require("colo.api").theme.current()
+
+local theme = {
+  fg = col.white:darken(5),
+  bg = col.black:lighten(6),
+  green = col.green,
+  yellow = col.yellow,
+  purple = col.magenta,
+  orange = col.bright_yellow:saturate(5),
+  cyan = col.cyan,
+  red = col.red,
+  aqua = col.blue,
+  blue = col.bright_blue,
+  darkred = col.bright_red,
+  gray = col.black:lighten(6):brighten(2),
+  pink = col.magenta:spin(0.1),
+  lime = col.bright_cyan,
+}
+
+for key, value in pairs(theme) do
+  theme[key] = value:hex(true)
+end
+
+local mode_theme = {
+  ["NORMAL"] = theme.green,
+  ["OP"] = theme.cyan,
+  ["INSERT"] = theme.aqua,
+  ["VISUAL"] = theme.yellow,
+  ["LINES"] = theme.darkred,
+  ["BLOCK"] = theme.orange,
+  ["REPLACE"] = theme.purple,
+  ["V-REPLACE"] = theme.pink,
+  ["ENTER"] = theme.pink,
+  ["MORE"] = theme.pink,
+  ["SELECT"] = theme.darkred,
+  ["SHELL"] = theme.cyan,
+  ["TERM"] = theme.lime,
+  ["NONE"] = theme.gray,
+  ["COMMAND"] = theme.blue,
 }
 
 local modes = setmetatable({
@@ -66,12 +78,13 @@ local modes = setmetatable({
   ["r?"] = "C",
   ["!"] = "SH",
   ["t"] = "T",
-}, { __index = function() return "-" end })
+}, {
+  __index = function() return "-" end,
+})
 
-M.component = {}
+local component = {}
 
-M.component.vim_mode = {
-  ---@diagnostic disable-next-line: undefined-field
+component.vim_mode = {
   provider = function() return modes[vim.api.nvim_get_mode().mode] end,
   hl = function()
     return {
@@ -85,7 +98,7 @@ M.component.vim_mode = {
   right_sep = "block",
 }
 
-M.component.git_branch = {
+component.git_branch = {
   provider = "git_branch",
   hl = {
     fg = "fg",
@@ -96,7 +109,7 @@ M.component.git_branch = {
   right_sep = "",
 }
 
-M.component.git_add = {
+component.git_add = {
   provider = "git_diff_added",
   hl = {
     fg = "green",
@@ -106,7 +119,7 @@ M.component.git_add = {
   right_sep = "",
 }
 
-M.component.git_delete = {
+component.git_delete = {
   provider = "git_diff_removed",
   hl = {
     fg = "red",
@@ -116,7 +129,7 @@ M.component.git_delete = {
   right_sep = "",
 }
 
-M.component.git_change = {
+component.git_change = {
   provider = "git_diff_changed",
   hl = {
     fg = "purple",
@@ -126,7 +139,7 @@ M.component.git_change = {
   right_sep = "",
 }
 
-M.component.separator = {
+component.separator = {
   provider = "",
   hl = {
     fg = "bg",
@@ -134,32 +147,32 @@ M.component.separator = {
   },
 }
 
-M.component.diagnostic_errors = {
+component.diagnostic_errors = {
   provider = "diagnostic_errors",
   hl = {
     fg = "red",
   },
 }
 
-M.component.diagnostic_warnings = {
+component.diagnostic_warnings = {
   provider = "diagnostic_warnings",
   hl = {
     fg = "yellow",
   },
 }
 
-M.component.diagnostic_hints = {
+component.diagnostic_hints = {
   provider = "diagnostic_hints",
   hl = {
     fg = "aqua",
   },
 }
 
-M.component.diagnostic_info = {
+component.diagnostic_info = {
   provider = "diagnostic_info",
 }
 
-M.component.lsp = {
+component.lsp = {
   provider = function()
     if not rawget(vim, "lsp") then return "" end
 
@@ -199,7 +212,7 @@ M.component.lsp = {
   right_sep = "block",
 }
 
-M.component.file_type = {
+component.file_type = {
   provider = {
     name = "file_type",
     opts = {
@@ -214,7 +227,7 @@ M.component.file_type = {
   right_sep = "block",
 }
 
-M.component.scroll_bar = {
+component.scroll_bar = {
   provider = function()
     local chars = {
       " ",
@@ -276,7 +289,7 @@ M.component.scroll_bar = {
     end
     return {
       fg = fg,
-      style = style,
+      style = "bold",
       bg = "bg",
     }
   end,
@@ -284,23 +297,36 @@ M.component.scroll_bar = {
   right_sep = "block",
 }
 
-M.component.search_count = {
-  provider = function()
-    ---@diagnostic disable-next-line: undefined-field
-    if vim.v.hlsearch == 0 then return "" end
-    local result = vim.fn.searchcount({ maxcount = 999, timeout = 250 })
-    ---@diagnostic disable-next-line: undefined-field
-    if result.incomplete == 1 or next(result) == nil then return "" end
-    return string.format("%d/%d", result.current, math.min(result.total, result.maxcount))
-  end,
-  hl = {
-    fg = "bg",
-    bg = "yellow",
-  },
-  left_sep = "block",
-  right_sep = "block",
+local left = {}
+local middle = {}
+local right = {
+  component.vim_mode,
+  component.file_type,
+  component.lsp,
+  component.git_branch,
+  component.git_add,
+  component.git_delete,
+  component.git_change,
+  component.separator,
+  component.diagnostic_errors,
+  component.diagnostic_warnings,
+  component.diagnostic_info,
+  component.diagnostic_hints,
+  component.scroll_bar,
 }
 
-return M
+local components = {
+  active = {
+    left,
+    middle,
+    right,
+  },
+}
+
+feline.setup({
+  components = components,
+  theme = theme,
+  vi_mode_colors = mode_theme,
+})
 
 ---vim:filetype=lua

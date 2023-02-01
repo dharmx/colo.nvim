@@ -2,15 +2,11 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.prime(col)
-  return {
-    FidgetTitle = { foreground = col.bright_green },
-    FidgetTask = { foreground = col.black:lighten(5) },
-  }
-end
-
-return M
+return {
+  FidgetTitle = { foreground = col.bright_green },
+  FidgetTask = { foreground = col.black:lighten(5) },
+}
 
 ---vim:filetype=lua

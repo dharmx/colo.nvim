@@ -5,12 +5,15 @@
 
 local M = {}
 
+---@module "colo.util"
 local util = require("colo.util")
-local tutil = require("colo.theme")
-local conf = require("colo.config")
-local rel = require("plenary.reload").reload_module
+---@module "colo.theming"
+local theming = require("colo.theming")
 
-local F = vim.fn
+---@module "plenary.reload"
+local reload = require("plenary.reload")
+
+local fn = vim.fn
 
 ---Theme utils.
 M.theme = {}
@@ -29,165 +32,253 @@ function M.theme.clean()
   vim.o.background = nil
   vim.g.colors_name = nil
   vim.cmd.highlight("clear")
-  if F.exists("syntax_on") then vim.cmd.syntax("reset") end
+  if fn.exists("syntax_on") then vim.cmd.syntax("reset") end
 end
 
 ---Set a theme.
 ---@param name string
 function M.theme.set(name)
-  local theme = M.theme.get(name)
-  vim.o.background = theme.background
+  vim.o.background = M.theme.get(name).background
   vim.g.colors_name = name
-  local term, hls, o = M.theme.all(theme)
-  tutil.set_term(term)
+  reload.reload_module("colo.groups")
 
-  for _, hl in ipairs(hls) do
-    for n, v in pairs(hl) do
-      tutil.set_hl(n, v)
+  local terminal, hl_chunks, overrides = M.theme.list_all_hl()
+  theming.terminal_all(terminal)
+  for _, hl_chunk in ipairs(hl_chunks) do
+    for hl_name, hl_value in pairs(hl_chunk) do
+      theming.set(hl_name, hl_value)
     end
   end
 
-  for n, v in pairs(o) do
-    tutil.set_hl(n, v)
+  for hl_name, hl_value in pairs(overrides) do
+    ---@diagnostic disable-next-line: param-type-mismatch
+    theming.set(hl_name, hl_value)
   end
 
-  if not conf.current.manual and conf.current.reload.enable then M.theme.reload(conf.current.reload.items) end
-  conf.set({ manual = false })
-end
-
----@param mods table
-function M.theme.reload(mods)
-  for _, mod in ipairs(mods) do
-    if type(mod) == "string" then
-      rel(mod)
-    elseif type(mod) == "table" then
-      if mod.import then
-        rel(mod[1])
-        require(mod[1])
-      end
-      if mod.silent then
-        rel(mod[1])
-        pcall(require, mod[1])
-      end
-    end
+  if _G.___colo_private.manual then
+    _G.___colo_private.manual = false
+    return
   end
+  M.extension.reload_all()
 end
 
 ---Invert all highlight groups.
 function M.theme.invert()
-  local hls = F.getcompletion("", "highlight")
-  for _, n in ipairs(hls) do
-    local hl = tutil.wrap(n)
+  local hl_list = fn.getcompletion("", "highlight")
+  -- local hl_chunks = {}
+  for _, hl_name in ipairs(hl_list) do
+    local hl = theming.wrap(hl_name)
     if hl.foreground then hl.foreground = hl.foreground:invert() end
     if hl.background then hl.background = hl.background:invert() end
     if hl.special then hl.special = hl.special:invert() end
-    tutil.set_hl(n, hl)
+    ---@diagnostic disable-next-line: param-type-mismatch
+    theming.set(hl_name, hl)
   end
 end
 
 ---List all highlights that are stored in plugin_path/lua/colo/groups.
+---@param resolve boolean? when true it will require the module and false will return the module path
 ---@return table, table, table
-function M.theme.all(col)
-  local term_chunk = M.group.terminal(col)
-  local hls = {
-    M.group.base(col),
-    M.group.integration(col),
-    M.group.syntax(col),
+function M.theme.list_all_hl(resolve)
+  resolve = vim.F.if_nil(resolve, true)
+  local term_chunk = M.group.terminal({ resolve = resolve })
+  local hl_chunks = {
+    M.group.base({ resolve = resolve, flatten = true }),
+    M.group.integration({ resolve = resolve, flatten = true }),
+    M.group.syntax({ resolve = resolve, flatten = true }),
   }
-  local o = M.group.override(col)
-  return term_chunk, hls, o
-end
-
-local function exclude_match(pat)
-  for _, ex in ipairs(conf.current.exclude) do
-    if pat:match(ex) then return false end
-  end
-  return true
-end
-
-local function list_all_user_themes()
-  local user_path = F.stdpath("config") .. "/lua/colo/themes"
-  if not vim.loop.fs_access(user_path, "X") then return {} end
-  return F.readdir(user_path)
-end
-
-local function list_all_themes()
-  return vim.tbl_flatten({ list_all_user_themes(), F.readdir(util.plugin.path() .. "/lua/colo/themes") })
+  local overrides = M.group.override({ resolve = resolve })
+  return term_chunk, hl_chunks, overrides
 end
 
 ---List all themes.
----@param opts table<string, function|string>
+---@param options table<string, function|string>
 ---@return table<string>
-function M.theme.list(opts)
-  opts = vim.tbl_extend("keep", vim.F.if_nil(opts, {}), {
+function M.theme.list(options)
+  local path_fragment = "/lua/colo/themes"
+  options = vim.tbl_extend("keep", vim.F.if_nil(options, {}), {
     operation = "all",
-    filter = function(item) return exclude_match(item) end,
-    map = function(item) return F.fnamemodify(item, ":r") end,
+    map_callback = function(path) return path end,
   })
 
-  local op = { all = list_all_themes, user = list_all_user_themes }
-  local res = vim.tbl_map(opts.map, op[opts.operation]())
-  return vim.tbl_filter(opts.filter, res)
+  local user_path = fn.stdpath("config") .. path_fragment
+  local operations = {
+    all = function()
+      local user_items = {}
+      if vim.loop.fs_access(user_path, "X") then user_items = fn.readdir(user_path) end
+      return vim.tbl_flatten({
+        user_items,
+        fn.readdir(util.plugin.path() .. path_fragment),
+      })
+    end,
+    user = function()
+      if not vim.loop.fs_access(user_path, "X") then return {} end
+      return fn.readdir(user_path)
+    end,
+    plugin = function() return fn.readdir(util.plugin.path() .. path_fragment) end,
+  }
+  return vim.tbl_map(options.map_callback, operations[options.operation]())
+end
+
+---Utils related to recording of theme history.
+M.cycle = {}
+
+---Prepare and declare all needed variables for theme recording.
+local function cycle_init()
+  if not _G.___colo_private.cycle then return end
+
+  local theme = M.theme.current()
+  _G.___colo_private.cycle = nil
+  _G.___colo_private.cycle_history = M.theme.list({
+    operation = "all",
+    map_callback = util.canned.filenamermx,
+  })
+  _G.___colo_private.cycle_total = #_G.___colo_private.cycle_history
+
+  for index, value in ipairs(_G.___colo_private.cycle_history) do
+    if value == theme.name .. "_" .. theme.background then _G.___colo_private.cycle_position = index end
+  end
+end
+
+---Goto the next theme in the cycle.
+function M.cycle.next()
+  cycle_init()
+  _G.___colo_private.cycle_position = (_G.___colo_private.cycle_position % _G.___colo_private.cycle_total) + 1
+  M.theme.set(_G.___colo_private.cycle_history[_G.___colo_private.cycle_position])
+end
+
+---Goto the previous theme in the cycle.
+function M.cycle.previous()
+  cycle_init()
+  if _G.___colo_private.cycle_position <= 1 then
+    _G.___colo_private.cycle_position = _G.___colo_private.cycle_total
+  else
+    _G.___colo_private.cycle_position = _G.___colo_private.cycle_position - 1
+  end
+  M.theme.set(_G.___colo_private.cycle_history[_G.___colo_private.cycle_position])
+end
+
+---Goto a random theme in the cycle.
+function M.cycle.random()
+  cycle_init()
+  _G.___colo_private.cycle_position = math.random(1, _G.___colo_private.cycle_total)
+  M.theme.set(_G.___colo_private.cycle_history[_G.___colo_private.cycle_position])
 end
 
 ---Utils relating to the plugin_path/lua/colo/groups part of the plugin.
 M.group = {}
 
-local function to_module_path(path)
-  return F.fnamemodify(path, string.format(":s?%s??:r", util.plugin.path() .. "/lua")):gsub("/", "."):sub(2)
-end
-
 ---Get paths in the plugin_path/lua/colo/groups directory and the user
 ---equivalent config_path/lua/colo/groups as well.
----@param name "base"|"syntax"|"integration"
+---@param aggregate "base"|"syntax"|"integration"
+---@param options table<string, boolean> additional settings
+---  options.resolve (boolean): require the module path
+---  options.indexed (boolean): dump all module paths and sort them by groups
+---  options.flatten (boolean): dump all module paths and flatten them
 ---@return table
-local function get_normal_group(name, col)
-  local base_hl = util.plugin.scan("groups/" .. name, {
+local function get_normal_group(aggregate, options)
+  options = vim.F.if_nil(options, {})
+  assert(
+    vim.tbl_contains({
+      "base",
+      "syntax",
+      "integration",
+    }, aggregate),
+    "choose from base/integration/syntax"
+  )
+  local base_hl = util.plugin.scan("groups/" .. aggregate, {
     add_dirs = false,
-    on_insert = to_module_path,
-    depth = 1,
+    on_insert = util.canned.to_module_path,
   })
 
-  for i, hl_file in ipairs(base_hl) do
-    base_hl[i] = require(hl_file).prime(col)
-  end
+  if options.resolve then
+    if options.indexed then
+      for index, hl_path in ipairs(base_hl) do
+        base_hl[index] = require(hl_path)
+      end
+    else
+      for index, hl_path in ipairs(base_hl) do
+        base_hl[index] = nil
+        local split_hl = vim.split(hl_path, "%.", {})
+        base_hl[split_hl[#split_hl]] = require(hl_path)
+      end
+    end
 
-  local results = {}
-  for _, hl_chunk in pairs(base_hl) do
-    for hl_name, hl_value in pairs(hl_chunk) do
-      results[hl_name] = hl_value
+    if options.flatten then
+      local results = {}
+      for _, hl_chunk in pairs(base_hl) do
+        for hl_name, hl_value in pairs(hl_chunk) do
+          results[hl_name] = hl_value
+        end
+      end
+      return results
     end
   end
-  return results
+
+  return base_hl
 end
 
 ---Get modules in the {plugin_,config_}path/lua/colo/groups/base path.
+---@param options table<string, boolean> additional settings
+---  options.resolve (boolean): require the module path
+---  options.indexed (boolean): dump all module paths and sort them by groups
+---  options.flatten (boolean): dump all module paths and flatten them
 ---@return table
-function M.group.base(col) return get_normal_group("base", col) end
+function M.group.base(options) return get_normal_group("base", options) end
 
 ---Get modules in the {plugin_,config_}path/lua/colo/groups/syntax path.
+---@param options table<string, boolean> additional settings
+---  options.resolve (boolean): require the module path
+---  options.indexed (boolean): dump all module paths and sort them by groups
+---  options.flatten (boolean): dump all module paths and flatten them
 ---@return table
-function M.group.syntax(col) return get_normal_group("syntax", col) end
+function M.group.syntax(options) return get_normal_group("syntax", options) end
 
 ---Get modules in the {plugin_,config_}path/lua/colo/groups/integration path.
+---@param options table<string, boolean> additional settings
+---  options.resolve (boolean): require the module path
+---  options.indexed (boolean): dump all module paths and sort them by groups
+---  options.flatten (boolean): dump all module paths and flatten them
 ---@return table
-function M.group.integration(col) return get_normal_group("integration", col) end
+function M.group.integration(options) return get_normal_group("integration", options) end
 
 ---Get module in the {plugin_,config_}path/lua/colo/groups/override path.
+---@param options table<string, boolean>? additional settings
+---  options.resolve (boolean): require the module path
 ---@return table
-function M.group.override(col)
-  local present, hl_chunk = pcall(require, string.format("colo.groups.override.%s_%s", col.name, col.background))
-  return present and hl_chunk.prime(col) or {}
+function M.group.override(options)
+  options = vim.F.if_nil(options, {})
+  local current = M.theme.current()
+
+  if options.resolve then
+    local present, hl_chunk =
+      pcall(require, string.format("colo.groups.override.%s_%s", current.name, current.background))
+    return present and hl_chunk or {}
+  end
+  return {}
 end
 
 ---Get module in the {plugin_,config_}path/lua/colo/groups/extra/terminal path.
-function M.group.terminal(col) return require("colo.groups.extra.terminal").prime(col) end
+---@param options table<string, boolean> additional settings
+---  options.resolve (boolean): require the module path
+function M.group.terminal(options)
+  options = vim.F.if_nil(options, {})
+  local mod_path = "colo.groups.extra.terminal"
+  return options.resolve and require(mod_path) or { mod_path }
+end
 
 ---Utils relating to aggregate styling and font styling.
 M.aggregate = {}
 
 ---Categories of styles that are currently supported.
-M.aggregate.categories = { "bold", "italic", "undercurl", "underline", "transparent", "all" }
+M.aggregate.categories = {
+  "bold",
+  "italic",
+  "undercurl",
+  "underline",
+  "transparent",
+  "all",
+}
 
 ---Get highlight groups for aggregates.
 ---@param ... any one or more options from aggregate.categories
@@ -204,7 +295,7 @@ function M.aggregate.get(...)
   for _, category in ipairs(options) do
     if vim.tbl_contains(M.aggregate.categories, category) then
       for _, hl_name in ipairs(items[category]) do
-        results[hl_name] = tutil.wrap(hl_name)
+        results[hl_name] = theming.wrap(hl_name)
       end
     end
   end
@@ -224,27 +315,27 @@ function M.aggregate.set(operation, ...)
     if vim.tbl_contains(M.aggregate.categories, category) then
       local hl_chunk = M.aggregate.get({ category })
       for hl_name, hl_value in pairs(hl_chunk) do
-        if operation == "add" then
+        if operation == "add" or operation == "+" then
           if category == "transparent" then
             hl_value.background = nil
           else
             hl_value[category] = true
           end
-          tutil.set_hl(hl_name, hl_value)
-        elseif operation == "remove" then
+          theming.set(hl_name, hl_value)
+        elseif operation == "remove" or operation == "rm" or operation == "-" then
           if category == "transparent" then
             hl_value.background = nil ---TODO: restore from groups/*
           else
             hl_value[category] = false
           end
-          tutil.set_hl(hl_name, hl_value)
-        elseif operation == "transparent" then
+          theming.set(hl_name, hl_value)
+        else
           if category == "transparent" then
             hl_value.background = nil ---TODO: restore from groups/*
           else
             hl_value[category] = not hl_value[category]
           end
-          tutil.set_hl(hl_name, hl_value)
+          theming.set(hl_name, hl_value)
         end
       end
     end
@@ -262,6 +353,47 @@ function M.aggregate.remove(...) M.aggregate.set("remove", ...) end
 ---Add/Remove an aggregate if it is already set.
 ---@param ... string[] one of the items from aggregate.categories.
 function M.aggregate.toggle(...) M.aggregate.set("toggle", ...) end
+
+---Extension/plugin related utils.
+M.extension = {}
+
+---Scan for extensions in the {plugin,user}_path/lua/colo/extensions.
+---@return table<string>
+function M.extension.list()
+  return util.plugin.scan("extensions", {
+    silent = true,
+    add_dirs = false,
+    on_insert = function(path) return fn.fnamemodify(path, ":t:r") end,
+  })
+end
+
+---Load an extension. This reloads all extensions as well.
+---Noe that if pluging config has three keys then ... needs to three params as well.
+---@param config table needs to return the following table:
+---  {
+---    module = "path.to.extension",
+---    enable = true,
+---    options = { some_options... },
+---  }
+---@param ... any extension(s)
+function M.extension.load(config, ...)
+  local extensions = M.extension.list()
+  local options = vim.tbl_flatten({ ... })
+
+  reload.reload_module("colo.extensions")
+  for _, name in ipairs(options) do
+    if vim.tbl_contains(extensions, name) and config[name] and config[name].enable then require(config[name].module) end
+  end
+end
+
+---Reload and require all extensions.
+function M.extension.reload_all()
+  reload.reload_module("colo.extensions")
+  local extensions = require("colo").config.extensions
+  for _, extension in pairs(extensions) do
+    if extension.enable then pcall(require, extension.module) end
+  end
+end
 
 return M
 

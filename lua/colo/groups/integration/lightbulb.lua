@@ -2,16 +2,12 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.prime(col)
-  return {
-    LightBulbFloatWin = { foreground = col.bright_yellow },
-    LightBulbVirtualText = { foreground = col.yellow },
-    LightBulbSign = { foreground = col.yellow },
-  }
-end
-
-return M
+return {
+  LightBulbFloatWin = { foreground = col.bright_yellow },
+  LightBulbVirtualText = { foreground = col.yellow },
+  LightBulbSign = { foreground = col.yellow },
+}
 
 ---vim:filetype=lua

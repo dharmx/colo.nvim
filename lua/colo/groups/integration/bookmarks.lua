@@ -2,17 +2,13 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.prime(col)
-  return {
-    BookmarkAnnotationLine = { foreground = col.magenta:brighten(10) },
-    BookmarkAnnotationSign = { foreground = col.magenta },
-    BookmarkLine = { background = col.bright_black:brighten(10) },
-    BookmarkSign = { foreground = col.red },
-  }
-end
-
-return M
+return {
+  BookmarkAnnotationLine = { foreground = col.magenta:brighten(10) },
+  BookmarkAnnotationSign = { foreground = col.magenta },
+  BookmarkLine = { background = col.bright_black:brighten(10) },
+  BookmarkSign = { foreground = col.red },
+}
 
 ---vim:filetype=lua

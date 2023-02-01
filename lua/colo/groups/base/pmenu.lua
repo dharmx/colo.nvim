@@ -1,18 +1,14 @@
----@module "colo.groups.base.pmenu"
+---@module "colo.groups.base"
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.prime(col)
-  return {
-    Pmenu = { background = col.black:darken(1.4), foreground = col.white:darken(20) },
-    PmenuSel = { background = col.green, foreground = col.bright_black },
-    PmenuSbar = { link = "Pmenu" },
-    PmenuThumb = { background = col.black:lighten(1) },
-  }
-end
-
-return M
+return {
+  Pmenu = { background = col.black:brighten(1):lighten(2), foreground = col.white:darken(20) },
+  PmenuSel = { background = col.green, foreground = col.black },
+  PmenuSbar = { link = "Pmenu" },
+  PmenuThumb = { background = col.black:brighten(2):lighten(3) },
+}
 
 ---vim:filetype=lua

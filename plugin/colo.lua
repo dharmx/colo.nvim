@@ -37,6 +37,7 @@ end, {
   complete = function()
     return require("colo.api").theme.list({
       operation = "all",
+      map_callback = require("colo.util").canned.filenamermx,
     })
   end,
 })
@@ -52,12 +53,28 @@ end, {
   complete = function()
     return require("colo.api").theme.list({
       operation = "all",
+      map_callback = require("colo.util").canned.filenamermx,
     })
   end,
 })
 
 cmd("ColoClean", function() require("colo.api").theme.clean() end, {
   desc = "Remove all highlights.",
+  nargs = 0,
+})
+
+cmd("ColoRandom", function() require("colo.api").cycle.random() end, {
+  desc = "Cycle to a random colorscheme.",
+  nargs = 0,
+})
+
+cmd("ColoPrevious", function() require("colo.api").cycle.previous() end, {
+  desc = "Cycle to the previous colorscheme.",
+  nargs = 0,
+})
+
+cmd("ColoNext", function() require("colo.api").cycle.next() end, {
+  desc = "Cycle to the next colorscheme.",
   nargs = 0,
 })
 
@@ -79,18 +96,37 @@ cmd("ColoRemove", function(...) require("colo.api").aggregate.remove((...).fargs
   complete = function() return require("colo.api").aggregate.categories end,
 })
 
+cmd("ColoLoadExtension", function(...)
+  local args = (...).fargs
+  local colo_api = require("colo.api")
+  if #args == 0 then
+    colo_api.extension.load(require("colo").config.extensions, colo_api.extension.list())
+    return
+  end
+  colo_api.extension.load(require("colo").config.extensions, (...).fargs)
+end, {
+  desc = "Enable/Reload plugin extension.",
+  nargs = "*",
+  complete = function() return require("colo.api").extension.list() end,
+})
+
 cmd("ColoTele", function() require("telescope").extensions.colo.colo() end, {
   desc = "Theme picker.",
   nargs = 0,
 })
 
-cmd("ColoKindGLazeToggle", function() require("colo.preset").kind_glaze_toggle() end, {
-  desc = "Swap background with foreground for nvim-cmp kind and make the icons glow.",
+cmd("ColoPresetItalicComments", function() require("colo.presets").enable_italic_comments() end, {
+  desc = "Enable italic comments.",
   nargs = 0,
 })
 
-cmd("ColoKindSwapToggle", function() require("colo.preset").kind_swap_toggle() end, {
-  desc = "Swap background with foreground for nvim-cmp kind.",
+cmd("ColoPresetContrast", function() require("colo.presets").enable_contrast() end, {
+  desc = "Enable contrast.",
+  nargs = 0,
+})
+
+cmd("ColoPresetDottedSpell", function() require("colo.presets").enable_dotted_spell() end, {
+  desc = "Use dotted underlines instead for spellcheck.",
   nargs = 0,
 })
 

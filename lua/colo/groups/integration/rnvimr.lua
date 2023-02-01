@@ -2,14 +2,10 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.prime(col)
-  return {
-    RnvimrNormal = { link = "NormalFloat" },
-  }
-end
-
-return M
+return {
+  RnvimrNormal = { link = "NormalFloat" },
+}
 
 ---vim:filetype=lua

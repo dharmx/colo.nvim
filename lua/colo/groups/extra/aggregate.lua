@@ -5,10 +5,6 @@
 local M = {}
 
 M.bold = {
-  "@lua.parameter.self",
-  "@lua.constant.vim",
-  "@lua.constant.cmd",
-  "@lua.function.pcall",
   "@function.builtin",
   "@boolean",
   "@text.title",

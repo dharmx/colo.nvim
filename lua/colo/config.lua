@@ -2,19 +2,17 @@
 ---@author dharmx
 ---@license GPL-3.0
 
----@alias ColoConfig {theme:string,cycle:{enable:boolean},manual:boolean,notifications:boolean,inverted:boolean,logging:DEBUG|ERROR|INFO|TRACE|WARN|OFF,mappings:{enable:boolean,items:{mode:string,key:string,action:function|string,options:table<string,boolean>}[]},reload:{enable:boolean,items:table<string>},aggregates:{enable:boolean,items:{italic:boolean,bold:boolean,undercurl:boolean,underline:boolean,transparent:boolean}},filetypes:{enable:boolean,initial:boolean,items:table<string,string>},custom_hl:{enable:boolean,items:table<string,table<string,boolean|number|string>>},presets:{enable:boolean,items:{italic_comments:boolean,dotted_spell:boolean,contrast:boolean}},telescope:table}
-
 local M = {}
 
 -- TODO: Allow functions too.
----The evergrowing default configuration.
+---The evergrowing default configuration for nvim-colo.
 ---@type ColoConfig
-local _DEFAULTS = {
+M.defaults = {
   -- Neovim theme.
   theme = "radium_dark",
   ---Enable theme cycles and history tracking. This will keep track of previous and next themes
   ---so you can switch back and forth between them.
-  cycle = { enable = false },
+  cycle = false,
   ---Skip loading extensions when colo is first loaded i.e. only set the colorscheme.
   manual = false,
   ---TODO: Allow showing a dialog stating facts and information about the theme.
@@ -38,26 +36,27 @@ local _DEFAULTS = {
     },
   },
   ---Configure builtin extension and your own custom extensions.
-  reload = {
-    enable = false,
-    items = {},
-  },
-  exclude = {
-    "^sexy_",
-    "^tempus_",
-    "^base16_",
-    "^dkeg_",
-    "^stardew_",
-    "^decay_",
-    "^hybrid_",
-    "^3024_",
-    "^base16tooth_",
-    "^darktooth_",
-    "light$",
-    "^gruvbox_",
-    "^vscode_",
-    "^monokai_",
-    "^solarized_",
+  extensions = {
+    feline = {
+      enable = false,
+      module = "colo.extensions.feline",
+      options = {},
+    },
+    bufferline = {
+      enable = false,
+      module = "colo.extensions.bufferline",
+      options = {},
+    },
+    devicons = {
+      enable = false,
+      module = "colo.extensions.devicons",
+      options = {},
+    },
+    alpha = {
+      enable = false,
+      module = "colo.extensions.alpha",
+      options = {},
+    },
   },
   ---Add, remove and toggle font styles for some specific highlights.
   aggregates = {
@@ -73,6 +72,7 @@ local _DEFAULTS = {
   ---TODO: Do not require the following files from plugin_path .. "/lua/colo/groups/{base,integration,override,syntax}"
   blacklists = {
     enable = false,
+    ---TODO: Allow functions too.
     items = {
       "integration.nui",
       "base.spell",
@@ -111,22 +111,16 @@ local _DEFAULTS = {
   ---Options regarding the telescope theme picker.
   telescope = {
     theme = "ivy",
-    results_title = false,
-    sorting_strategy = "ascending",
-    layout_strategy = "center",
-    layout_config = {
-      preview_cutoff = 1,
-      width = function(_, max_columns, _) return math.min(max_columns, 60) end,
-      height = function(_, _, max_lines) return math.min(max_lines, 20) end,
-    },
-    border = true,
-    borderchars = {
-      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    },
     separator = "┃  ",
-    exclude = {},
+    exclude = {
+      "^sexy_",
+      "^tempus_",
+      "^base16_",
+      "^dkeg_",
+      "^stardew_",
+      "^decay_",
+      "^hybrid_",
+    },
     ---Highlights for theme categories and variants.
     highlights = {
       ---Normal results text.
@@ -149,14 +143,7 @@ local _DEFAULTS = {
       },
     },
   },
-  _private = {},
 }
-
-M._DEFAULTS = _DEFAULTS
-M.current = M._DEFAULTS
-
----@param options ColoConfig?
-function M.set(options) M.current = vim.tbl_deep_extend("force", vim.deepcopy(M.current), vim.F.if_nil(options, {})) end
 
 return M
 

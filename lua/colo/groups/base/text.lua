@@ -2,16 +2,12 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.prime(col)
-  return {
-    Bold = { bold = true },
-    Italic = { italic = true },
-    Underlined = { underline = true },
-  }
-end
-
-return M
+return {
+  Bold = { bold = true },
+  Italic = { italic = true },
+  Underlined = { underline = true },
+}
 
 ---vim:filetype=lua

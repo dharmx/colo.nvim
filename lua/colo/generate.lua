@@ -13,17 +13,13 @@ local FORMAT = [[
 ---${name}
 ---${background}
 
-vim.g.colors_name = ${name}
-vim.o.background = ${background}
-
 local function HL(name, val) vim.api.nvim_set_hl(0, name, val) end
 
 ${colors}
 ]]
 
-function M.raw(path)
-  path = vim.F.if_nil(path, util.plugin.path() .. "/colors")
-  local hl_names = vim.fn.getcompletion("", "highlight")
+function M.raw()
+  local hl_names = vim.fn.getcompletion("", "highlight", "Default")
   local hl_list = {}
   for _, name in ipairs(hl_names) do
     local hl = A.nvim_get_hl_by_name(name, true)
@@ -38,7 +34,7 @@ function M.raw(path)
   end
 
   ---@type Path
-  local write_path = Path:new(path)
+  local write_path = Path:new(util.plugin.path() .. "/colors")
   if not write_path:exists() then write_path:mkdir({ parents = true, exists_ok = true }) end
   FORMAT = (FORMAT:gsub("%${name}", vim.g.colors_name))
   FORMAT = (FORMAT:gsub("%${background}", vim.o.background))

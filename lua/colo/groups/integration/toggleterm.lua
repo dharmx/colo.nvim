@@ -2,15 +2,11 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.prime(col)
-  return {
-    ToggleTerm1NormalFloat = { link = "NormalFloat" },
-    ToggleTerm1FloatBorder = { link = "FloatBorder" },
-  }
-end
-
-return M
+return {
+  ToggleTerm1NormalFloat = { link = "NormalFloat" },
+  ToggleTerm1FloatBorder = { link = "FloatBorder" },
+}
 
 ---vim:filetype=lua

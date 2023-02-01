@@ -2,17 +2,13 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local col = require("colo.api").theme.current()
 
-function M.prime(col)
-  return {
-    SpellBad = { foreground = col.red },
-    SpellCap = { foreground = col.bright_yellow },
-    SpellRare = { foreground = col.bright_cyan },
-    SpellLocal = { foreground = col.bright_red },
-  }
-end
-
-return M
+return {
+  SpellBad = { foreground = col.red },
+  SpellCap = { foreground = col.bright_yellow },
+  SpellRare = { foreground = col.bright_cyan },
+  SpellLocal = { foreground = col.bright_red },
+}
 
 ---vim:filetype=lua

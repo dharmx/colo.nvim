@@ -2,32 +2,48 @@
 ---@author dharmx
 ---@license GPL-3.0
 
-local M = {}
+local present, bufferline = pcall(require, "bufferline")
 
-M.config = {
+if not present then
+  vim.notify_once(
+    "The option config.extensions.bufferline.enable is set to true, which requires bufferline.nvim.",
+    vim.log.levels.WARN,
+    {
+      icon = "!",
+      title = "nvim-colo",
+    }
+  )
+  return
+end
+
+local col = require("colo.api").theme.current()
+
+local offsets = {
+  {
+    filetype = "NvimTree",
+    text = "",
+    padding = 1,
+  },
+  {
+    filetype = "Outline",
+    text = "",
+    padding = 0,
+  },
+  {
+    filetype = "SidebarNvim",
+    text = "",
+    padding = 0,
+  },
+  {
+    filetype = "undotree",
+    text = "",
+    padding = 0,
+  },
+}
+
+bufferline.setup({
   options = {
-    offsets = {
-      {
-        filetype = "NvimTree",
-        text = "",
-        padding = 1,
-      },
-      {
-        filetype = "Outline",
-        text = "",
-        padding = 0,
-      },
-      {
-        filetype = "SidebarNvim",
-        text = "",
-        padding = 0,
-      },
-      {
-        filetype = "undotree",
-        text = "",
-        padding = 0,
-      },
-    },
+    offsets = offsets,
     mode = "buffers",
     numbers = "none",
     close_command = "bdelete! %d",
@@ -58,8 +74,6 @@ M.config = {
     enforce_regular_tabs = true,
     always_show_bufferline = true,
   },
-}
-
-return M
+})
 
 ---vim:filetype=lua

@@ -42,4 +42,4 @@ end
 
 return M
 
----vim:filetype=lua
+-- vim:filetype=lua

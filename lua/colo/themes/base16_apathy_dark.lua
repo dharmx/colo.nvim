@@ -28,4 +28,4 @@ return {
   bright_white = Color:new({ hex = "#D2E7E4" }),
 }
 
----vim:filetype=lua
+-- vim:filetype=lua

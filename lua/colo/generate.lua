@@ -1,7 +1,3 @@
----@module "colo.generate"
----@author dharmx
----@license GPL-3.0
-
 local Path = require("plenary.path")
 local M = {}
 
@@ -9,7 +5,7 @@ local util = require("colo.util")
 local A = vim.api
 
 local FORMAT = [[
----vim:filetype=lua
+-- vim:filetype=lua
 ---${name}
 ---${background}
 
@@ -53,4 +49,4 @@ end
 
 return M
 
----vim:filetype=lua
+-- vim:filetype=lua

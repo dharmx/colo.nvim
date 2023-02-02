@@ -1,7 +1,3 @@
----@module "colo.groups.extensions.incline"
----@author dharmx
----@license GPL-3.0
-
 local ok, devicons = pcall(require, "nvim-web-devicons")
 
 local M = {}

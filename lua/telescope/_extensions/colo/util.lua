@@ -1,14 +1,9 @@
----@module "telescope._extensions.colo.util"
----@author dharmx
----@license GPL-3.0
-
 local M = {}
 
 local entry_display = require("telescope.pickers.entry_display")
 local colo_util = require("colo.util")
-local colo_config = require("colo.config").current
 
-function M.make_entry(theme, options)
+function M.make_entry(theme, opts)
   local name_table = vim.split(theme, "_", { plain = true })
   if #name_table < 3 then table.insert(name_table, 1, "single") end
 
@@ -21,14 +16,14 @@ function M.make_entry(theme, options)
     category = category:upper(),
     background = background:upper(),
     highlights = {
-      background = options.highlights.background[background],
-      category = options.highlights.pack[category],
-      name = options.highlights.name,
+      background = opts.highlights.background[background],
+      category = opts.highlights.pack[category],
+      name = opts.highlights.name,
     },
   }
 end
 
-function M.entries(options)
+function M.entries(opts)
   local themes = require("colo.api").theme.list({
     operation = "all",
   })
@@ -37,7 +32,7 @@ function M.entries(options)
     results = themes,
     entry_maker = function(entry)
       local displayer = entry_display.create({
-        separator = options.separator,
+        separator = opts.separator,
         items = {
           { width = 0.2 },
           { width = 0.2 },
@@ -46,7 +41,7 @@ function M.entries(options)
         },
       })
 
-      local item = M.make_entry(entry, options)
+      local item = M.make_entry(entry, opts)
       return {
         value = entry,
         display = function()

@@ -1,7 +1,3 @@
----@module "colo.groups.extensions.alpha"
----@author dharmx
----@license GPL-3.0
-
 local M = {}
 
 function M.generate_button(callback, opts)

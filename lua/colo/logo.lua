@@ -1,9 +1,3 @@
----@module "colo.logos"
----@author dharmx
----@license GPL-3.0
-
----ASCII/UNICODE logos for your dashboard.
----If logos.RANDOM is accessed then a random logo will be returned.
 local logos = setmetatable({
   SKULLBIGANNOYED = {
     [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣶⣶⣶⣶⣶⣦⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
@@ -185,4 +179,4 @@ local logos = setmetatable({
 
 return logos
 
----vim:filetype=lua
+-- vim:filetype=lua

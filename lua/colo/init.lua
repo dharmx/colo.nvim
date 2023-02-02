@@ -1,25 +1,20 @@
----@module "colo"
----@author dharmx
----@license GPL-3.0
-
 local M = {}
 
----@alias DEBUG 1
----@alias ERROR 4
----@alias INFO 2
----@alias TRACE 0
----@alias WARN 3
----@alias OFF 5
+function M.setup(opts)
+  local conf = require("colo.config")
+  if conf._PRIVATE.loaded then return end
 
----Configure and enable the plugin
----@param options ColoConfig?
-function M.setup(options)
-  local config = require("colo.config")
-  config.set(options)
+  conf.set(opts)
   local colo = require("colo.api")
-  colo.theme.set(config.current.theme)
+  colo.theme.set(conf.current.theme)
+
+  for _, map in ipairs(conf.current.mappings.items) do
+    vim.keymap.set(map.mode, map.key, map.action, map.opts)
+  end
+
+  conf._PRIVATE.loaded = true
 end
 
 return M
 
----vim:filetype=lua
+-- vim:filetype=lua

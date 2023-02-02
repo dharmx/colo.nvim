@@ -1,24 +1,7 @@
----@diagnostic disable: unused-local, param-type-mismatch
----@module "colo.color"
----@author dharmx
----@license GPL-3.0
-
----A class that represents a color
----@class Color
----@field name string
----@field r number?
----@field g number?
----@field b number?
----@field h number?
----@field s number?
----@field l number?
----@field hex string?
 local Color = {}
 
----@module "colo.util"
 local util = require("colo.util")
 
----@type table<string, string>
 local named_colors = {
   aliceblue = "F0F8FF",
   antiquewhite = "FAEBD7",
@@ -169,10 +152,6 @@ local named_colors = {
   yellowgreen = "9ACD32",
 }
 
----Limit percentage overflow
----@param c number current percentage value
----@param a number increase current percentage by
----@param op string
 local function limit(c, a, op)
   if op == "i" then
     return (c + a) > 100 and 100 or c + a
@@ -182,10 +161,6 @@ local function limit(c, a, op)
   error("operation should be either i or, d", vim.log.levels.ERROR)
 end
 
----See if a number is in range of given limits
----@param number number | string the value that needs to be checked
----@param finish number ending range
----@return number | string
 local function in_range(number, finish)
   assert(number, "number should not be nil")
   local temp = number
@@ -202,9 +177,6 @@ local function in_range(number, finish)
   return temp
 end
 
----Create a Color instance.
----@param params table field table
----@return Color
 function Color:new(params)
   local colors = vim.F.if_nil(params, { r = 0, g = 0, b = 0 })
   if colors.name then
@@ -228,8 +200,6 @@ function Color:new(params)
   return colors
 end
 
----See if the color exists in named colors
----@return string | nil
 function Color:named()
   for name, c in pairs(named_colors) do
     ---@diagnostic disable-next-line: undefined-field
@@ -238,8 +208,6 @@ function Color:named()
   return nil
 end
 
----Convert RGB range [0-255] to [0-100]
----@return table
 function Color:percentage(number)
   local c = {
     r = (self.r / 255) * 100,
@@ -253,8 +221,6 @@ function Color:percentage(number)
   return c
 end
 
----Convert RGB range [0-255] to [0-1]
----@return table
 function Color:floating()
   local floating = {}
   for key, value in pairs(self:percentage()) do
@@ -264,9 +230,6 @@ function Color:floating()
   return floating
 end
 
----Convert RGB to hex color format
----@param prefix boolean? prepend # if true
----@return string
 function Color:HEX(prefix)
   local prefix_sym = prefix and "#" or ""
   local function callback(item) return item:len() == 1 and item:rep(2) or item end
@@ -278,24 +241,17 @@ function Color:HEX(prefix)
   return prefix_sym .. table.concat(hex_tbl)
 end
 
----Convert RGB to int color format
----@return string
 function Color:INT()
   return self.r .. self.g .. self.b
 end
 
----Convert RGB color format to HSL
----@param unit boolean? { h = "220deg", s = "100%", l = "25%" } if true and { h = 0.66, s = 1.0, l = 0.8922 } if false
----@return table
 function Color:HSL(unit)
   local c = self:floating()
   local r = tonumber(c.r)
   local g = tonumber(c.g)
   local b = tonumber(c.b)
 
-  ---@diagnostic disable-next-line: param-type-mismatch
   local max = math.max(r, g, b)
-  ---@diagnostic disable-next-line: param-type-mismatch
   local min = math.min(r, g, b)
   local h = (max + min) / 2
   local l = h
@@ -325,9 +281,6 @@ function Color:HSL(unit)
     or { h = h, s = s, l = l }
 end
 
----Increase the red value of the RGB color
----@param a number increase by percentage
----@return Color
 function Color:increase_red(a)
   local c = self:percentage(true)
   return Color:new({
@@ -337,9 +290,6 @@ function Color:increase_red(a)
   })
 end
 
----Increase the green value of the RGB color
----@param a number increase by percentage
----@return Color
 function Color:increase_green(a)
   local c = self:percentage(true)
   return Color:new({
@@ -349,9 +299,6 @@ function Color:increase_green(a)
   })
 end
 
----Increase the blue value of the RGB color
----@param a number increase by percentage
----@return Color
 function Color:increase_blue(a)
   local c = self:percentage(true)
   return Color:new({
@@ -361,9 +308,6 @@ function Color:increase_blue(a)
   })
 end
 
----Decrease the red value of the RGB color
----@param a number decrease by percentage
----@return Color
 function Color:decrease_red(a)
   local c = self:percentage(true)
   return Color:new({
@@ -373,9 +317,6 @@ function Color:decrease_red(a)
   })
 end
 
----Decrease the green value of the RGB color
----@param a number decrease by percentage
----@return Color
 function Color:decrease_green(a)
   local c = self:percentage(true)
   return Color:new({
@@ -385,9 +326,6 @@ function Color:decrease_green(a)
   })
 end
 
----Decrease the blue value of the RGB color
----@param a number decrease by percentage
----@return Color
 function Color:decrease_blue(a)
   local c = self:percentage(true)
   return Color:new({
@@ -397,14 +335,8 @@ function Color:decrease_blue(a)
   })
 end
 
----Make any positive value stay within [0-1]
----@param value number number that needs to be clamped
----@return number
 local function clamp(value) return math.min(1, math.max(0, value)) end
 
----Brighten a color
----@param a number? [0-100] percentage value
----@return Color
 function Color:brighten(a)
   a = a == 0 and 0 or (a or 10)
   return Color:new({
@@ -414,9 +346,6 @@ function Color:brighten(a)
   })
 end
 
----Lighten a color
----@param a number? [0-100] percentage value
----@return Color
 function Color:lighten(a)
   a = a == 0 and 0 or (a or 10)
   local HSL = self:HSL()
@@ -431,9 +360,6 @@ function Color:lighten(a)
   })
 end
 
----Darken a color
----@param a number? [0-100] percentage value
----@return Color
 function Color:darken(a)
   a = a == 0 and 0 or (a or 10)
   local HSL = self:HSL()
@@ -448,15 +374,8 @@ function Color:darken(a)
   })
 end
 
----Alter an attribute by regulating its percentage.
----@param attr number
----@param per number
----@return number
 local function alter(attr, per) return math.floor(attr * (100 + per) / 100) end
 
----Shade a color.
----@param a number
----@return Color
 function Color:oldshade(a)
   a = a == 0 and 0 or (a or 5)
   self.r = alter(self.r, a)
@@ -469,25 +388,16 @@ function Color:oldshade(a)
   return self
 end
 
----Stolen from https://drafts.csswg.org/css-color/#tint-shade-adjusters.
----@param a number
----@return Color
 function Color:shade(a)
   a = a == 0 and 0 or (a or 10)
   return self:mix(Color:new({ name = "black" }), a)
 end
 
----Stolen from https://drafts.csswg.org/css-color/#tint-shade-adjusters.
----@param a number
----@return Color
 function Color:tint(a)
   a = a == 0 and 0 or (a or 10)
   return self:mix(Color:new({ name = "white" }), a)
 end
 
----Saturate a color
----@param a number? [0-100] percentage value
----@return Color
 function Color:saturate(a)
   a = a == 0 and 0 or (a or 10)
   local HSL = self:HSL()
@@ -502,9 +412,6 @@ function Color:saturate(a)
   })
 end
 
----Desaturate a color
----@param a number? [0-100] percentage value
----@return Color
 function Color:desaturate(a)
   a = a == 0 and 0 or (a or 10)
   local HSL = self:HSL()
@@ -519,9 +426,6 @@ function Color:desaturate(a)
   })
 end
 
----Spin hue angle of a color
----@param a number? [0-100] percentage value
----@return Color
 function Color:spin(a)
   a = a == 0 and 0 or (a or 10)
   local HSL = self:HSL()
@@ -536,15 +440,11 @@ function Color:spin(a)
   })
 end
 
----Complement of a color
----@return Color
 function Color:complement()
   local HSL = self:HSL()
   return Color:new({ h = (HSL.h + 180) % 360, s = HSL.s, l = HSL.l })
 end
 
----Compute triad of the color
----@return table
 function Color:triad()
   local HSL = self:HSL()
   local h = HSL.h
@@ -555,8 +455,6 @@ function Color:triad()
   }
 end
 
----Compute tetrad of the color
----@return table
 function Color:tetrad()
   local HSL = self:HSL()
   local h = HSL.h
@@ -568,8 +466,6 @@ function Color:tetrad()
   }
 end
 
----Compute the split-complement of the color
----@return table
 function Color:split_complement()
   local HSL = self:HSL()
   local h = HSL.h
@@ -580,20 +476,12 @@ function Color:split_complement()
   }
 end
 
----Get the brightness of the color
----@return number
 function Color:brightness() return (self.r * 299 + self.g * 587 + self.b * 114) / 1000 end
 
----Check if a color is light
----@return boolean
 function Color:light() return not self:dark() end
 
----Check if a color is dark
----@return boolean
 function Color:dark() return self:brightness() < 128 end
 
----Get the luminance of a color
----@return number
 function Color:luminance()
   local RsRGB, GsRGB, BsRGB, R, G, B
   RsRGB = self.r / 255
@@ -618,22 +506,14 @@ function Color:luminance()
   return (0.2126 * R) + (0.7152 * G) + (0.0722 * B)
 end
 
----Transform a color into greyscale.
 function Color:greyscale() self:desaturate(100) end
 
----Compute color readability
----@param c Color that needs its readability computed
----@return number
 function Color:readability(c)
   local sl = self:luminance()
   local cl = c:luminance()
   return (math.max(sl, cl) + 0.05) / (math.min(sl, cl) + 0.05)
 end
 
----@private
----Validate WCAG2 Parms
----@param parms table | nil
----@return table
 local function validateWCAG2Parms(parms)
   parms = parms or { level = "AA", size = "small" }
   local level = (parms.level or "AA"):upper()
@@ -645,10 +525,6 @@ local function validateWCAG2Parms(parms)
   return { level = level, size = size }
 end
 
----Check if a color is readable or not
----@param c Color color that needs to be checked
----@param wcag2 table
----@return boolean
 function Color:readable(c, wcag2)
   local readability = self:readability(c)
   local output = false
@@ -665,10 +541,6 @@ function Color:readable(c, wcag2)
   return output
 end
 
----Mix two colors
----@param c Color color to be mixed with
----@param a number?
----@return Color
 function Color:mix(c, a)
   a = a == 0 and 0 or (a or 50)
   local value = a / 100
@@ -679,15 +551,10 @@ function Color:mix(c, a)
   })
 end
 
----Invert a color.
----@return Color
 function Color:invert()
-  ---@diagnostic disable-next-line: return-type-mismatch
   return Color:new({ name = "white" }) - self
 end
 
----Get the RGB table from the Color instance
----@return table
 function Color:RGB()
   return {
     r = self.r,
@@ -696,6 +563,7 @@ function Color:RGB()
   }
 end
 
+-- Incomplete functions. {{{
 ---@todo
 function Color:____achromatic() end
 
@@ -728,10 +596,8 @@ function Color:____increase_contrast(a) end
 
 ---@todo
 function Color:____decrease_contrast(a) end
+-- }}}
 
----Convert a hex color to RGB
----@param hex string that should a hex color
----@return table
 function Color.HEX2RGB(hex)
   hex = hex:sub(1, 1) == "#" and hex:sub(2) or hex
   if hex:len() == 3 then hex = hex:sub(1, 1):rep(2) .. hex:sub(2, 2):rep(2) .. hex:sub(3, 3):rep(2) end
@@ -743,9 +609,6 @@ function Color.HEX2RGB(hex)
   }
 end
 
----Get a table of all named CSS colors
----@param prefix boolean? prefix with # if true
----@return table
 function Color.named_colors(prefix)
   if prefix then
     local colors = {}
@@ -757,8 +620,6 @@ function Color.named_colors(prefix)
   return named_colors
 end
 
----Generate a random color
----@return table
 function Color.random()
   return Color:new({
     r = math.random(0, 255),
@@ -767,11 +628,6 @@ function Color.random()
   })
 end
 
----Convert a HSL color to RGB
----@param h number: [0, 1] which in actual [0, 360]
----@param s number: [0, 1] which in actual [0, 100]
----@param l number: [0, 1] which in actual [0, 100]
----@return table
 function Color.HSL2RGB(h, s, l)
   local rgb = {}
 
@@ -799,37 +655,16 @@ function Color.HSL2RGB(h, s, l)
   return { r = math.ceil(rgb.r * 255), g = math.ceil(rgb.g * 255), b = math.ceil(rgb.b * 255) }
 end
 
----Pass red, green and blue values into vim.inspect and return
----@param self Color
----@param o Color
----@return string
-Color.__tostring = function(self, o) return self:HEX(true) end
+Color.__tostring = function(self, _) return self:HEX(true) end
 
----Compare RGB values to see if they are equal
----@param self Color
----@param o Color
----@return boolean
 Color.__eq = function(self, o)
-  ---@diagnostic disable-next-line: return-type-mismatch
   return self.r == o.r and self.g == o.g and self.b == o.b
 end
 
----Add self RGB value and other RGB values and compare to see if they self is greater
----@param self Color
----@param o Color
----@return boolean
 Color.__lt = function(self, o) return util.tbl_sum(self:RGB()) > util.tbl_sum(o:RGB()) end
 
----Add self RGB value and other RGB values and compare to see if they self is lesser
----@param self Color
----@param o Color
----@return boolean
 Color.__gt = function(self, o) return util.tbl_sum(self:RGB()) < util.tbl_sum(o:RGB()) end
 
----Add self RGB value and other RGB values
----@param self Color
----@param o Color
----@return Color
 Color.__add = function(self, o)
   self.r = self.r + o.r
   self.g = self.g + o.g
@@ -837,10 +672,6 @@ Color.__add = function(self, o)
   return self
 end
 
----Add self RGB value and other RGB values
----@param self Color
----@param o Color
----@return Color
 Color.__sub = function(self, o)
   self.r = self.r - o.r
   self.g = self.g - o.g
@@ -850,4 +681,4 @@ end
 
 return Color
 
----vim:filetype=lua
+-- vim:filetype=lua

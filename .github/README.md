@@ -106,6 +106,8 @@ Following are the default commands that come with nvim-colo.
 - Refactor `color.lua`.
 - Refactor `extensions`.
 - Fix telescope: previews are not showed when results list is empty. (Invalied buffer ID)
+- Show a floating window when viewing colorscheme metadata. Allow setting timeouts and theme previews.
+- Allow callbacks for some parts of the config.
 
 <h2><samp>GALLERY</samp></h2>
 

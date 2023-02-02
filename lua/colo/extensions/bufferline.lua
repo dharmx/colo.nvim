@@ -1,7 +1,3 @@
----@module "colo.groups.extensions.bufferline"
----@author dharmx
----@license GPL-3.0
-
 local M = {}
 
 M.config = {
@@ -62,4 +58,4 @@ M.config = {
 
 return M
 
----vim:filetype=lua
+-- vim:filetype=lua

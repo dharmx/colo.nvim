@@ -1,8 +1,3 @@
----@diagnostic disable: undefined-field
----@module "colo.groups.extensions.feline"
----@author dharmx
----@license GPL-3.0
-
 local M = {}
 
 M.theme = {
@@ -71,7 +66,6 @@ local modes = setmetatable({
 M.component = {}
 
 M.component.vim_mode = {
-  ---@diagnostic disable-next-line: undefined-field
   provider = function() return modes[vim.api.nvim_get_mode().mode] end,
   hl = function()
     return {
@@ -303,4 +297,4 @@ M.component.search_count = {
 
 return M
 
----vim:filetype=lua
+-- vim:filetype=lua

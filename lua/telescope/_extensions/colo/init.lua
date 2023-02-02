@@ -1,7 +1,3 @@
----@module "telescope._extensions.colo.init"
----@author dharmx
----@license GPL-3.0
-
 local present, telescope = pcall(require, "telescope")
 
 if not present then
@@ -24,16 +20,16 @@ local colo_api = require("colo.api")
 
 local defaults = require("colo.config").current.telescope
 
-local function setup(options) defaults = vim.tbl_deep_extend("force", defaults, vim.F.if_nil(options, {})) end
+local function setup(opts) defaults = vim.tbl_deep_extend("force", defaults, vim.F.if_nil(opts, {})) end
 
-local function choose_theme(options)
-  options = vim.tbl_deep_extend("keep", vim.F.if_nil(options, {}), defaults)
+local function choose_theme(opts)
+  opts = vim.tbl_deep_extend("keep", vim.F.if_nil(opts, {}), defaults)
   pickers
-    .new(options, {
+    .new(opts, {
       prompt_title = "Colo Themes",
-      finder = finders.new_table(util.entries(options)),
-      sorter = config.values.generic_sorter(options),
-      previewer = previewer.new(options),
+      finder = finders.new_table(util.entries(opts)),
+      sorter = config.values.generic_sorter(opts),
+      previewer = previewer.new(opts),
       attach_mappings = function(buffer)
         actions.select_default:replace(function()
           actions.close(buffer)
@@ -52,4 +48,4 @@ return telescope.register_extension({
   },
 })
 
----vim:filetype=lua
+-- vim:filetype=lua

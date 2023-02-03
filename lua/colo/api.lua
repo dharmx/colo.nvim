@@ -151,69 +151,113 @@ function M.group.terminal(c) return require("colo.groups.extra.terminal").prime(
 
 M.aggregate = {}
 
-M.aggregate.categories = { "bold", "italic", "undercurl", "underline", "transparent", "all" }
+---@private
+M.aggregate.items = { "bold", "italic", "undercurl", "underline", "transparent" }
 
 function M.aggregate.get(...)
-  local opts = vim.tbl_flatten({ ... })
+  local p = { ... }
+  if #p == 0 then p = M.aggregate.items end
   local items = require("colo.groups.extra.aggregate")
-
-  if vim.tbl_contains(opts, "all") then
-    opts = vim.list_slice(M.aggregate.categories, 1, #M.aggregate.categories - 1)
-  end
-
-  local results = {}
-  for _, category in ipairs(opts) do
-    if vim.tbl_contains(M.aggregate.categories, category) then
-      for _, hl_name in ipairs(items[category]) do
-        results[hl_name] = tutil.wrap(hl_name)
-      end
+  local trimmed = {}
+  for _, v in ipairs(p) do
+    trimmed[v] = {}
+    for _, n in ipairs(items[v]) do
+      trimmed[v][n] = tutil.wrap(n)
     end
   end
-  return results
+  return trimmed
 end
 
-function M.aggregate.set(operation, ...)
-  local opts = vim.tbl_flatten({ ... })
-  if vim.tbl_contains(opts, "all") then
-    opts = vim.list_slice(M.aggregate.categories, 1, #M.aggregate.categories - 1)
-  end
+local function setup_aggregate()
+  local backup = M.aggregate.get()
+  conf._PRIVATE.aggregate = vim.F.if_nil(conf._PRIVATE.aggregate, { backup = backup, active = {} })
+end
 
-  for _, category in ipairs(opts) do
-    if vim.tbl_contains(M.aggregate.categories, category) then
-      local hl_chunk = M.aggregate.get({ category })
-      for hl_name, hl_value in pairs(hl_chunk) do
-        if operation == "add" then
-          if category == "transparent" then
-            hl_value.background = nil
-          else
-            hl_value[category] = true
-          end
-          tutil.set_hl(hl_name, hl_value)
-        elseif operation == "remove" then
-          if category == "transparent" then
-            hl_value.background = nil ---TODO: restore from groups/*
-          else
-            hl_value[category] = false
-          end
-          tutil.set_hl(hl_name, hl_value)
-        elseif operation == "transparent" then
-          if category == "transparent" then
-            hl_value.background = nil ---TODO: restore from groups/*
-          else
-            hl_value[category] = not hl_value[category]
-          end
-          tutil.set_hl(hl_name, hl_value)
-        end
+local function bulk_set(hls, mod, state)
+  for n, v in pairs(hls) do
+    if mod == "transparent" then
+      if state then
+        v.background = nil
+      else
+        v.background = conf._PRIVATE.aggregate.backup.transparent[n].background
       end
+      tutil.set_hl(n, v)
+    else
+      v[mod] = state
+      tutil.set_hl(n, v)
     end
   end
 end
 
-function M.aggregate.add(...) M.aggregate.set("add", ...) end
+function M.aggregate.append(...)
+  setup_aggregate()
+  local items = M.aggregate.get(...)
+  local p = { ... }
+  for _, v in ipairs(p) do
+    if not vim.tbl_contains(conf._PRIVATE.aggregate.active, v) then
+      bulk_set(items[v], v, true)
+      table.insert(conf._PRIVATE.aggregate.active, v)
+    end
+  end
+end
 
-function M.aggregate.remove(...) M.aggregate.set("remove", ...) end
+function M.aggregate.remove(...)
+  setup_aggregate()
+  local items = M.aggregate.get(...)
+  local p = { ... }
+  for i, v in ipairs(p) do
+    if vim.tbl_contains(conf._PRIVATE.aggregate.active, v) then
+      bulk_set(items[v], v, false)
+      table.remove(conf._PRIVATE.aggregate.active, i)
+    end
+  end
+end
 
-function M.aggregate.toggle(...) M.aggregate.set("toggle", ...) end
+function M.aggregate.toggle(...)
+  setup_aggregate()
+  local p = { ... }
+  if #p == 0 then p = M.aggregate.items end
+  for _, v in ipairs(p) do
+    if vim.tbl_contains(conf._PRIVATE.aggregate.active, v) then
+      M.aggregate.remove(v)
+    else
+      M.aggregate.append(v)
+    end
+  end
+end
+
+function M.aggregate.rm() conf._PRIVATE.aggregate = nil end
+
+M.cycle = {}
+
+local function setup_cycle()
+  local themes = M.theme.list()
+  conf._PRIVATE.cycle = vim.F.if_nil(conf._PRIVATE.cycle, { themes = themes, total = #themes, position = 1 })
+end
+
+function M.cycle.next()
+  setup_cycle()
+  local next_pos = (conf._PRIVATE.cycle.position % conf._PRIVATE.cycle.total) + 1
+  M.theme.set(conf._PRIVATE.cycle.themes[next_pos])
+  conf._PRIVATE.cycle.position = next_pos
+end
+
+function M.cycle.prev()
+  setup_cycle()
+  local prev_pos = conf._PRIVATE.cycle.position - 1
+  if prev_pos <= 0 then prev_pos = conf._PRIVATE.cycle.total end
+  M.theme.set(conf._PRIVATE.cycle.themes[prev_pos])
+  conf._PRIVATE.cycle.position = prev_pos
+end
+
+function M.cycle.rand()
+  setup_cycle()
+  local rand_pos = math.random(1, conf._PRIVATE.cycle.total)
+  M.theme.set(conf._PRIVATE.cycle.themes[rand_pos])
+  conf._PRIVATE.cycle.position = rand_pos
+end
+
+function M.cycle.rm() conf._PRIVATE.cycle = nil end
 
 return M
 

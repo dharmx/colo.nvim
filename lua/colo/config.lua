@@ -2,7 +2,6 @@ local M = {}
 
 local _DEFAULTS = {
   theme = "radium_dark",
-  cycle = { enable = false },
   skip_extension_load = false,
   notifications = false,
   inverted = false,
@@ -10,8 +9,8 @@ local _DEFAULTS = {
   mappings = {
     enable = false,
     items = {
-      { mode = "n", key = ";a", action = vim.cmd.ColoPrevious, opts = { silent = true } },
-      { mode = "n", key = ";s", action = vim.cmd.ColoInvert, opts = { silent = true } },
+      { mode = "n", key = ";a", action = vim.cmd.ColoPrev, opts = { silent = true } },
+      { mode = "n", key = ";s", action = vim.cmd.ColoInv, opts = { silent = true } },
       { mode = "n", key = ";d", action = vim.cmd.ColoNext, opts = { silent = true } },
       { mode = "n", key = "<leader>t", action = vim.cmd.ColoTele, opts = { silent = true } },
     },

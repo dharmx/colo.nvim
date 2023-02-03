@@ -41,7 +41,7 @@ end, {
   end,
 })
 
-cmd("ColoInvert", function(...)
+cmd("ColoInv", function(...)
   local colo_api = require("colo.api")
   local args = (...).fargs
   if #args ~= 0 then colo_api.theme.set(args[1]) end
@@ -61,22 +61,37 @@ cmd("ColoClean", function() require("colo.api").theme.clean() end, {
   nargs = 0,
 })
 
-cmd("ColoAdd", function(...) require("colo.api").aggregate.add((...).fargs) end, {
+cmd("ColoAppend", function(...)
+  local p = (...).fargs
+  local agg = require("colo.api").aggregate
+  if #p == 0 then p = agg.items end
+  agg.append(unpack(p))
+end, {
   desc = "Make selected highlights transparent/strong/italicized/undercurled/underlined.",
   nargs = "*",
-  complete = function() return require("colo.api").aggregate.categories end,
+  complete = function() return require("colo.api").aggregate.items end,
 })
 
-cmd("ColoToggle", function(...) require("colo.api").aggregate.toggle((...).fargs) end, {
+cmd("ColoToggle", function(...)
+  local p = (...).fargs
+  local agg = require("colo.api").aggregate
+  if #p == 0 then p = agg.items end
+  agg.toggle(unpack(p))
+end, {
   desc = "Make selected highlights transparent/strong/italicized/undercurled/underlined if they aren't. Do the opposite otherwise.",
   nargs = "*",
-  complete = function() return require("colo.api").aggregate.categories end,
+  complete = function() return require("colo.api").aggregate.items end,
 })
 
-cmd("ColoRemove", function(...) require("colo.api").aggregate.remove((...).fargs) end, {
+cmd("ColoRemove", function(...)
+  local p = (...).fargs
+  local agg = require("colo.api").aggregate
+  if #p == 0 then p = agg.items end
+  agg.remove(unpack(p))
+end, {
   desc = "Make selected highlights not transparent/strong/italicized/undercurled/underlined.",
   nargs = "*",
-  complete = function() return require("colo.api").aggregate.categories end,
+  complete = function() return require("colo.api").aggregate.items end,
 })
 
 cmd("ColoTele", function() require("telescope").extensions.colo.colo() end, {
@@ -91,6 +106,21 @@ cmd("ColoKindGLazeToggle", function() require("colo.preset").kind_glaze_toggle()
 
 cmd("ColoKindSwapToggle", function() require("colo.preset").kind_swap_toggle() end, {
   desc = "Swap background with foreground for nvim-cmp kind.",
+  nargs = 0,
+})
+
+cmd("ColoNext", function() require("colo.api").cycle.next() end, {
+  desc = "Cycle to the next theme.",
+  nargs = 0,
+})
+
+cmd("ColoPrev", function() require("colo.api").cycle.prev() end, {
+  desc = "Cycle to the previous theme.",
+  nargs = 0,
+})
+
+cmd("ColoRandom", function() require("colo.api").cycle.rand() end, {
+  desc = "Cycle to a random theme.",
   nargs = 0,
 })
 

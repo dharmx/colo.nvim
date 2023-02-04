@@ -36,6 +36,13 @@ function M.theme.set(n, ns)
     tutil.set_hl(k, v, ns)
   end
 
+  if conf.current.custom_hl.enable then
+    local tutil = require("colo.theme")
+    for n, v in pairs(conf.current.custom_hl.items) do
+      tutil.set_hl(n, v)
+    end
+  end
+
   if not conf.current.skip_extension_load and conf.current.reload.enable then
     M.theme.reload(conf.current.reload.items)
   end
@@ -117,6 +124,8 @@ local function to_module_path(path)
 end
 
 local function get_normal_group(n, c)
+  local ex = {}
+  if conf.current.blacklists.enable then ex = conf.current.blacklists.items end
   local base_hl = util.plugin.scan("groups/" .. n, {
     add_dirs = false,
     on_insert = to_module_path,
@@ -124,7 +133,11 @@ local function get_normal_group(n, c)
   })
 
   for i, hl_file in ipairs(base_hl) do
-    base_hl[i] = require(hl_file).prime(c)
+    if not vim.tbl_contains(ex, hl_file) then
+      base_hl[i] = require(hl_file).prime(c)
+    else
+      base_hl[i] = nil
+    end
   end
 
   local results = {}
@@ -143,11 +156,28 @@ function M.group.syntax(c) return get_normal_group("syntax", c) end
 function M.group.integration(c) return get_normal_group("integration", c) end
 
 function M.group.override(c)
-  local present, hl_chunk = pcall(require, string.format("colo.groups.override.%s_%s", c.name, c.background))
-  return present and hl_chunk.prime(c) or {}
+  local ex = {}
+  if conf.current.blacklists.enable then
+    ex = conf.current.blacklists.items
+  end
+  local mod = string.format("colo.groups.override.%s_%s", c.name, c.background)
+  if not vim.tbl_contains(ex, mod) then
+    local present, hl_chunk = pcall(require, mod)
+    return present and hl_chunk.prime(c) or {}
+  end
+  return {}
 end
 
-function M.group.terminal(c) return require("colo.groups.extra.terminal").prime(c) end
+function M.group.terminal(c)
+  local ex = {}
+  if conf.current.blacklists.enable then
+    ex = conf.current.blacklists.items
+  end
+  if not vim.tbl_contains(ex, "colo.groups.extra.terminal") then
+    return require("colo.groups.extra.terminal").prime(c)
+  end
+  return {}
+end
 
 M.aggregate = {}
 

@@ -49,8 +49,7 @@ local _DEFAULTS = {
   blacklists = {
     enable = false,
     items = {
-      "integration.nui",
-      "base.spell",
+      "colo.groups.syntax.treesitter",
     },
   },
   custom_hl = {
@@ -60,23 +59,6 @@ local _DEFAULTS = {
       LspDiagnosticsSignError = { link = "DevIconJava" },
       LspDiagnosticsSignInfo = { link = "DevIconCobol" },
       LspDiagnosticsSignHint = { link = "DevIconMaterial" },
-    },
-  },
-  filetypes = {
-    enable = false,
-    inital = false,
-    items = {
-      ["*.py"] = "nord_dark",
-      ["*.lua"] = "mountain_dark",
-      ["*.c"] = "oxocarbon_dark",
-    },
-  },
-  presets = {
-    enable = false,
-    items = {
-      italic_comments = false,
-      dotted_spell = false,
-      contrast = false,
     },
   },
   telescope = {

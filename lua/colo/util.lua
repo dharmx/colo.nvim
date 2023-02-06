@@ -4,9 +4,9 @@ local A = vim.api
 local scan = require("plenary.scandir").scan_dir
 local F = vim.fn
 
-M.tbl = {}
+M.list = {}
 
-function M.tbl.rm_bool(opts)
+function M.list.rmbool(opts)
   if opts then
     opts[true] = nil
     opts[false] = nil
@@ -14,29 +14,29 @@ function M.tbl.rm_bool(opts)
   return opts
 end
 
-function M.tbl.sum(arr)
-  local s = 0
-  for _, v in pairs(arr) do
-    s = s + v
+function M.list.sum(list)
+  local sum = 0
+  for _, item in pairs(list) do
+    sum = sum + item
   end
-  return s
+  return sum
 end
 
-function M.tbl.trnopts(opts)
-  for i, v in ipairs(opts) do
-    opts[i] = nil
-    opts[v] = true
+function M.list.list2boolmap(opts)
+  for index, value in ipairs(opts) do
+    opts[index] = nil
+    opts[value] = true
   end
   return opts
 end
 
-M.str = {}
+M.line = {}
 
-function M.str.capitalize(item) return (item:gsub("%a", string.upper, 1)) end
+function M.line.capitalize(item) return (item:gsub("%a", string.upper, 1)) end
 
-function M.str.trim_left(item) return (item:gsub("^%s*", "")) end
+function M.line.ltrim(item) return (item:gsub("^%s*", "")) end
 
-function M.str.trim_right(item)
+function M.line.rtrim(item)
   local len = #item
   while len > 0 and item:find("^%s", len) do
     len = len - 1
@@ -61,10 +61,10 @@ function M.plugin.path()
   })[1]
 end
 
-function M.plugin.scan(f, opts)
+function M.plugin.scan(file, opts)
   opts = vim.F.if_nil(opts, {})
-  f = vim.F.if_nil(f, "")
-  if f:sub(1, 1) ~= "/" then f = "/" .. f end
+  file = vim.F.if_nil(file, "")
+  if file:sub(1, 1) ~= "/" then file = "/" .. file end
 
   local scan_path
   if opts.user then
@@ -73,14 +73,14 @@ function M.plugin.scan(f, opts)
   else
     scan_path = M.plugin.path()
   end
-  local res = scan(("%s/lua/colo%s"):format(scan_path, f), opts)
+  local results = scan(("%s/lua/colo%s"):format(scan_path, file), opts)
 
-  if #res > 0 and opts.on_insert then
-    for i, path in ipairs(res) do
-      res[i] = opts.on_insert(path)
+  if #results > 0 and opts.on_insert then
+    for index, path in ipairs(results) do
+      results[index] = opts.on_insert(path)
     end
   end
-  return res
+  return results
 end
 
 return M

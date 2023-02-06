@@ -1,26 +1,26 @@
 local M = {}
 
 function M.setup(opts)
-  local conf = require("colo.config")
-  if conf._PRIVATE.loaded then return end
+  local colo_config = require("colo.config")
+  if colo_config._PRIVATE.loaded then return end
 
-  conf.set(opts)
+  colo_config.set(opts)
   local colo = require("colo.api")
-  colo.theme.set(conf.current.theme)
+  colo.theme.set(colo_config.current.theme)
 
-  if conf.current.mappings.enable then
-    for _, map in ipairs(conf.current.mappings.items) do
+  if colo_config.current.mappings.enable then
+    for _, map in ipairs(colo_config.current.mappings.items) do
       vim.keymap.set(map.mode, map.key, map.action, map.opts)
     end
   end
 
-  if conf.current.aggregates.enable then
-    for p, state in pairs(conf.current.aggregates.items) do
-      if state then colo.aggregate.append(p) end
+  if colo_config.current.aggregates.enable then
+    for attr, state in pairs(colo_config.current.aggregates.items) do
+      if state then colo.aggregate.append(attr) end
     end
   end
 
-  conf._PRIVATE.loaded = true
+  colo_config._PRIVATE.loaded = true
 end
 
 return M

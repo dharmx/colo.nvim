@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch
 local Color = {}
 
 local util = require("colo.util")

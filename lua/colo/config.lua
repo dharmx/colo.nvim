@@ -52,7 +52,7 @@ local _DEFAULTS = {
       "colo.groups.syntax.treesitter",
     },
   },
-  custom_hl = {
+  extra_highlights = {
     enable = false,
     items = {
       LspDiagnosticsSignWarn = { link = "DevIconHtm" },

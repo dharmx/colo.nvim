@@ -12,7 +12,7 @@ function M.make_entry(theme, opts)
   local name = vim.list_slice(name_table, 2, #name_table - 1)
 
   return {
-    name = table.concat(vim.tbl_map(colo_util.str.capitalize, name), " "),
+    name = table.concat(vim.tbl_map(colo_util.line.capitalize, name), " "),
     category = category:upper(),
     background = background:upper(),
     highlights = {

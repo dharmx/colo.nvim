@@ -285,13 +285,13 @@ M.component.search_count = {
     local result = vim.fn.searchcount({ maxcount = 999, timeout = 250 })
     ---@diagnostic disable-next-line: undefined-field
     if result.incomplete == 1 or next(result) == nil then return "" end
-    return string.format("%d/%d", result.current, math.min(result.total, result.maxcount))
+    return string.format(" %d/%d", result.current, math.min(result.total, result.maxcount))
   end,
   hl = {
     fg = "bg",
     bg = "yellow",
   },
-  left_sep = "block",
+  left_sep = " ",
   right_sep = "block",
 }
 

@@ -1,7 +1,3 @@
----@module "colo.themes.cabin_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -31,5 +27,3 @@ return {
   bright_cyan = Color:new({ hex = "#4d5c5c" }),
   bright_white = Color:new({ hex = "#79695a" }),
 }
-
--- vim:filetype=lua

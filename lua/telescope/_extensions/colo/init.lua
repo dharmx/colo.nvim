@@ -18,7 +18,7 @@ local action_state = require("telescope.actions.state")
 local previewer = require("telescope._extensions.colo.preview")
 local colo_api = require("colo.api")
 
-local defaults = require("colo.config").current.telescope
+local defaults = require("colo.config")._CURRENT.telescope
 
 local function setup(opts) defaults = vim.tbl_deep_extend("force", defaults, vim.F.if_nil(opts, {})) end
 
@@ -47,5 +47,3 @@ return telescope.register_extension({
     colo = choose_theme,
   },
 })
-
--- vim:filetype=lua

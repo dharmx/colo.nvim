@@ -1,5 +1,31 @@
 local M = {}
 
+---@class ColoMapping
+---@field mode string
+---@field key string
+---@field action string|function
+---@field opts table
+
+---@class ColoAggregate
+---@field bold boolean Enable
+---@field undercurl boolean
+---@field underline boolean
+---@field italic boolean
+---@field transparent boolean
+
+---@class ColoConfig
+---@field theme string A builtin/user-defined colo theme.
+---@field skip_extension_load boolean If true then do not load the extensions when colo runs |colo.setup|. Vice-versa.
+---@field notifications boolean If true then show a floating window on each theme change.
+---@field inverted boolean Invert all highlights on setup.
+---@field logging integer Same as |vim.log.levels|.
+---@field mappings {enable:boolean,items:ColoMapping[]} Items will be passed onto |vim.keymap.set()|.
+---@field reload {enable:boolean,items:string[]} Items (module paths) will be re-cached when the theme is changed.
+---@field exclude string[] patterns that will hide the themes that match, from the list of themes.
+---@field aggregates {enable:boolean,items:ColoAggregate}
+
+---The main configuration table that is used to store initial states, internal states and default states.
+---@type ColoConfig
 local _DEFAULTS = {
   theme = "radium_dark",
   skip_extension_load = false,
@@ -85,12 +111,13 @@ local _DEFAULTS = {
   },
 }
 
+---@type ColoConfig
 M._DEFAULTS = _DEFAULTS
-M.current = M._DEFAULTS
+---@type ColoConfig
+M._CURRENT = M._DEFAULTS
+
 M._PRIVATE = {}
 
-function M.set(opts) M.current = vim.tbl_deep_extend("force", vim.deepcopy(M.current), vim.F.if_nil(opts, {})) end
+function M.set(opts) M._CURRENT = vim.tbl_deep_extend("force", vim.deepcopy(M._CURRENT), vim.F.if_nil(opts, {})) end
 
 return M
-
--- vim:filetype=lua

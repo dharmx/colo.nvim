@@ -1,7 +1,3 @@
----@module "colo.themes.aquarium_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#CDDBF9" }),
   bright_white = Color:new({ hex = "#C5CBD6" }),
 }
-
--- vim:filetype=lua

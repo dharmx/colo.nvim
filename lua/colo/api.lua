@@ -36,16 +36,16 @@ function M.theme.set(theme_name, ns)
     theme_util.set_hl(hl_name, hl_value, ns)
   end
 
-  if colo_config.current.extra_highlights.enable then
-    for hlname, hlvalue in pairs(colo_config.current.extra_highlights.items) do
+  if colo_config._CURRENT.extra_highlights.enable then
+    for hlname, hlvalue in pairs(colo_config._CURRENT.extra_highlights.items) do
       theme_util.set_hl(hlname, hlvalue)
     end
   end
 
-  if not colo_config.current.skip_extension_load and colo_config.current.reload.enable then
-    M.theme.reload(colo_config.current.reload.items)
+  if not colo_config._CURRENT.skip_extension_load and colo_config._CURRENT.reload.enable then
+    M.theme.reload(colo_config._CURRENT.reload.items)
   end
-  colo_config.current.skip_extension_load = false
+  colo_config._CURRENT.skip_extension_load = false
 end
 
 function M.theme.reload(mods)
@@ -88,7 +88,7 @@ function M.theme.all(colors)
 end
 
 local function exclude_match(pat)
-  for _, ex in ipairs(colo_config.current.exclude) do
+  for _, ex in ipairs(colo_config._CURRENT.exclude) do
     if pat:match(ex) then return false end
   end
   return true
@@ -124,7 +124,7 @@ end
 
 local function get_normal_group(group_name, colors)
   local exclude = {}
-  if colo_config.current.blacklists.enable then exclude = colo_config.current.blacklists.items end
+  if colo_config._CURRENT.blacklists.enable then exclude = colo_config._CURRENT.blacklists.items end
   local base_hl = util.plugin.scan("groups/" .. group_name, {
     add_dirs = false,
     on_insert = to_module_path,
@@ -156,9 +156,7 @@ function M.group.integration(colors) return get_normal_group("integration", colo
 
 function M.group.override(colors)
   local exclude = {}
-  if colo_config.current.blacklists.enable then
-    exclude = colo_config.current.blacklists.items
-  end
+  if colo_config._CURRENT.blacklists.enable then exclude = colo_config._CURRENT.blacklists.items end
   local mod = string.format("colo.groups.override.%s_%s", colors.name, colors.background)
   if not vim.tbl_contains(exclude, mod) then
     local present, hl_chunk = pcall(require, mod)
@@ -169,9 +167,7 @@ end
 
 function M.group.terminal(colors)
   local exclude = {}
-  if colo_config.current.blacklists.enable then
-    exclude = colo_config.current.blacklists.items
-  end
+  if colo_config._CURRENT.blacklists.enable then exclude = colo_config._CURRENT.blacklists.items end
   if not vim.tbl_contains(exclude, "colo.groups.extra.terminal") then
     return require("colo.groups.extra.terminal").prime(colors)
   end
@@ -261,7 +257,11 @@ M.cycle = {}
 
 local function setup_cycle()
   local themes = M.theme.list()
-  colo_config._PRIVATE.cycle = vim.F.if_nil(colo_config._PRIVATE.cycle, { themes = themes, total = #themes, position = 1 })
+  colo_config._PRIVATE.cycle = vim.F.if_nil(colo_config._PRIVATE.cycle, {
+    themes = themes,
+    total = #themes,
+    position = 1,
+  })
 end
 
 function M.cycle.next()
@@ -289,5 +289,3 @@ end
 function M.cycle.rm() colo_config._PRIVATE.cycle = nil end
 
 return M
-
--- vim:filetype=lua

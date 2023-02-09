@@ -296,5 +296,3 @@ M.component.search_count = {
 }
 
 return M
-
--- vim:filetype=lua

@@ -1,7 +1,3 @@
----@module "colo.themes.base16_cupcake_light"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#69A9A7" }),
   bright_white = Color:new({ hex = "#585062" }),
 }
-
--- vim:filetype=lua

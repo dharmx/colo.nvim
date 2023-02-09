@@ -84,5 +84,3 @@ function M.plugin.scan(file, opts)
 end
 
 return M
-
--- vim:filetype=lua

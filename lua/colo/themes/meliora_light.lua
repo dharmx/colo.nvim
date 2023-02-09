@@ -1,7 +1,3 @@
----@module "colo.themes.meliora_light"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#8AAC8B" }),
   bright_white = Color:new({ hex = "#0F0F0F" }),
 }
-
--- vim:filetype=lua

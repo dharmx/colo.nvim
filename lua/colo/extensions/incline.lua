@@ -61,5 +61,3 @@ M.config = ok
   or {}
 
 return M
-
--- vim:filetype=lua

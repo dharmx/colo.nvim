@@ -1,7 +1,3 @@
----@module "colo.themes.tempus_fugit_light"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#046c92" }),
   bright_white = Color:new({ hex = "#4d696f" }),
 }
-
--- vim:filetype=lua

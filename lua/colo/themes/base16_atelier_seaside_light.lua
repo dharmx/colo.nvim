@@ -1,7 +1,3 @@
----@module "colo.themes.base16_atelier_seaside_light"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#1999b3" }),
   bright_white = Color:new({ hex = "#131513" }),
 }
-
--- vim:filetype=lua

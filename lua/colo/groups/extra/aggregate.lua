@@ -1,7 +1,3 @@
----@module "colo.groups.extra.aggregate"
----@author dharmx
----@license GPL-3.0
-
 local M = {}
 
 M.bold = {

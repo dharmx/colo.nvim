@@ -1,7 +1,3 @@
----@module "colo.themes.base16_atelier_sulphurpool_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#22a2c9" }),
   bright_white = Color:new({ hex = "#f5f7ff" }),
 }
-
--- vim:filetype=lua

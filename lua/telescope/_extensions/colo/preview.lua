@@ -20,7 +20,7 @@ local TEMPLATE = {
   [[  end]],
   [[end]],
   [[]],
-  [[-- vim:filetype=lua]],
+  [[
 }
 
 local ThemePreview = utils.make_default_callable(function()
@@ -40,5 +40,3 @@ local ThemePreview = utils.make_default_callable(function()
 end)
 
 return ThemePreview
-
--- vim:filetype=lua

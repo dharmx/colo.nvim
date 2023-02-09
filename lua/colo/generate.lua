@@ -5,7 +5,6 @@ local util = require("colo.util")
 local A = vim.api
 
 local FORMAT = [[
--- vim:filetype=lua
 ---${name}
 ---${background}
 
@@ -48,5 +47,3 @@ function M.raw(path)
 end
 
 return M
-
--- vim:filetype=lua

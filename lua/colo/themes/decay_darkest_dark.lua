@@ -1,7 +1,3 @@
----@module "colo.themes.decay_darkest_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#98d3ee" }),
   bright_white = Color:new({ hex = "#a5b6cf" }),
 }
-
--- vim:filetype=lua

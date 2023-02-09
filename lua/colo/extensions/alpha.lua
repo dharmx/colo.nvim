@@ -132,5 +132,3 @@ function M.autocmd()
 end
 
 return M
-
--- vim:filetype=lua

@@ -57,5 +57,3 @@ M.config = {
 }
 
 return M
-
--- vim:filetype=lua

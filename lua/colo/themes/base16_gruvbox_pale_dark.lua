@@ -1,7 +1,3 @@
----@module "colo.themes.base16_gruvbox_pale_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#85ad85" }),
   bright_white = Color:new({ hex = "#ebdbb2" }),
 }
-
--- vim:filetype=lua

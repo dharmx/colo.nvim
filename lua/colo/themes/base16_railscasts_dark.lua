@@ -1,7 +1,3 @@
----@module "colo.themes.base16_railscasts_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#519f50" }),
   bright_white = Color:new({ hex = "#f9f7f3" }),
 }
-
--- vim:filetype=lua

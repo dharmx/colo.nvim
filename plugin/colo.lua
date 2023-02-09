@@ -123,5 +123,3 @@ cmd("ColoRandom", function() require("colo.api").cycle.rand() end, {
   desc = "Cycle to a random theme.",
   nargs = 0,
 })
-
--- vim:filetype=lua

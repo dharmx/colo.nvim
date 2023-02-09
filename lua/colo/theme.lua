@@ -76,5 +76,3 @@ function M.set_hl(hl_name, opts, ns)
 end
 
 return M
-
--- vim:filetype=lua

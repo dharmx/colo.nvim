@@ -6,5 +6,3 @@
   (#eq? @_vimcmd_identifier "vim.treesitter.query.set_query"))
 
 ((string ("string_content") @query) (#lua-match? @query "^%s*;+%s?query"))
-
-; vim:filetype=query

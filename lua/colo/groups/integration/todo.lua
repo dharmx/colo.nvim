@@ -1,7 +1,3 @@
----@module "colo.groups.integration.todo"
----@author dharmx
----@license GPL-3.0
-
 local M = {}
 
 function M.prime(c)
@@ -52,5 +48,3 @@ function M.prime(c)
 end
 
 return M
-
--- vim:filetype=lua

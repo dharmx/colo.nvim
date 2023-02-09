@@ -1,7 +1,3 @@
----@module "colo.groups.override.houseki_dark"
----@author dharmx
----@license GPL-3.0
-
 local M = {}
 
 function M.prime(c)
@@ -21,5 +17,3 @@ function M.prime(c)
 end
 
 return M
-
--- vim:filetype=lua

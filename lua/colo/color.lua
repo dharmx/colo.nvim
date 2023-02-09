@@ -1,4 +1,3 @@
----@diagnostic disable: param-type-mismatch
 local Color = {}
 
 local util = require("colo.util")
@@ -681,5 +680,3 @@ Color.__sub = function(self, o)
 end
 
 return Color
-
--- vim:filetype=lua

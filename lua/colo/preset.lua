@@ -64,5 +64,3 @@ function M.kind_glaze_toggle(colors)
 end
 
 return M
-
--- vim:filetype=lua

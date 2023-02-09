@@ -1,7 +1,3 @@
----@module "colo.themes.tempus_winter_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#1f96b0" }),
   bright_white = Color:new({ hex = "#798ba5" }),
 }
-
--- vim:filetype=lua

@@ -1,7 +1,3 @@
----@module "colo.themes.base16_atelier_savanna_light"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#1c9aa0" }),
   bright_white = Color:new({ hex = "#171c19" }),
 }
-
--- vim:filetype=lua

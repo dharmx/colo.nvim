@@ -1,7 +1,3 @@
----@module "colo.themes.base16_greenscreen_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#005500" }),
   bright_white = Color:new({ hex = "#00ff00" }),
 }
-
--- vim:filetype=lua

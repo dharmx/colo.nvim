@@ -1,7 +1,3 @@
----@module "colo.themes.sexy_pretty_and_pastel_dark"
----@author dharmx
----@license GPL-3.0
-
 local Color = require("colo.color")
 
 return {
@@ -27,5 +23,3 @@ return {
   bright_cyan = Color:new({ hex = "#668799" }),
   bright_white = Color:new({ hex = "#888888" }),
 }
-
--- vim:filetype=lua

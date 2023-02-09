@@ -17,5 +17,3 @@
   (arguments 
     (identifier) @lua.function.pcall
   (#match? @lua.function.pcall "^require$"))))
-
-; vim:filetype=query

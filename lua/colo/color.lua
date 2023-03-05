@@ -564,37 +564,40 @@ function Color:RGB()
 end
 
 -- Incomplete functions. {{{
----@todo
+-- TODO: Not Implemented.
 function Color:____achromatic() end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____XYZ() end
 
----@todo
+-- TODO: Not Implemented.
+function Color:____LCH() end
+
+-- TODO: Not Implemented.
 function Color:____temperature() end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____warm() end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____cold() end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____more_cold(a) end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____more_warm(a) end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____less_cold(a) end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____less_warm(a) end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____increase_contrast(a) end
 
----@todo
+-- TODO: Not Implemented.
 function Color:____decrease_contrast(a) end
 -- }}}
 

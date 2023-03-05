@@ -35,6 +35,20 @@ M.bold = {
   "Bold",
   "AlphaKeyPrefix",
   "AlphaFooting",
+  "TodoBgCHORE",
+  "TodoBgCLEAN",
+  "TodoBgDEMO",
+  "TodoBgFIX",
+  "TodoBgHACK",
+  "TodoBgIMPROVE",
+  "TodoBgNOTE",
+  "TodoBgPERF",
+  "TodoBgTEST",
+  "TodoBgTODO",
+  "TodoBgUPDATE",
+  "TodoBgWANTS",
+  "TodoBgWARN",
+  "TodoBgBUG",
 }
 
 M.italic = {

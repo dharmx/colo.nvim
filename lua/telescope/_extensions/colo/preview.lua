@@ -20,7 +20,6 @@ local TEMPLATE = {
   [[  end]],
   [[end]],
   [[]],
-  [[
 }
 
 local ThemePreview = utils.make_default_callable(function()

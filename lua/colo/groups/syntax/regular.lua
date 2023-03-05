@@ -7,7 +7,7 @@ function M.prime(c)
     Character = { foreground = c.green:lighten(5) },
     Comment = { foreground = c.bright_black:brighten(5):lighten(20) },
     SpecialComment = { foreground = c.yellow:increase_red(3):darken(3) },
-    Conceal = { foreground = c.bright_black:lighten(2) },
+    Conceal = { foreground = c.bright_black:lighten(8):brighten(5) },
     Conditional = { foreground = c.red },
     Constant = { foreground = c.red:increase_red(3):darken(2) },
     Decorator = { foreground = c.yellow },

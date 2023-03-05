@@ -52,7 +52,7 @@ function M.prime(c)
     ["@text.reference"] = { foreground = c.blue },
     ["@text.title"] = { foreground = c.bright_red:darken(2) },
     ["@text.todo"] = { foreground = c.yellow },
-    ["@text.uri"] = { foreground = c.bright_red },
+    ["@text.uri"] = { foreground = c.cyan },
     ["@type"] = { link = "Type" },
     ["@variable"] = { foreground = c.white },
     ["@type.definition"] = { link = "Typedef" },

@@ -11,7 +11,7 @@
   (identifier) @lua.function.cmd)
 
 ((identifier) @lua.parameter.self
- (#match? @lua.parameter.self "^self$"))
+ (#match? @lua.parameter.self "^(self|this)$"))
 
 ((function_call 
   (arguments 

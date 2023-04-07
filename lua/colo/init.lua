@@ -8,10 +8,10 @@
 -- preserved. Contributors provide an express grant of patent rights.
 -- 
 -- Read the complete license here:
--- https://github.com/dharmx/nvim-colo/blob/main/LICENSE
+-- https://github.com/dharmx/colo.nvim/blob/main/LICENSE
 
 ---@brief [[
----*nvim-colo.txt*           For Neovim version 0.8.2     Last modified: FEB 09 2023
+---*colo.nvim.txt*           For Neovim version 0.8.2     Last modified: FEB 09 2023
 ---
 ---                      ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄     ▄▄▄▄▄▄▄ 
 ---                     █       █       █   █   █       █
@@ -31,7 +31,7 @@
 ---@brief ]]
 
 ---@toc colo.contents
----@mod nvim-colo INTRODUCTION
+---@mod colo.nvim INTRODUCTION
 ---@brief [[
 ---
 ---@brief ]]

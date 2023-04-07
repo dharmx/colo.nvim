@@ -22,6 +22,7 @@ end
 
 function M.theme.set(theme_name, ns)
   local theme = M.theme.get(theme_name)
+  vim.cmd.doautocmd("ColorSchemePre")
   vim.g.colors_name = theme_name
   local term, hl_list, override = M.theme.all(theme)
   theme_util.set_term(term)
@@ -46,6 +47,7 @@ function M.theme.set(theme_name, ns)
     M.theme.reload(colo_config._CURRENT.reload.items)
   end
   colo_config._CURRENT.skip_extension_load = false
+  vim.cmd.doautocmd("ColorScheme")
 end
 
 function M.theme.reload(mods)

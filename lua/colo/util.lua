@@ -49,7 +49,7 @@ M.plugin = {}
 function M.plugin.path()
   local runtime_paths = A.nvim_list_runtime_paths()
   for _, path in ipairs(runtime_paths) do
-    if path:match("nvim%-colo$") then return path end
+    if path:match("colo%.nvim$") then return path end
   end
 
   local data_path = F.stdpath("data") .. "/site/pack"
@@ -57,7 +57,7 @@ function M.plugin.path()
     depth = 3,
     silent = true,
     only_dirs = true,
-    search_pattern = "/%w+/nvim%-colo$",
+    search_pattern = "/%w+/colo%.nvim$",
   })[1]
 end
 

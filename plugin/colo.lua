@@ -1,7 +1,7 @@
 if vim.version().minor < 8 then
-  vim.api.nvim_notify("nvim-colo requires at least nvim-0.8.0.", vim.log.levels.ERROR, {
-    icon = "!",
-    title = "nvim-colo",
+  vim.api.nvim_notify("colo.nvim requires at least nvim-0.8.0.", vim.log.levels.ERROR, {
+    icon = " ",
+    title = "colo.nvim",
   })
   return
 end
@@ -25,8 +25,8 @@ cmd("Colo", function(...)
     end
     local pretty = ("%s %s\nBy %s\n%s"):format(col.name:upper(), col.background:upper(), author, col.description)
     vim.api.nvim_notify(pretty, vim.log.levels.INFO, {
-      title = "nvim-colo",
-      icon = " ",
+      title = "colo.nvim",
+      icon = " ",
     })
   else
     require("colo.api").theme.set(args)

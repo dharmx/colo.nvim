@@ -2,8 +2,8 @@ local present, telescope = pcall(require, "telescope")
 
 if not present then
   vim.api.nvim_notify("This plugin requires nvim-telescope/telescope.nvim.", vim.log.levels.ERROR, {
-    icon = "!",
-    title = "nvim-colo",
+    icon = " ",
+    title = "colo.nvim",
   })
   return
 end

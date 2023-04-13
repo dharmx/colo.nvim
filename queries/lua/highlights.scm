@@ -15,5 +15,5 @@
 
 ((function_call 
   (arguments 
-    (identifier) @lua.function.pcall
-  (#match? @lua.function.pcall "^require$"))))
+    (identifier) @function.pcall.lua
+  (#match? @function.pcall.lua "^require$"))))

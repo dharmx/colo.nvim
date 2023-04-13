@@ -11,6 +11,7 @@ function M.prime(c)
     Cursor = { background = c.green:lighten(3), foreground = c.black },
     ColorColumn = { background = c.black:lighten(0.5), foreground = c.black:brighten(0.5):lighten(2) },
     Visual = { background = c.black:brighten(1):lighten(3) },
+    VisualNC = { background = c.black:lighten(3) },
     Error = { foreground = c.red:darken(3) },
     LineNr = { foreground = c.black:lighten(15) },
   }

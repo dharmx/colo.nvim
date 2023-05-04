@@ -3,6 +3,7 @@ local M = {}
 function M.prime(c)
   return {
     DiagnosticSignWarn = { foreground = c.red:lighten(3) },
+    DiagnosticUnnecessary = { link = "Comment" },
     DiagnosticSignError = { foreground = c.bright_red },
     DiagnosticSignInfo = { foreground = c.blue },
     DiagnosticSignHint = { foreground = c.magenta },

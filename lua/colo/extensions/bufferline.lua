@@ -30,9 +30,7 @@ M.config = {
     right_mouse_command = "bdelete! %d",
     left_mouse_command = "buffer %d",
     middle_mouse_command = "bdelete! %d",
-    indicator = {
-      style = "none",
-    },
+    indicator = { style = "none" },
     buffer_close_icon = "",
     modified_icon = "",
     close_icon = "X",
@@ -45,7 +43,6 @@ M.config = {
     diagnostics = false,
     show_buffer_icons = false,
     show_buffer_close_icons = true,
-    show_buffer_default_icon = false,
     show_close_icon = true,
     show_tab_indicators = true,
     show_duplicate_prefix = true,
